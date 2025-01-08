@@ -21,8 +21,6 @@ class MyApp extends StatelessWidget {
           fontFamily: FontFamily.unkemptBold,
         ),
         routerConfig: Routes.getRouter,
-        routeInformationParser: Routes.getRouter.routeInformationParser,
-        routerDelegate: Routes.getRouter.routerDelegate,
       ),
     );
   }
