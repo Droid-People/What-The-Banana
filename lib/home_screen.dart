@@ -54,6 +54,7 @@ class HomeScreen extends StatelessWidget {
                         } else if (index == 5) {
                           return AdsButton(context);
                         }
+                        return null;
                       },
                     ),
                   ),

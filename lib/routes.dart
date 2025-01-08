@@ -47,7 +47,7 @@ class Routes {
             path: ads,
             builder: (context, state) => const AdsScreen(),
           ),
-        ]
+        ],
       ),
     ],
   );
