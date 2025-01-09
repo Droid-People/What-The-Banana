@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:what_the_banana/contents/pixel_art/pixel_art_state_provider.dart';
 import 'package:what_the_banana/contents/pixel_art/pixel_painter.dart';
+import 'package:what_the_banana/gen/colors.gen.dart';
 import 'package:what_the_banana/gen/fonts.gen.dart';
 
 class PixelArtScreen extends ConsumerStatefulWidget {
@@ -17,13 +18,10 @@ class _PixelArtScreenState extends ConsumerState<PixelArtScreen> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
 
-    final boardSizeDp = width - 40.h;
+    final boardSize = width - 40.h;
     final state = ref.watch(pixelArtStateNotifierProvider);
     final viewModel = ref.read(pixelArtStateNotifierProvider.notifier);
-    final picture = viewModel.createSamplePicture(width, height);
-
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -57,17 +55,49 @@ class _PixelArtScreenState extends ConsumerState<PixelArtScreen> {
                 height: 1,
               ),
             ),
-            Container(
-              width: boardSizeDp,
-              height: boardSizeDp + 100.h,
+            SizedBox(
+              height: boardSize + 100.h,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  PixelCanvas(
-                    boardSize: boardSizeDp,
-                    pixelSize: state.pixelSize,
-                    gridMap: state.gridMap,
-                    picture: picture,
-                    callback: viewModel.changePixelColor,
+                  Container(
+                    width: boardSize,
+                    height: boardSize,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: ColorName.lightGrey),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: PixelCanvas(
+                        boardSize: boardSize,
+                        pixelSize: state.pixelSize,
+                        gridMap: state.gridMap,
+                        pictureRecorder: state.pictureRecorder,
+                        callback: viewModel.changePixelColor,
+                      ),
+                    ),
+                  ),
+                  12.verticalSpace,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: viewModel.drawMapWhite,
+                        child: const Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Icon(Icons.delete),
+                        ),
+                      ),
+                      8.horizontalSpace,
+                      GestureDetector(
+                        onTap: () => viewModel.shareImage(boardSize.toInt()),
+                        child: const Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Icon(Icons.share),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

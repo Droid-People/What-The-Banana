@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class PixelArtState {
@@ -12,6 +14,7 @@ class PixelArtState {
   List<List<Color>> gridMap = [];
   int pixelSize = 20;
   Color selectedColor = Colors.black;
+  PictureRecorder pictureRecorder = PictureRecorder();
 
   PixelArtState copyWith({
     List<Color>? arrayDeque,

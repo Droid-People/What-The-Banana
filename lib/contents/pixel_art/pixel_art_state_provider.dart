@@ -1,7 +1,12 @@
-import 'dart:ui';
+import 'dart:async';
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:what_the_banana/contents/pixel_art/pixel_art_state.dart';
 
 final pixelArtStateNotifierProvider =
@@ -65,31 +70,6 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
     state = state.copyWith(gridMap: gridMap);
   }
 
-  Picture createSamplePicture(double width, double height) {
-    final recorder = PictureRecorder();
-    final canvas = Canvas(
-      recorder,
-      Rect.fromPoints(
-        Offset.zero,
-        Offset(width, height),
-      ),
-    );
-
-    final paint = Paint()
-      ..color = Colors.white
-      ..style = PaintingStyle.fill;
-
-    canvas.drawRect(
-      Rect.fromPoints(
-        Offset.zero,
-        Offset(width, height),
-      ),
-      paint,
-    );
-
-    return recorder.endRecording();
-  }
-
   void changePixelColor(int i, int j) {
     final gridMap = state.gridMap;
     gridMap[i][j] = state.selectedColor;
@@ -99,4 +79,20 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
   void setSelectedColor(Color color) {
     state = state.copyWith(selectedColor: color);
   }
+
+  Future<void> shareImage(int boardSize) async {
+    final image = await state.pictureRecorder.endRecording().toImage(boardSize, boardSize);
+    final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
+    final tempFile = await _makeTempFile(bytes!.buffer.asUint8List());
+    unawaited(Share.shareUri(tempFile.uri));
+  }
+
+  Future<File> _makeTempFile(Uint8List bytes) async {
+    final tempDir = await getTemporaryDirectory();
+    final tempPath = tempDir.path;
+    final tempFile = File('$tempPath/temp.png');
+    await tempFile.writeAsBytes(bytes);
+    return tempFile;
+  }
+
 }

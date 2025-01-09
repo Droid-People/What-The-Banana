@@ -6,13 +6,13 @@ const int maxPixelCount = 160;
 
 class PixelCanvas extends StatefulWidget {
   const PixelCanvas({
-    required this.boardSize, required this.pixelSize, required this.gridMap, required this.picture, required this.callback, super.key,
+    required this.boardSize, required this.pixelSize, required this.gridMap, required this.pictureRecorder, required this.callback, super.key,
   });
 
   final double boardSize;
   final int pixelSize;
   final List<List<Color>> gridMap;
-  final Picture picture;
+  final PictureRecorder pictureRecorder;
   final void Function(int, int) callback;
 
   @override
@@ -41,7 +41,7 @@ class _PixelCanvasState extends State<PixelCanvas> {
         size: Size(widget.boardSize, widget.boardSize),
         painter: PixelPainter(
           gridMap: widget.gridMap,
-          picture: widget.picture,
+          pictureRecorder: widget.pictureRecorder,
           callback: widget.callback,
           pixelSize: widget.pixelSize,
           pixels: pixels,
@@ -65,14 +65,14 @@ class _PixelCanvasState extends State<PixelCanvas> {
 class PixelPainter extends CustomPainter {
   PixelPainter({
     required this.gridMap,
-    required this.picture,
+    required this.pictureRecorder,
     required this.callback,
     required this.pixelSize,
     required this.pixels,
   });
 
   final List<List<Color>> gridMap;
-  final Picture picture;
+  final PictureRecorder pictureRecorder;
   final void Function(int, int) callback;
   final int pixelSize;
   final int pixels;
@@ -82,14 +82,7 @@ class PixelPainter extends CustomPainter {
     final cellWidth = size.width / pixels;
     final cellHeight = size.height / pixels;
 
-    // Drawing the picture
-    final recorder = PictureRecorder();
-    Canvas(
-      recorder,
-      Rect.fromPoints(Offset.zero, Offset(size.width, size.height)),
-    ).drawPicture(picture);
-    final recordedPicture = recorder.endRecording();
-    canvas.drawPicture(recordedPicture);
+    final recorderCanvas = Canvas(pictureRecorder);
 
     // Draw grid cells
     for (var i = 0; i < pixels; i++) {
@@ -99,6 +92,7 @@ class PixelPainter extends CustomPainter {
         final rect = Rect.fromLTWH(x, y, cellWidth, cellHeight);
         final paint = Paint()..color = gridMap[i][j];
         canvas.drawRect(rect, paint);
+        recorderCanvas.drawRect(rect, paint);
       }
     }
   }
