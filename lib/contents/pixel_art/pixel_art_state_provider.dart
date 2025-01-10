@@ -20,7 +20,7 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
           PixelArtState(
             arrayDeque: [],
             gridMap: [],
-            pixelSize: 20,
+            pixelSize: 1,
             selectedColor: Colors.black,
           ),
         ) {
@@ -28,11 +28,7 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
     drawMapWhite();
   }
 
-  static const maxPixelCount = 160;
-
-  void setPixelSize(int size) {
-    state = state.copyWith(pixelSize: size);
-  }
+  static const maxPixelCount = 128;
 
   void setGridMap(List<List<Color>> gridMap) {
     state = state.copyWith(gridMap: gridMap);
@@ -52,10 +48,10 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
     state = state.copyWith(arrayDeque: deque);
   }
 
-  void addFirstColor(Color color) {
+  void addFirstColor() {
     final deque = state.arrayDeque
       ..removeLast()
-      ..insert(0, color);
+      ..insert(0, state.selectedColor);
     state = state.copyWith(arrayDeque: deque);
   }
 
@@ -80,8 +76,12 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
     state = state.copyWith(selectedColor: color);
   }
 
-  Future<void> shareImage(int boardSize) async {
-    final image = await state.pictureRecorder.endRecording().toImage(boardSize, boardSize);
+  Future<void> shareImage(
+    ui.PictureRecorder pictureRecorder,
+    int boardSize,
+  ) async {
+    final image =
+        await pictureRecorder.endRecording().toImage(boardSize, boardSize);
     final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
     final tempFile = await _makeTempFile(bytes!.buffer.asUint8List());
     unawaited(Share.shareUri(tempFile.uri));
@@ -95,4 +95,15 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
     return tempFile;
   }
 
+  void increasePixelSize() {
+    if (state.pixelSize < 16) {
+      state = state.copyWith(pixelSize: state.pixelSize * 2);
+    }
+  }
+
+  void decreasePixelSize() {
+    if (state.pixelSize > 1) {
+      state = state.copyWith(pixelSize: state.pixelSize ~/ 2);
+    }
+  }
 }

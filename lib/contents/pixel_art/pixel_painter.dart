@@ -1,8 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:what_the_banana/gen/colors.gen.dart';
 
-const int maxPixelCount = 160;
+const int defaultPixelCount = 128;
 
 class PixelCanvas extends StatefulWidget {
   const PixelCanvas({
@@ -20,44 +21,49 @@ class PixelCanvas extends StatefulWidget {
 }
 
 class _PixelCanvasState extends State<PixelCanvas> {
-  late int pixels;
 
-  @override
-  void initState() {
-    super.initState();
-    pixels = maxPixelCount ~/ widget.pixelSize;
-  }
-
+  
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapUp: (details) {
-        _drawPixel(details.localPosition);
-      },
-      onPanUpdate: (details) {
-        _drawPixel(details.localPosition);
-      },
-      child: CustomPaint(
-        size: Size(widget.boardSize, widget.boardSize),
-        painter: PixelPainter(
-          gridMap: widget.gridMap,
-          pictureRecorder: widget.pictureRecorder,
-          callback: widget.callback,
-          pixelSize: widget.pixelSize,
-          pixels: pixels,
+
+    return Container(
+      width: widget.boardSize,
+      height: widget.boardSize,
+      decoration: BoxDecoration(
+        border: Border.all(color: ColorName.lightGrey),
+      ),
+      child: GestureDetector(
+        onTapUp: (details) {
+          _drawPixel(details.localPosition, widget.boardSize, widget.pixelSize);
+        },
+        onPanUpdate: (details) {
+          _drawPixel(details.localPosition, widget.boardSize, widget.pixelSize);
+        },
+        child: CustomPaint(
+          size: Size(widget.boardSize, widget.boardSize),
+          painter: PixelPainter(
+            gridMap: widget.gridMap,
+            pictureRecorder: widget.pictureRecorder,
+            callback: widget.callback,
+            pixels: defaultPixelCount,
+          ),
         ),
       ),
     );
   }
 
-  void _drawPixel(Offset offset) {
-    pixels = maxPixelCount ~/ widget.pixelSize;
+  void _drawPixel(Offset offset, double paintSize, int pixelSize) {
+    // pixel size 만큼 터치영역을 중심으로 그림
+    final i = ((offset.dy / paintSize) * defaultPixelCount).toInt();
+    final j = ((offset.dx / paintSize) * defaultPixelCount).toInt();
+    final halfPixelSize = pixelSize / 2;
 
-    final i = ((offset.dy / widget.boardSize) * pixels).toInt();
-    final j = ((offset.dx / widget.boardSize) * pixels).toInt();
-
-    if (i >= 0 && i < pixels && j >= 0 && j < pixels) {
-      widget.callback(i, j);
+    for (var y = i - halfPixelSize; y < (i + halfPixelSize); y++) {
+      for (var x = j - halfPixelSize; x < j + halfPixelSize; x++) {
+        if (y >= 0 && y < defaultPixelCount && x >= 0 && x < defaultPixelCount) {
+          widget.callback(y.toInt(), x.toInt());
+        }
+      }
     }
   }
 }
@@ -67,14 +73,12 @@ class PixelPainter extends CustomPainter {
     required this.gridMap,
     required this.pictureRecorder,
     required this.callback,
-    required this.pixelSize,
     required this.pixels,
   });
 
   final List<List<Color>> gridMap;
   final PictureRecorder pictureRecorder;
   final void Function(int, int) callback;
-  final int pixelSize;
   final int pixels;
 
   @override
