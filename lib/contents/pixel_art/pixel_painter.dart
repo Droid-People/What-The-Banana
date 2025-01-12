@@ -53,17 +53,12 @@ class _PixelCanvasState extends State<PixelCanvas> {
   }
 
   void _drawPixel(Offset offset, double paintSize, int pixelSize) {
-    // pixel size 만큼 터치영역을 중심으로 그림
-    final i = ((offset.dy / paintSize) * defaultPixelCount).toInt();
-    final j = ((offset.dx / paintSize) * defaultPixelCount).toInt();
-    final halfPixelSize = pixelSize / 2;
 
-    for (var y = i - halfPixelSize; y < (i + halfPixelSize); y++) {
-      for (var x = j - halfPixelSize; x < j + halfPixelSize; x++) {
-        if (y >= 0 && y < defaultPixelCount && x >= 0 && x < defaultPixelCount) {
-          widget.callback(y.toInt(), x.toInt());
-        }
-      }
+    final y = ((offset.dy / paintSize) * defaultPixelCount).toInt();
+    final x = ((offset.dx / paintSize) * defaultPixelCount).toInt();
+
+    if (y >= 0 && y < defaultPixelCount && x >= 0 && x < defaultPixelCount) {
+      widget.callback(y, x);
     }
   }
 }

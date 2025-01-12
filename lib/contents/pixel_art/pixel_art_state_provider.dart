@@ -67,8 +67,23 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
   }
 
   void changePixelColor(int i, int j) {
+    final pixelSize = state.pixelSize;
     final gridMap = state.gridMap;
-    gridMap[i][j] = state.selectedColor;
+
+    // gridMap을 pixelSize x pixelSize로 나누어서 i, j를 찾아낸다.
+    final y = i ~/ pixelSize;
+    final x = j ~/ pixelSize;
+
+    // y, x 위치에 pixelSize만큼 색을 채운다.
+    for (var k = 0; k < pixelSize; k++) {
+      for (var l = 0; l < pixelSize; l++) {
+        if (y * pixelSize + k < maxPixelCount &&
+            x * pixelSize + l < maxPixelCount) {
+          gridMap[y * pixelSize + k][x * pixelSize + l] = state.selectedColor;
+        }
+      }
+    }
+
     state = state.copyWith(gridMap: gridMap);
   }
 
