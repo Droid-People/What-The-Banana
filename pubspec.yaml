@@ -37,6 +37,9 @@ dependencies:
   share_plus: ^10.1.3 # for pixel art image share
   path_provider: ^2.1.5
   flutter_colorpicker: ^1.1.0
+  image_picker: ^1.1.2
+  dynamic_image_crop:
+  crop_your_image: ^2.0.0
 
 dev_dependencies:
   flutter_test:

@@ -5,9 +5,13 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:what_the_banana/common/logger.dart';
 import 'package:what_the_banana/contents/pixel_art/pixel_art_state.dart';
+import 'package:what_the_banana/contents/pixel_art/pixel_canvas.dart';
+import 'package:what_the_banana/contents/pixel_art/pixel_painter.dart';
 
 final pixelArtStateNotifierProvider =
     StateNotifierProvider<PixelArtStateProvider, PixelArtState>((ref) {
@@ -28,9 +32,23 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
     drawMapWhite();
   }
 
-  static const maxPixelCount = 128;
+  void setGridMap(List<Color> colorList) {
+    Log.i('colorList: ${colorList.length}');
+    // colorList를 pixelSize x pixelSize로 나누어서 gridMap을 만든다.
+    final gridMap = List.generate(
+      maxPixelCount,
+      (index) => List.generate(
+        maxPixelCount,
+        (index) => Colors.white,
+      ),
+    );
 
-  void setGridMap(List<List<Color>> gridMap) {
+    for (var i = 0; i < colorList.length; i++) {
+      final y = i ~/ maxPixelCount;
+      final x = i % maxPixelCount;
+      gridMap[y][x] = colorList[i];
+    }
+
     state = state.copyWith(gridMap: gridMap);
   }
 
@@ -91,15 +109,20 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
     state = state.copyWith(selectedColor: color);
   }
 
-  Future<void> shareImage(
-    ui.PictureRecorder pictureRecorder,
-    int boardSize,
-  ) async {
+  Future<void> shareImage(int boardSize) async {
+
+    final pictureRecorder = ui.PictureRecorder();
+    PixelCropPainter(
+      gridMap: state.gridMap,
+      pixels: maxPixelCount,
+    ).paint(Canvas(pictureRecorder), Size(boardSize.toDouble(), boardSize.toDouble()));
+
     final image =
         await pictureRecorder.endRecording().toImage(boardSize, boardSize);
+
     final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
     final tempFile = await _makeTempFile(bytes!.buffer.asUint8List());
-    unawaited(Share.shareUri(tempFile.uri));
+    unawaited(Share.shareXFiles([XFile(tempFile.path)]));
   }
 
   Future<File> _makeTempFile(Uint8List bytes) async {
@@ -120,5 +143,23 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
     if (state.pixelSize > 1) {
       state = state.copyWith(pixelSize: state.pixelSize ~/ 2);
     }
+  }
+
+  Future<void> pickImageFromCamera({
+    void Function(String)? callbackImage,
+  }) async {
+    final picker = ImagePicker();
+    final xFile = await picker.pickImage(source: ImageSource.camera);
+    if (xFile == null) return;
+    callbackImage?.call(xFile.path);
+  }
+
+  Future<void> pickImageFromGallery({
+    void Function(String)? callbackImage,
+  }) async {
+    final picker = ImagePicker();
+    final xFile = await picker.pickImage(source: ImageSource.gallery);
+    if (xFile == null) return;
+    callbackImage?.call(xFile.path);
   }
 }
