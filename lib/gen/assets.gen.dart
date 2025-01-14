@@ -12,19 +12,48 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  /// File path: assets/images/banana.png
-  AssetGenImage get banana => const AssetGenImage('assets/images/banana.png');
+  /// File path: assets/images/banana.webp
+  AssetGenImage get banana => const AssetGenImage('assets/images/banana.webp');
 
-  /// File path: assets/images/main_banana.png
+  /// File path: assets/images/final_banana.webp
+  AssetGenImage get finalBanana =>
+      const AssetGenImage('assets/images/final_banana.webp');
+
+  /// File path: assets/images/first_banana.webp
+  AssetGenImage get firstBanana =>
+      const AssetGenImage('assets/images/first_banana.webp');
+
+  /// File path: assets/images/forth_banana.webp
+  AssetGenImage get forthBanana =>
+      const AssetGenImage('assets/images/forth_banana.webp');
+
+  /// File path: assets/images/main_banana.webp
   AssetGenImage get mainBanana =>
-      const AssetGenImage('assets/images/main_banana.png');
+      const AssetGenImage('assets/images/main_banana.webp');
 
-  /// File path: assets/images/small_banana.png
+  /// File path: assets/images/second_banana.webp
+  AssetGenImage get secondBanana =>
+      const AssetGenImage('assets/images/second_banana.webp');
+
+  /// File path: assets/images/small_banana.webp
   AssetGenImage get smallBanana =>
-      const AssetGenImage('assets/images/small_banana.png');
+      const AssetGenImage('assets/images/small_banana.webp');
+
+  /// File path: assets/images/third_banana.webp
+  AssetGenImage get thirdBanana =>
+      const AssetGenImage('assets/images/third_banana.webp');
 
   /// List of all assets
-  List<AssetGenImage> get values => [banana, mainBanana, smallBanana];
+  List<AssetGenImage> get values => [
+        banana,
+        finalBanana,
+        firstBanana,
+        forthBanana,
+        mainBanana,
+        secondBanana,
+        smallBanana,
+        thirdBanana
+      ];
 }
 
 class Assets {
@@ -34,16 +63,9 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-  });
+  const AssetGenImage(this._assetName);
 
   final String _assetName;
-
-  final Size? size;
-  final Set<String> flavors;
 
   Image image({
     Key? key,
@@ -63,7 +85,7 @@ class AssetGenImage {
     ImageRepeat repeat = ImageRepeat.noRepeat,
     Rect? centerSlice,
     bool matchTextDirection = false,
-    bool gaplessPlayback = true,
+    bool gaplessPlayback = false,
     bool isAntiAlias = false,
     String? package,
     FilterQuality filterQuality = FilterQuality.low,
