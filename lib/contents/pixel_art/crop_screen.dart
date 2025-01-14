@@ -32,7 +32,10 @@ class _CropScreenState extends ConsumerState<CropScreen> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white,),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
           onPressed: context.pop,
         ),
       ),
@@ -52,9 +55,14 @@ class _CropScreenState extends ConsumerState<CropScreen> {
                     onCropped: (result) {
                       switch (result) {
                         case CropSuccess(:final croppedImage):
-                          ref.read(pixelArtStateNotifierProvider.notifier).setGridMap(
-                            getPixelsFromCroppedImage(context, croppedImage),
-                          );
+                          ref
+                              .read(pixelArtStateNotifierProvider.notifier)
+                              .setGridMap(
+                                getPixelsFromCroppedImage(
+                                  context,
+                                  croppedImage,
+                                ),
+                              );
                         case CropFailure(:final cause):
                           Log.e(cause);
                       }
@@ -68,10 +76,10 @@ class _CropScreenState extends ConsumerState<CropScreen> {
                     initialRectBuilder: InitialRectBuilder.withBuilder(
                       (viewportRect, imageRect) {
                         return Rect.fromLTRB(
-                          viewportRect.left,
-                          viewportRect.top,
-                          viewportRect.right,
-                          viewportRect.bottom ,
+                          viewportRect.left + 20,
+                          viewportRect.top + 20,
+                          viewportRect.right - 20,
+                          viewportRect.bottom - 20,
                         );
                       },
                     ),
@@ -95,7 +103,9 @@ class _CropScreenState extends ConsumerState<CropScreen> {
             valueListenable: isLoading,
             builder: (context, value, child) {
               return value
-                  ? const Center(child: CircularProgressIndicator(color: Colors.black))
+                  ? const Center(
+                      child: CircularProgressIndicator(color: Colors.black),
+                    )
                   : const SizedBox.shrink();
             },
           ),
@@ -104,39 +114,14 @@ class _CropScreenState extends ConsumerState<CropScreen> {
     );
   }
 
-  List<Color> getPixelsFromCroppedImage(BuildContext context, Uint8List croppedImage) {
+  List<Color> getPixelsFromCroppedImage(
+    BuildContext context,
+    Uint8List croppedImage,
+  ) {
     final decodeImage = lib.decodeImage(croppedImage);
     if (decodeImage == null) return [];
-    return getPixelImage(decodeImage, maxPixelCount);
+    return ref
+        .read(pixelArtStateNotifierProvider.notifier)
+        .getPixelImage(decodeImage, maxPixelCount);
   }
-
-  List<Color> getPixelImage(lib.Image image, int pixel) {
-    final width = image.width;
-    final pixelHeight = getHeight(image, pixel);
-
-    final colors = <Color>[];
-    final chunk = width ~/ (pixel + 1);
-
-    for (var y = 0; y < pixelHeight; y++) {
-      for (var x = 0; x < pixel; x++) {
-        final p = image.getPixel(x * chunk, y * chunk);
-        colors.add(pixelToColor(p));
-      }
-    }
-    return colors;
-  }
-
-  int getHeight(lib.Image image, int pixel) {
-    return (pixel * (image.height / image.width)).toInt();
-  }
-
-  Color pixelToColor(lib.Pixel pixel) {
-    return Color.fromARGB(
-      pixel.a as int,
-      pixel.r as int,
-      pixel.g as int,
-      pixel.b as int,
-    );
-  }
-
 }

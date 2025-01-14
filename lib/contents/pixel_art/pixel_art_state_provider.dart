@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image/image.dart' as lib;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -12,6 +13,7 @@ import 'package:what_the_banana/common/logger.dart';
 import 'package:what_the_banana/contents/pixel_art/pixel_art_state.dart';
 import 'package:what_the_banana/contents/pixel_art/pixel_canvas.dart';
 import 'package:what_the_banana/contents/pixel_art/pixel_painter.dart';
+import 'package:what_the_banana/gen/assets.gen.dart';
 
 final pixelArtStateNotifierProvider =
     StateNotifierProvider<PixelArtStateProvider, PixelArtState>((ref) {
@@ -19,22 +21,12 @@ final pixelArtStateNotifierProvider =
 });
 
 class PixelArtStateProvider extends StateNotifier<PixelArtState> {
-  PixelArtStateProvider()
-      : super(
-          PixelArtState(
-            arrayDeque: [],
-            gridMap: [],
-            pixelSize: 1,
-            selectedColor: Colors.black,
-          ),
-        ) {
+  PixelArtStateProvider() : super(PixelArtState.initial()) {
     setInitialColors();
     drawMapWhite();
   }
 
   void setGridMap(List<Color> colorList) {
-    Log.i('colorList: ${colorList.length}');
-    // colorList를 pixelSize x pixelSize로 나누어서 gridMap을 만든다.
     final gridMap = List.generate(
       maxPixelCount,
       (index) => List.generate(
@@ -88,6 +80,13 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
     final pixelSize = state.pixelSize;
     final gridMap = state.gridMap;
 
+    if (state.pickColorState) {
+      setSelectedColor(gridMap[i][j]);
+      addFirstColor();
+      state = state.copyWith(pickColorState: false);
+      return;
+    }
+
     // gridMap을 pixelSize x pixelSize로 나누어서 i, j를 찾아낸다.
     final y = i ~/ pixelSize;
     final x = j ~/ pixelSize;
@@ -110,12 +109,14 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
   }
 
   Future<void> shareImage(int boardSize) async {
-
     final pictureRecorder = ui.PictureRecorder();
     PixelCropPainter(
       gridMap: state.gridMap,
       pixels: maxPixelCount,
-    ).paint(Canvas(pictureRecorder), Size(boardSize.toDouble(), boardSize.toDouble()));
+    ).paint(
+      Canvas(pictureRecorder),
+      Size(boardSize.toDouble(), boardSize.toDouble()),
+    );
 
     final image =
         await pictureRecorder.endRecording().toImage(boardSize, boardSize);
@@ -136,6 +137,8 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
   void increasePixelSize() {
     if (state.pixelSize < 16) {
       state = state.copyWith(pixelSize: state.pixelSize * 2);
+    } else {
+      state = state.copyWith(pixelSize: 1);
     }
   }
 
@@ -145,15 +148,6 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
     }
   }
 
-  Future<void> pickImageFromCamera({
-    void Function(String)? callbackImage,
-  }) async {
-    final picker = ImagePicker();
-    final xFile = await picker.pickImage(source: ImageSource.camera);
-    if (xFile == null) return;
-    callbackImage?.call(xFile.path);
-  }
-
   Future<void> pickImageFromGallery({
     void Function(String)? callbackImage,
   }) async {
@@ -161,5 +155,76 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
     final xFile = await picker.pickImage(source: ImageSource.gallery);
     if (xFile == null) return;
     callbackImage?.call(xFile.path);
+  }
+
+  void togglePickColor() {
+    state = state.copyWith(pickColorState: !state.pickColorState);
+  }
+
+  final gridMapRecords = <List<List<Color>>>[];
+
+  void startRecord() {
+    final copiedMap = List.generate(
+      maxPixelCount,
+      (index) => List.generate(
+        maxPixelCount,
+        (index) => Colors.white,
+      ),
+    );
+
+    for (var i = 0; i < maxPixelCount; i++) {
+      for (var j = 0; j < maxPixelCount; j++) {
+        copiedMap[i][j] = state.gridMap[i][j];
+      }
+    }
+
+    gridMapRecords.add(copiedMap);
+  }
+
+  void loadPrevious() {
+    if (gridMapRecords.isNotEmpty) {
+      state = state.copyWith(gridMap: gridMapRecords.removeLast());
+    }
+  }
+
+  void toggleGrid() {
+    state = state.copyWith(showGrid: !state.showGrid);
+  }
+
+  void changePixelSize(int scale) {}
+
+  Future<void> selectBanana() async {
+    final byteData = await rootBundle.load(Assets.images.banana.path);
+    final image = byteData.buffer.asUint8List();
+    final decodeImage = lib.decodeImage(image);
+    if (decodeImage == null) return;
+    final colors = getPixelImage(decodeImage, maxPixelCount);
+    setGridMap(colors);
+  }
+
+
+  List<Color> getPixelImage(lib.Image image, int pixel) {
+    Log.i(image);
+    final size = image.height;
+
+    final colors = <Color>[];
+    final chunk = size / pixel;
+
+    for (var y = 0; y < pixel; y++) {
+      for (var x = 0; x < pixel; x++) {
+        final p = image.getPixel((x * chunk).toInt(), (y * chunk).toInt());
+        colors.add(_pixelToColor(p));
+      }
+    }
+    return colors;
+  }
+
+  Color _pixelToColor(lib.Pixel pixel) {
+    return Color.fromARGB(
+      pixel.a as int,
+      pixel.r as int,
+      pixel.g as int,
+      pixel.b as int,
+    );
   }
 }
