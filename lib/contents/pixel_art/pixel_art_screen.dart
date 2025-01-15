@@ -195,45 +195,42 @@ class _PixelArtScreenState extends ConsumerState<PixelArtScreen> {
       style: TextStyle(
         fontFamily: FontFamily.pixelFont,
         fontWeight: FontWeight.w900,
-        fontSize: 14.sp,
+        fontSize: 16.sp,
         height: 1,
       ),
     );
   }
 
   Widget TitleText() {
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          GestureDetector(
-            onTap: () {
-              context.go(Routes.home);
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(16),
-              child: Icon(Icons.arrow_back_ios_new_rounded),
-            ),
-          ),
-          Text(
-            'Pixel',
-            style: TextStyle(
-              fontFamily: FontFamily.pixelFont,
-              fontWeight: FontWeight.bold,
-              fontSize: 70.sp,
-              height: 1,
-            ),
-          ),
-          const Padding(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        GestureDetector(
+          onTap: () {
+            context.go(Routes.home);
+          },
+          child: const Padding(
             padding: EdgeInsets.all(16),
-            child: Icon(
-              Icons.arrow_back_ios_new_rounded,
-              color: Colors.transparent,
-            ),
+            child: Icon(Icons.arrow_back_ios_new_rounded),
           ),
-        ],
-      ),
+        ),
+        Text(
+          'Pixel',
+          style: TextStyle(
+            fontFamily: FontFamily.pixelFont,
+            fontWeight: FontWeight.bold,
+            fontSize: 70.sp,
+            height: 1,
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.all(16),
+          child: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.transparent,
+          ),
+        ),
+      ],
     );
   }
 
