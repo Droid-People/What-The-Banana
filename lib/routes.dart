@@ -4,7 +4,7 @@ import 'package:what_the_banana/contents/pixel_art/pixel_art_screen.dart';
 import 'package:what_the_banana/contents/puzzle/puzzle_screen.dart';
 import 'package:what_the_banana/contents/roulette/roulette_screen.dart';
 import 'package:what_the_banana/etc/ads_screen.dart';
-import 'package:what_the_banana/etc/developers_screen.dart';
+import 'package:what_the_banana/etc/creators_screen.dart';
 import 'package:what_the_banana/etc/feedback_screen.dart';
 import 'package:what_the_banana/home_screen.dart';
 
@@ -15,7 +15,7 @@ class Routes {
 
   static const String roulette = '/roulette';
   static const String puzzle = '/puzzle';
-  static const String developers = '/developers';
+  static const String creators = '/creators';
   static const String feedback = '/feedback';
   static const String ads = '/ads';
 
@@ -45,8 +45,8 @@ class Routes {
             builder: (context, state) => const PuzzleScreen(),
           ),
           GoRoute(
-            path: developers,
-            builder: (context, state) => const DevelopersScreen(),
+            path: creators,
+            builder: (context, state) => const CreatorsScreen(),
           ),
           GoRoute(
             path: feedback,

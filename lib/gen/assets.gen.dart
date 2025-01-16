@@ -27,9 +27,20 @@ class $AssetsImagesGen {
   AssetGenImage get forthBanana =>
       const AssetGenImage('assets/images/forth_banana.webp');
 
+  /// File path: assets/images/hanna.webp
+  AssetGenImage get hanna => const AssetGenImage('assets/images/hanna.webp');
+
+  /// File path: assets/images/hyegyeong_profile.webp
+  AssetGenImage get hyegyeongProfile =>
+      const AssetGenImage('assets/images/hyegyeong_profile.webp');
+
   /// File path: assets/images/main_banana.webp
   AssetGenImage get mainBanana =>
       const AssetGenImage('assets/images/main_banana.webp');
+
+  /// File path: assets/images/salt_bread.webp
+  AssetGenImage get saltBread =>
+      const AssetGenImage('assets/images/salt_bread.webp');
 
   /// File path: assets/images/second_banana.webp
   AssetGenImage get secondBanana =>
@@ -39,9 +50,21 @@ class $AssetsImagesGen {
   AssetGenImage get smallBanana =>
       const AssetGenImage('assets/images/small_banana.webp');
 
+  /// File path: assets/images/snowbun.webp
+  AssetGenImage get snowbun =>
+      const AssetGenImage('assets/images/snowbun.webp');
+
+  /// File path: assets/images/star_butterfly.webp
+  AssetGenImage get starButterfly =>
+      const AssetGenImage('assets/images/star_butterfly.webp');
+
   /// File path: assets/images/third_banana.webp
   AssetGenImage get thirdBanana =>
       const AssetGenImage('assets/images/third_banana.webp');
+
+  /// File path: assets/images/yewon_profile.webp
+  AssetGenImage get yewonProfile =>
+      const AssetGenImage('assets/images/yewon_profile.webp');
 
   /// List of all assets
   List<AssetGenImage> get values => [
@@ -49,10 +72,16 @@ class $AssetsImagesGen {
         finalBanana,
         firstBanana,
         forthBanana,
+        hanna,
+        hyegyeongProfile,
         mainBanana,
+        saltBread,
         secondBanana,
         smallBanana,
-        thirdBanana
+        snowbun,
+        starButterfly,
+        thirdBanana,
+        yewonProfile
       ];
 }
 

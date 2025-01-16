@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:what_the_banana/contents/pixel_art/pixel_painter.dart';
 import 'package:what_the_banana/gen/colors.gen.dart';
 
-const int maxPixelCount = 80;
+const int maxPixelCount = 64;
 
 class PixelCanvas extends StatelessWidget {
   const PixelCanvas({

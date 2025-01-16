@@ -81,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             } else if (index == 2) {
                               return PuzzleButton(context);
                             } else if (index == 3) {
-                              return DevelopersButton(context);
+                              return CreatorsButton(context);
                             } else if (index == 4) {
                               return FeedbackButton(context);
                             } else if (index == 5) {
@@ -180,16 +180,16 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  GestureDetector DevelopersButton(BuildContext context) {
+  GestureDetector CreatorsButton(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.go(Routes.developers);
+        context.go(Routes.creators);
       },
       child: Container(
         color: Colors.blue,
         padding: const EdgeInsets.all(8),
         child: const Text(
-          'Developers',
+          'Creators',
           style: TextStyle(
             color: Colors.white,
           ),
