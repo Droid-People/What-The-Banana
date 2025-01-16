@@ -10,16 +10,11 @@ import 'package:what_the_banana/gen/assets.gen.dart';
 import 'package:what_the_banana/gen/fonts.gen.dart';
 import 'package:what_the_banana/routes.dart';
 
-class PixelArtScreen extends ConsumerStatefulWidget {
+class PixelArtScreen extends ConsumerWidget {
   const PixelArtScreen({super.key});
 
   @override
-  ConsumerState<PixelArtScreen> createState() => _PixelArtScreenState();
-}
-
-class _PixelArtScreenState extends ConsumerState<PixelArtScreen> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
 
     final boardSize = width - 8.h;
@@ -34,7 +29,7 @@ class _PixelArtScreenState extends ConsumerState<PixelArtScreen> {
           children: [
             Column(
               children: [
-                TitleText(),
+                TitleText(context),
                 DeveloperText(),
                 20.verticalSpace,
                 PixelCanvas(
@@ -201,7 +196,7 @@ class _PixelArtScreenState extends ConsumerState<PixelArtScreen> {
     );
   }
 
-  Widget TitleText() {
+  Widget TitleText(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
