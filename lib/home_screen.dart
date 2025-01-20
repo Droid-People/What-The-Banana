@@ -47,54 +47,57 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           const BananaBackground(),
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 24),
-                      child: GestureDetector(
-                        onTap: tapBanana,
-                        child: BananaImage(tappedBananaLevel),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 300,
-                      height: 400,
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: GridView.builder(
-                          padding: EdgeInsets.zero,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            mainAxisSpacing: 8,
-                            crossAxisSpacing: 8,
-                            mainAxisExtent: 50,
-                          ),
-                          itemBuilder: (context, index) {
-                            if (index == 0) {
-                              return PixelArtButton(context);
-                            } else if (index == 1) {
-                              return RouletteButton(context);
-                            } else if (index == 2) {
-                              return PuzzleButton(context);
-                            } else if (index == 3) {
-                              return CreatorsButton(context);
-                            } else if (index == 4) {
-                              return FeedbackButton(context);
-                            } else if (index == 5) {
-                              return AdsButton(context);
-                            }
-                            return null;
-                          },
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 24),
+                        child: GestureDetector(
+                          onTap: tapBanana,
+                          child: BananaImage(tappedBananaLevel),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      SizedBox(
+                        width: 300,
+                        height: 400,
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: GridView.builder(
+                            padding: EdgeInsets.zero,
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              mainAxisSpacing: 8,
+                              crossAxisSpacing: 8,
+                              mainAxisExtent: 50,
+                            ),
+                            itemBuilder: (context, index) {
+                              if (index == 0) {
+                                return PixelArtButton(context);
+                              } else if (index == 1) {
+                                return RouletteButton(context);
+                              } else if (index == 2) {
+                                return PuzzleButton(context);
+                              } else if (index == 3) {
+                                return CreatorsButton(context);
+                              } else if (index == 4) {
+                                return FeedbackButton(context);
+                              } else if (index == 5) {
+                                return AdsButton(context);
+                              } else if (index == 6) {
+                                return CounterButton(context);
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           if (_ad != null && _isLoaded)
@@ -228,6 +231,30 @@ class _HomeScreenState extends State<HomeScreen> {
           'Ads',
           style: TextStyle(
             color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget CounterButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        context.go(Routes.counter);
+      },
+      onLongPress: () {
+        context.go(Routes.counter, extra: true);
+      },
+      child: Container(
+        color: Colors.blue,
+        padding: const EdgeInsets.all(8),
+        child: const Center(
+          child: Text(
+            'Counter',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            ),
           ),
         ),
       ),

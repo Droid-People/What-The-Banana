@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:what_the_banana/contents/counter/counter_screen.dart';
 import 'package:what_the_banana/contents/pixel_art/crop_screen.dart';
 import 'package:what_the_banana/contents/pixel_art/pixel_art_screen.dart';
 import 'package:what_the_banana/contents/puzzle/puzzle_screen.dart';
@@ -10,11 +11,13 @@ import 'package:what_the_banana/home_screen.dart';
 
 class Routes {
   static const String home = '/';
+
   static const String pixelArt = '/pixelArt';
   static const String crop = '/crop';
-
   static const String roulette = '/roulette';
   static const String puzzle = '/puzzle';
+  static const String counter = '/counter';
+
   static const String creators = '/creators';
   static const String feedback = '/feedback';
   static const String ads = '/ads';
@@ -56,6 +59,10 @@ class Routes {
             path: ads,
             builder: (context, state) => const AdsScreen(),
           ),
+          GoRoute(
+            path: counter,
+            builder: (context, state) => const CounterScreen(),
+          )
         ],
       ),
     ],
