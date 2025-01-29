@@ -1,16 +1,21 @@
-# what_the_banana
+# What The Banana
 
-What The Banana
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+### build_runner commands
+link: https://pub.dev/packages/build_runner
+```zsh
+dart run build_runner build --delete-conflicting-outputs
+```
 
-A few resources to get you started if this is your first Flutter project:
+### flutter_gen commands
+link: https://pub.dev/packages/flutter_gen
+```zsh
+fluttergen -c pubspec.yaml
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### easy_localization commands
+link: https://pub.dev/packages/easy_localization
+```zsh
+dart run easy_localization:generate --source-dir ./assets/translations
+```

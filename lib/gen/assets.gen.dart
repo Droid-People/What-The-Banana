@@ -15,6 +15,13 @@ class $AssetsImagesGen {
   /// File path: assets/images/banana.webp
   AssetGenImage get banana => const AssetGenImage('assets/images/banana.webp');
 
+  /// File path: assets/images/big_banana.png
+  AssetGenImage get bigBanana =>
+      const AssetGenImage('assets/images/big_banana.png');
+
+  /// File path: assets/images/checked.png
+  AssetGenImage get checked => const AssetGenImage('assets/images/checked.png');
+
   /// File path: assets/images/final_banana.webp
   AssetGenImage get finalBanana =>
       const AssetGenImage('assets/images/final_banana.webp');
@@ -69,6 +76,8 @@ class $AssetsImagesGen {
   /// List of all assets
   List<AssetGenImage> get values => [
         banana,
+        bigBanana,
+        checked,
         finalBanana,
         firstBanana,
         forthBanana,
@@ -85,10 +94,30 @@ class $AssetsImagesGen {
       ];
 }
 
+class $AssetsTranslationsGen {
+  const $AssetsTranslationsGen();
+
+  /// File path: assets/translations/en.json
+  String get en => 'assets/translations/en.json';
+
+  /// File path: assets/translations/ja.json
+  String get ja => 'assets/translations/ja.json';
+
+  /// File path: assets/translations/ko.json
+  String get ko => 'assets/translations/ko.json';
+
+  /// File path: assets/translations/zh.json
+  String get zh => 'assets/translations/zh.json';
+
+  /// List of all assets
+  List<String> get values => [en, ja, ko, zh];
+}
+
 class Assets {
   Assets._();
 
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
 }
 
 class AssetGenImage {

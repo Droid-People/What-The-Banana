@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,45 +26,47 @@ class PixelArtScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          children: [
-            Column(
-              children: [
-                TitleText(context),
-                DeveloperText(),
-                20.verticalSpace,
-                PixelCanvas(
-                  boardSize: boardSize,
-                  pixelSize: state.pixelSize,
-                  gridMap: state.gridMap,
-                  gridState: state.showGrid,
-                  onStartRecord: viewModel.startRecord,
-                  callback: viewModel.changePixelColor,
-                ),
-                12.verticalSpace,
-                MiddleButtons(
-                  pickColorState: state.pickColorState,
-                  showGrid: state.showGrid,
-                  onSelectBanana: viewModel.selectBanana,
-                  onDrawMapWhite: viewModel.drawMapWhite,
-                  onShareImage: () => viewModel.shareImage(boardSize.toInt()),
-                  onPickImageFromGallery: () {
-                    viewModel.pickImageFromGallery(
-                      callbackImage: (path) async {
-                        context.go(Routes.pixelArt + Routes.crop, extra: path);
-                      },
-                    );
-                  },
-                  onPickColor: viewModel.togglePickColor,
-                  onLoadPrevious: viewModel.loadPrevious,
-                  onToggleGrid: viewModel.toggleGrid,
-                ),
-                12.verticalSpace,
-                PixelSizeController(viewModel, state.pixelSize),
-              ],
-            ),
-            ColorPalette(paletteWidth, state, viewModel, context),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Column(
+                children: [
+                  TitleText(context),
+                  DeveloperText(),
+                  20.verticalSpace,
+                  PixelCanvas(
+                    boardSize: boardSize,
+                    pixelSize: state.pixelSize,
+                    gridMap: state.gridMap,
+                    gridState: state.showGrid,
+                    onStartRecord: viewModel.startRecord,
+                    callback: viewModel.changePixelColor,
+                  ),
+                  12.verticalSpace,
+                  MiddleButtons(
+                    pickColorState: state.pickColorState,
+                    showGrid: state.showGrid,
+                    onSelectBanana: viewModel.selectBanana,
+                    onDrawMapWhite: viewModel.drawMapWhite,
+                    onShareImage: () => viewModel.shareImage(boardSize.toInt()),
+                    onPickImageFromGallery: () {
+                      viewModel.pickImageFromGallery(
+                        callbackImage: (path) async {
+                          context.go(Routes.pixelArt + Routes.crop, extra: path);
+                        },
+                      );
+                    },
+                    onPickColor: viewModel.togglePickColor,
+                    onLoadPrevious: viewModel.loadPrevious,
+                    onToggleGrid: viewModel.toggleGrid,
+                  ),
+                  12.verticalSpace,
+                  PixelSizeController(viewModel, state.pixelSize),
+                ],
+              ),
+              ColorPalette(paletteWidth, state, viewModel, context),
+            ],
+          ),
         ),
       ),
     );
@@ -210,14 +213,14 @@ class PixelArtScreen extends ConsumerWidget {
           ),
         ),
         Text(
-          'Pixel',
+          'pixel',
           style: TextStyle(
             fontFamily: FontFamily.pixelFont,
             fontWeight: FontWeight.bold,
             fontSize: 70.sp,
             height: 1,
           ),
-        ),
+        ).tr(),
         const Padding(
           padding: EdgeInsets.all(16),
           child: Icon(

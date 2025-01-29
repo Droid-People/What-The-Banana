@@ -7,3 +7,4 @@ linter:
     non_constant_identifier_names: false
     lines_longer_than_80_chars: false
     unawaited_futures: false
+    constant_identifier_names: false

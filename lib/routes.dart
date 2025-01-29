@@ -4,9 +4,14 @@ import 'package:what_the_banana/contents/pixel_art/crop_screen.dart';
 import 'package:what_the_banana/contents/pixel_art/pixel_art_screen.dart';
 import 'package:what_the_banana/contents/puzzle/puzzle_screen.dart';
 import 'package:what_the_banana/contents/roulette/roulette_screen.dart';
-import 'package:what_the_banana/etc/ads_screen.dart';
+import 'package:what_the_banana/etc/ads/ads_screen.dart';
+import 'package:what_the_banana/etc/ads/interstitial_ad_screen.dart';
+import 'package:what_the_banana/etc/ads/native_ad_screen.dart';
+import 'package:what_the_banana/etc/ads/open_app_ad_screen.dart';
 import 'package:what_the_banana/etc/creators_screen.dart';
-import 'package:what_the_banana/etc/feedback_screen.dart';
+import 'package:what_the_banana/etc/feedback/feedback_screen.dart';
+import 'package:what_the_banana/etc/feedback/sent_success_screen.dart';
+import 'package:what_the_banana/etc/select_language_screen.dart';
 import 'package:what_the_banana/home_screen.dart';
 
 class Routes {
@@ -20,7 +25,14 @@ class Routes {
 
   static const String creators = '/creators';
   static const String feedback = '/feedback';
+  static const String sentSuccess = '/sentSuccess';
+
   static const String ads = '/ads';
+  static const String openAppAd = '/openAppAd';
+  static const String nativeAd = '/nativeAd';
+  static const String interstitialAd = '/interstitialAd';
+
+  static const String selectLanguage = '/selectLanguage';
 
   static GoRouter getRouter = GoRouter(
     initialLocation: home,
@@ -54,15 +66,39 @@ class Routes {
           GoRoute(
             path: feedback,
             builder: (context, state) => const FeedbackScreen(),
+            routes: [
+              GoRoute(
+                path: sentSuccess,
+                builder: (context, state) => const SentSuccessScreen(),
+              ),
+            ],
           ),
           GoRoute(
             path: ads,
             builder: (context, state) => const AdsScreen(),
+            routes: [
+              GoRoute(
+                path: openAppAd,
+                builder: (context, state) => const OpenAppAdScreen(),
+              ),
+              GoRoute(
+                path: nativeAd,
+                builder: (context, state) => const NativeAdScreen(),
+              ),
+              GoRoute(
+                path: interstitialAd,
+                builder: (context, state) => const InterstitialAdScreen(),
+              ),
+            ],
           ),
           GoRoute(
             path: counter,
             builder: (context, state) => const CounterScreen(),
-          )
+          ),
+          GoRoute(
+            path: selectLanguage,
+            builder: (context, state) => const SelectLanguageScreen(),
+          ),
         ],
       ),
     ],

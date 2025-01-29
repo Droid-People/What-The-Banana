@@ -1,20 +1,38 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:what_the_banana/gen/colors.gen.dart';
 import 'package:what_the_banana/gen/fonts.gen.dart';
 import 'package:what_the_banana/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await EasyLocalization.ensureInitialized();
   await MobileAds.instance.initialize();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
 
-  runApp(const MyApp());
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [
+        Locale('en'),
+        Locale('ko'),
+        Locale('ja'),
+        Locale('zh'),
+      ],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en'),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -32,10 +50,38 @@ class MyApp extends StatelessWidget {
       useInheritedMediaQuery: true,
       child: ProviderScope(
         child: MaterialApp.router(
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             useMaterial3: true,
             fontFamily: FontFamily.unkemptBold,
+            textSelectionTheme: const TextSelectionThemeData(
+              selectionColor: ColorName.lightGrey,
+              selectionHandleColor: Colors.white,
+            ),
+            textTheme: const TextTheme(
+              bodyLarge: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+              titleLarge: TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.bold,
+              ),
+              labelMedium: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                fontFamily: FontFamily.pixelFont,
+                height: 1.2,
+              ),
+            ),
+            cupertinoOverrideTheme: const NoDefaultCupertinoThemeData(
+              primaryColor: Colors.black,
+              brightness: Brightness.dark,
+            ),
+
           ),
           routerConfig: Routes.getRouter,
         ),

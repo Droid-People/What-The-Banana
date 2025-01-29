@@ -1,10 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:what_the_banana/etc/ads/admob_ids.dart';
 import 'package:what_the_banana/gen/colors.gen.dart';
 import 'package:what_the_banana/routes.dart';
 import 'package:what_the_banana/ui/banana_background.dart';
@@ -18,26 +16,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String adUnitId = AdmobIds.getHomeBannerAdId();
+  BannerAd? _ad;
+  bool _isLoaded = false;
+  int tappedBananaLevel = 0;
+
   @override
   void initState() {
     super.initState();
-    _setAdUnitId();
     _loadAd();
   }
-
-  void _setAdUnitId() {
-    if (!kReleaseMode) {
-      adUnitId = 'ca-app-pub-3940256099942544/2934735716';
-    } else {
-      if (Platform.isAndroid) {
-        adUnitId = 'ca-app-pub-4452713350716636/7691375888';
-      } else {
-        adUnitId = 'ca-app-pub-4452713350716636/7023985645';
-      }
-    }
-  }
-
-  int tappedBananaLevel = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           alignment: Alignment.topCenter,
                           child: GridView.builder(
                             padding: EdgeInsets.zero,
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
                               mainAxisSpacing: 8,
                               crossAxisSpacing: 8,
@@ -88,6 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 return AdsButton(context);
                               } else if (index == 6) {
                                 return CounterButton(context);
+                              } else if (index == 7) {
+                                return LanguageButton(context);
                               }
                               return null;
                             },
@@ -128,17 +119,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget PixelArtButton(BuildContext context) {
-    return CupertinoButton(
-      onPressed: () {
+    return GestureDetector(
+      onTap: () {
         context.go(Routes.pixelArt);
       },
-      color: Colors.blue,
-      child: const Center(
-        child: Text(
-          'Pixel Art',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 12,
+      child: Container(
+        color: Colors.blue,
+        padding: const EdgeInsets.all(8),
+        child: const Center(
+          child: Text(
+            'Pixel Art',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+            ),
           ),
         ),
       ),
@@ -151,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
         context.go(Routes.roulette);
       },
       child: Container(
-        color: Colors.blue,
+        color: Colors.black,
         padding: const EdgeInsets.all(8),
         child: const Center(
           child: Text(
@@ -171,12 +165,14 @@ class _HomeScreenState extends State<HomeScreen> {
         context.go(Routes.puzzle);
       },
       child: Container(
-        color: Colors.blue,
+        color: Colors.black,
         padding: const EdgeInsets.all(8),
-        child: const Text(
-          'Puzzle',
-          style: TextStyle(
-            color: Colors.white,
+        child: const Center(
+          child: Text(
+            'Puzzle',
+            style: TextStyle(
+              color: Colors.white,
+            ),
           ),
         ),
       ),
@@ -191,10 +187,12 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
         color: Colors.blue,
         padding: const EdgeInsets.all(8),
-        child: const Text(
-          'Creators',
-          style: TextStyle(
-            color: Colors.white,
+        child: const Center(
+          child: Text(
+            'Creators',
+            style: TextStyle(
+              color: Colors.white,
+            ),
           ),
         ),
       ),
@@ -209,10 +207,13 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
         color: Colors.blue,
         padding: const EdgeInsets.all(8),
-        child: const Text(
-          'Feedback',
-          style: TextStyle(
-            color: Colors.white,
+        child: const Center(
+          child: Text(
+            'Feedback',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            ),
           ),
         ),
       ),
@@ -227,10 +228,12 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
         color: Colors.blue,
         padding: const EdgeInsets.all(8),
-        child: const Text(
-          'Ads',
-          style: TextStyle(
-            color: Colors.white,
+        child: const Center(
+          child: Text(
+            'Ads',
+            style: TextStyle(
+              color: Colors.white,
+            ),
           ),
         ),
       ),
@@ -261,14 +264,32 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  late String adUnitId;
-  BannerAd? _ad;
-  bool _isLoaded = false;
+  Widget LanguageButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        context.go(Routes.selectLanguage);
+      },
+      child: Container(
+        color: Colors.blue,
+        padding: const EdgeInsets.all(8),
+        child: const Center(
+          child: Text(
+            'Lang',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   void _loadAd() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final size = await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
-        MediaQuery.sizeOf(context).width.truncate(),
+      final size =
+          await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+        MediaQuery.sizeOf(context).width.truncate() - 32,
       );
       if (size == null) return;
 

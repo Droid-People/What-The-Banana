@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:what_the_banana/common/logger.dart';
 import 'package:what_the_banana/gen/fonts.gen.dart';
@@ -43,8 +44,8 @@ class _CounterScreenState extends State<CounterScreen> {
   Widget build(BuildContext context) {
     final isSpecial = getIsSpecial(context);
     if (isSpecial) {
-      leftTextController.text = '파카드(1청년부)';
-      rightTextController.text = '아바드(2청년부)';
+      leftTextController.text = '아바드\n(27-)';
+      rightTextController.text = '파카드\n(20-26)';
     }
 
     return Scaffold(
@@ -65,8 +66,8 @@ class _CounterScreenState extends State<CounterScreen> {
                 },
                 onHorizontalDragEnd: (details) {
                   final changedOffset = details.localPosition;
-                  final dx = changedOffset.dx - dragStartOffset.dx;
-                  if (dx > 0) {
+                  final dy = changedOffset.dy - dragStartOffset.dy;
+                  if (dy > 0) {
                     setState(() {
                       left--;
                     });
@@ -83,22 +84,26 @@ class _CounterScreenState extends State<CounterScreen> {
                       height: MediaQuery.of(context).size.height,
                       color: Colors.black,
                       child: Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              left.toString(),
-                              style: const TextStyle(
-                                fontSize: 100,
-                                color: Colors.white,
-                                height: 1,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 100),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                left.toString(),
+                                style: const TextStyle(
+                                  fontSize: 140,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w900,
+                                  height: 1,
+                                ),
                               ),
-                            ),
-                            const Icon(
-                              Icons.swipe_vertical_rounded,
-                              color: Colors.white,
-                            ),
-                          ],
+                              const Icon(
+                                Icons.swipe_vertical_rounded,
+                                color: Colors.white,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -108,26 +113,33 @@ class _CounterScreenState extends State<CounterScreen> {
                         width: MediaQuery.of(context).size.width / 2,
                         padding:
                             const EdgeInsets.only(left: 24, right: 24, top: 64),
-                        child: TextField(
-                          controller: leftTextController,
-                          style: const TextStyle(
-                            fontSize: 48,
-                            color: Colors.white,
-                          ),
-                          cursorColor: Colors.white,
-                          textAlign: TextAlign.center,
-                          decoration: const InputDecoration(
-                            hintText: 'Name 1',
-                            hintStyle:
-                                TextStyle(fontSize: 24, color: Colors.white),
-                            focusColor: Colors.white,
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
+                        child: Column(
+                          children: [
+                            TextField(
+                              controller: leftTextController,
+                              style: const TextStyle(
+                                fontSize: 90,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                height: 1,
+                              ),
+                              maxLines: isSpecial ? 2 : 1,
+                              cursorColor: Colors.white,
+                              textAlign: TextAlign.center,
+                              decoration: const InputDecoration(
+                                hintText: 'Name 1',
+                                hintStyle:
+                                    TextStyle(fontSize: 24, color: Colors.white),
+                                focusColor: Colors.white,
+                                border: InputBorder.none,
+                              ),
                             ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
+                            8.verticalSpace,
+                            const Divider(
+                              color: Colors.white,
+                              thickness: 2,
                             ),
-                          ),
+                          ],
                         ),
                       ),
                     ),
@@ -147,8 +159,8 @@ class _CounterScreenState extends State<CounterScreen> {
                 },
                 onHorizontalDragEnd: (details) {
                   final changedOffset = details.localPosition;
-                  final dx = changedOffset.dx - dragStartOffset.dx;
-                  if (dx > 0) {
+                  final dy = changedOffset.dy - dragStartOffset.dy;
+                  if (dy > 0) {
                     setState(() {
                       right--;
                     });
@@ -165,22 +177,26 @@ class _CounterScreenState extends State<CounterScreen> {
                       height: MediaQuery.of(context).size.height,
                       color: Colors.black,
                       child: Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              right.toString(),
-                              style: const TextStyle(
-                                fontSize: 100,
-                                color: Colors.white,
-                                height: 1,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 100),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                right.toString(),
+                                style: const TextStyle(
+                                  fontSize: 140,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w900,
+                                  height: 1,
+                                ),
                               ),
-                            ),
-                            const Icon(
-                              Icons.swipe_vertical_rounded,
-                              color: Colors.white,
-                            ),
-                          ],
+                              const Icon(
+                                Icons.swipe_vertical_rounded,
+                                color: Colors.white,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -190,26 +206,33 @@ class _CounterScreenState extends State<CounterScreen> {
                         width: MediaQuery.of(context).size.width / 2,
                         padding:
                             const EdgeInsets.only(left: 24, right: 24, top: 64),
-                        child: TextField(
-                          controller: rightTextController,
-                          style: const TextStyle(
-                            fontSize: 48,
-                            color: Colors.white,
-                          ),
-                          cursorColor: Colors.white,
-                          textAlign: TextAlign.center,
-                          decoration: const InputDecoration(
-                            hintText: 'Name 2',
-                            hintStyle:
-                                TextStyle(fontSize: 24, color: Colors.white),
-                            focusColor: Colors.white,
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
+                        child: Column(
+                          children: [
+                            TextField(
+                              controller: rightTextController,
+                              style: const TextStyle(
+                                fontSize: 90,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                height: 1,
+                              ),
+                              maxLines: isSpecial ? 2 : 1,
+                              cursorColor: Colors.white,
+                              textAlign: TextAlign.center,
+                              decoration: const InputDecoration(
+                                hintText: 'Name 2',
+                                hintStyle:
+                                    TextStyle(fontSize: 24, color: Colors.white),
+                                focusColor: Colors.white,
+                                border: InputBorder.none,
+                              ),
                             ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
+                            8.verticalSpace,
+                            const Divider(
+                              color: Colors.white,
+                              thickness: 2,
                             ),
-                          ),
+                          ],
                         ),
                       ),
                     ),
@@ -276,7 +299,7 @@ class _CounterScreenState extends State<CounterScreen> {
       GoRouterState.of(context).extra as bool? ?? false;
 
   void showGuideDialog(BuildContext context) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (context) {
         return const AlertDialog(
@@ -288,7 +311,7 @@ class _CounterScreenState extends State<CounterScreen> {
           content: Text(
             '교회 등록과 모임 참여에 관심이 있으시면\n'
             '앞쪽의 안내위원에게 말씀해 주세요!',
-            style: TextStyle(color: Colors.black, fontSize: 24),
+            style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
         );
