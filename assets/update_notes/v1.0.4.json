@@ -1,0 +1,7 @@
+{
+    "date": "2025-01-13",
+    "ko": "룰렛 아이템 입력 시 한글 자음 모음 분리되는 문제를 해결했어요!",
+    "en": "Fixed an issue where Korean characters were split into individual consonants and vowels when entering roulette items!",
+    "ja": "ルーレットアイテムを入力するときに、韓国語の文字が個々の子音と母音に分割される問題を修正しました！",
+    "zh": "解决了输入轮盘项目时韩文字符被拆分为单独的辅音和元音的问题！"
+}

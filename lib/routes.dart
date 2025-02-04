@@ -12,6 +12,7 @@ import 'package:what_the_banana/etc/creators_screen.dart';
 import 'package:what_the_banana/etc/feedback/feedback_screen.dart';
 import 'package:what_the_banana/etc/feedback/sent_success_screen.dart';
 import 'package:what_the_banana/etc/select_language_screen.dart';
+import 'package:what_the_banana/etc/updates_screen.dart';
 import 'package:what_the_banana/home_screen.dart';
 
 class Routes {
@@ -33,6 +34,7 @@ class Routes {
   static const String interstitialAd = '/interstitialAd';
 
   static const String selectLanguage = '/selectLanguage';
+  static const String updates = '/updates';
 
   static GoRouter getRouter = GoRouter(
     initialLocation: home,
@@ -98,6 +100,10 @@ class Routes {
           GoRoute(
             path: selectLanguage,
             builder: (context, state) => const SelectLanguageScreen(),
+          ),
+          GoRoute(
+            path: updates,
+            builder: (context, state) => const UpdatesScreen(),
           ),
         ],
       ),

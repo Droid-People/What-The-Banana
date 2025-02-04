@@ -79,6 +79,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 return CounterButton(context);
                               } else if (index == 7) {
                                 return LanguageButton(context);
+                              } else if (index == 8) {
+                                return UpdatesButton(context);
                               }
                               return null;
                             },
@@ -275,6 +277,27 @@ class _HomeScreenState extends State<HomeScreen> {
         child: const Center(
           child: Text(
             'Lang',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget UpdatesButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        context.go(Routes.updates);
+      },
+      child: Container(
+        color: Colors.blue,
+        padding: const EdgeInsets.all(8),
+        child: const Center(
+          child: Text(
+            'Updates',
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,
