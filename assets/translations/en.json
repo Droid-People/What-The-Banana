@@ -4,5 +4,7 @@
   "feedback_title": "Your Ideas",
   "feedback_description": "Let us know what features\nyou'd like to see!\nWe'll do our best to add them!",
   "send_feedback": "SEND",
-  "feedback_sent_success": "Successfully sent!"
+  "feedback_sent_success": "Successfully sent!",
+  "select_languages": "Select Language",
+  "updates": "Updates"
 }

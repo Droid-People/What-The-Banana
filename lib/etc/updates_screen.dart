@@ -51,7 +51,13 @@ class _UpdatesScreenState extends State<UpdatesScreen> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        title: Text(
+          'updates',
+          style: Theme.of(context).textTheme.bodyLarge,
+        ).tr(),
+        backgroundColor: Colors.white,
       ),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16),

@@ -15,9 +15,9 @@ class SelectLanguageScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Select Language',
+          'select_languages',
           style: Theme.of(context).textTheme.bodyLarge,
-        ),
+        ).tr(),
         backgroundColor: ColorName.yellowBackground,
       ),
       backgroundColor: ColorName.yellowBackground,

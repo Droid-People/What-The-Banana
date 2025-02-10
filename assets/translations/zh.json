@@ -4,5 +4,7 @@
   "feedback_title": "您的想法",
   "feedback_description": "请告诉我您想要的功能！\n我会尽最大努力添加功能的！",
   "send_feedback": "发送",
-  "feedback_sent_success": "发送成功！"
+  "feedback_sent_success": "发送成功！",
+  "select_languages": "选择语言",
+  "updates": "更新"
 }
