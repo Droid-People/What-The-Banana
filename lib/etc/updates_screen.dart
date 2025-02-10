@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UpdatesScreen extends StatefulWidget {
   const UpdatesScreen({super.key});
@@ -65,9 +66,16 @@ class _UpdatesScreenState extends State<UpdatesScreen> {
             children: updates.map((update) {
               return Column(
                 children: [
-                  Text(update['version']!),
+                  Text(update['version']!, style: const TextStyle(fontSize: 24)),
                   Text(update['date']!),
-                  Text(update['content']!),
+                  8.verticalSpace,
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Text(update['content']!),
+                    ),
+                  ),
                   const Divider(),
                 ],
               );

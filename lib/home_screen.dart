@@ -1,12 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:what_the_banana/etc/ads/admob_ids.dart';
+import 'package:what_the_banana/gen/assets.gen.dart';
 import 'package:what_the_banana/gen/colors.gen.dart';
 import 'package:what_the_banana/routes.dart';
-import 'package:what_the_banana/ui/banana_background.dart';
-import 'package:what_the_banana/ui/banana_image.dart';
+import 'package:what_the_banana/ui/marquee.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,94 +15,53 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String adUnitId = AdmobIds.getHomeBannerAdId();
-  BannerAd? _ad;
-  bool _isLoaded = false;
   int tappedBananaLevel = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadAd();
-  }
+  GlobalKey key = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorName.yellowBackground,
-      body: Stack(
-        children: [
-          const BananaBackground(),
-          Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      backgroundColor: ColorName.homeMainBackground,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 330,
+              child: Stack(
                 children: [
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 24),
-                        child: GestureDetector(
-                          onTap: tapBanana,
-                          child: BananaImage(tappedBananaLevel),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 300,
-                        height: 400,
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          child: GridView.builder(
-                            padding: EdgeInsets.zero,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              mainAxisSpacing: 8,
-                              crossAxisSpacing: 8,
-                              mainAxisExtent: 50,
-                            ),
-                            itemBuilder: (context, index) {
-                              if (index == 0) {
-                                return PixelArtButton(context);
-                              } else if (index == 1) {
-                                return RouletteButton(context);
-                              } else if (index == 2) {
-                                return PuzzleButton(context);
-                              } else if (index == 3) {
-                                return CreatorsButton(context);
-                              } else if (index == 4) {
-                                return FeedbackButton(context);
-                              } else if (index == 5) {
-                                return AdsButton(context);
-                              } else if (index == 6) {
-                                return CounterButton(context);
-                              } else if (index == 7) {
-                                return LanguageButton(context);
-                              } else if (index == 8) {
-                                return UpdatesButton(context);
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
+                  GestureDetector(
+                    onTap: () {
+                      context.go(Routes.updates);
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 330,
+                      color: ColorName.homeTopBackground,
+                    ),
                   ),
+                  SafeArea(
+                    child: Center(child: Assets.images.homeTopBanana.image()),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 55, horizontal: 35),
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: Assets.images.earthIcon.image(),
+                    ),
+                  ),
+                  const Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 8),
+                      child: MarqueeWidget(),
+                    ),
+                  )
                 ],
               ),
             ),
-          ),
-          if (_ad != null && _isLoaded)
-            SafeArea(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: _ad!.size.width.toDouble(),
-                  height: _ad!.size.height.toDouble(),
-                  child: AdWidget(ad: _ad!),
-                ),
-              ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -306,31 +263,5 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-  }
-
-  void _loadAd() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final size =
-          await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
-        MediaQuery.sizeOf(context).width.truncate() - 32,
-      );
-      if (size == null) return;
-
-      _ad = BannerAd(
-        adUnitId: adUnitId,
-        request: const AdRequest(),
-        size: size,
-        listener: BannerAdListener(
-          onAdLoaded: (ad) {
-            setState(() {
-              _isLoaded = true;
-            });
-          },
-          onAdFailedToLoad: (ad, error) {
-            ad.dispose();
-          },
-        ),
-      )..load();
-    });
   }
 }

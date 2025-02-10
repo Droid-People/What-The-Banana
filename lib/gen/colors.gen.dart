@@ -13,6 +13,12 @@ import 'package:flutter/material.dart';
 class ColorName {
   ColorName._();
 
+  /// Color: #F7ECC3
+  static const Color homeMainBackground = Color(0xFFF7ECC3);
+
+  /// Color: #F0DD8E
+  static const Color homeTopBackground = Color(0xFFF0DD8E);
+
   /// Color: #44888888
   static const Color lightGrey = Color(0x44888888);
 

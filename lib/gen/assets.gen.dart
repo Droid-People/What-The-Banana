@@ -22,6 +22,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/checked.png
   AssetGenImage get checked => const AssetGenImage('assets/images/checked.png');
 
+  /// File path: assets/images/earth_icon.png
+  AssetGenImage get earthIcon =>
+      const AssetGenImage('assets/images/earth_icon.png');
+
   /// File path: assets/images/final_banana.webp
   AssetGenImage get finalBanana =>
       const AssetGenImage('assets/images/final_banana.webp');
@@ -37,6 +41,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/hanna.webp
   AssetGenImage get hanna => const AssetGenImage('assets/images/hanna.webp');
 
+  /// File path: assets/images/home_top_banana.png
+  AssetGenImage get homeTopBanana =>
+      const AssetGenImage('assets/images/home_top_banana.png');
+
   /// File path: assets/images/hyegyeong_profile.webp
   AssetGenImage get hyegyeongProfile =>
       const AssetGenImage('assets/images/hyegyeong_profile.webp');
@@ -44,6 +52,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/main_banana.webp
   AssetGenImage get mainBanana =>
       const AssetGenImage('assets/images/main_banana.webp');
+
+  /// File path: assets/images/pixel_art.png
+  AssetGenImage get pixelArt =>
+      const AssetGenImage('assets/images/pixel_art.png');
 
   /// File path: assets/images/salt_bread.webp
   AssetGenImage get saltBread =>
@@ -78,12 +90,15 @@ class $AssetsImagesGen {
         banana,
         bigBanana,
         checked,
+        earthIcon,
         finalBanana,
         firstBanana,
         forthBanana,
         hanna,
+        homeTopBanana,
         hyegyeongProfile,
         mainBanana,
+        pixelArt,
         saltBread,
         secondBanana,
         smallBanana,
@@ -113,17 +128,44 @@ class $AssetsTranslationsGen {
   List<String> get values => [en, ja, ko, zh];
 }
 
+class $AssetsUpdateNotesGen {
+  const $AssetsUpdateNotesGen();
+
+  /// File path: assets/update_notes/v1.0.0.json
+  String get v100 => 'assets/update_notes/v1.0.0.json';
+
+  /// File path: assets/update_notes/v1.0.2.json
+  String get v102 => 'assets/update_notes/v1.0.2.json';
+
+  /// File path: assets/update_notes/v1.0.3.json
+  String get v103 => 'assets/update_notes/v1.0.3.json';
+
+  /// File path: assets/update_notes/v1.0.4.json
+  String get v104 => 'assets/update_notes/v1.0.4.json';
+
+  /// List of all assets
+  List<String> get values => [v100, v102, v103, v104];
+}
+
 class Assets {
   Assets._();
 
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
+  static const $AssetsUpdateNotesGen updateNotes = $AssetsUpdateNotesGen();
 }
 
 class AssetGenImage {
-  const AssetGenImage(this._assetName);
+  const AssetGenImage(
+    this._assetName, {
+    this.size,
+    this.flavors = const {},
+  });
 
   final String _assetName;
+
+  final Size? size;
+  final Set<String> flavors;
 
   Image image({
     Key? key,
@@ -143,7 +185,7 @@ class AssetGenImage {
     ImageRepeat repeat = ImageRepeat.noRepeat,
     Rect? centerSlice,
     bool matchTextDirection = false,
-    bool gaplessPlayback = false,
+    bool gaplessPlayback = true,
     bool isAntiAlias = false,
     String? package,
     FilterQuality filterQuality = FilterQuality.low,

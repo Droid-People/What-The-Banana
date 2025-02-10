@@ -2,4 +2,6 @@
 <resources>
     <color name="yellowBackground">#FFF6B3</color>
     <color name="lightGrey">#44888888</color>
+    <color name="homeTopBackground">#F0DD8E</color>
+    <color name="homeMainBackground">#F7ECC3</color>
 </resources>
