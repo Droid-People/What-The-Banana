@@ -67,13 +67,11 @@ class _CounterScreenState extends State<CounterScreen> {
                 onHorizontalDragEnd: (details) {
                   final changedOffset = details.localPosition;
                   final dy = changedOffset.dy - dragStartOffset.dy;
-                  if (dy > 0) {
+                  if (dy > 150) {
                     setState(() {
-                      left--;
-                    });
-                  } else {
-                    setState(() {
-                      left++;
+                      if (left > 0) {
+                        left--;
+                      }
                     });
                   }
                 },
@@ -160,13 +158,11 @@ class _CounterScreenState extends State<CounterScreen> {
                 onHorizontalDragEnd: (details) {
                   final changedOffset = details.localPosition;
                   final dy = changedOffset.dy - dragStartOffset.dy;
-                  if (dy > 0) {
+                  if (dy > 150) {
                     setState(() {
-                      right--;
-                    });
-                  } else {
-                    setState(() {
-                      right++;
+                      if (right > 0) {
+                        right--;
+                      }
                     });
                   }
                 },

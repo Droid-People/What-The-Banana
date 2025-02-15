@@ -51,6 +51,7 @@ dependencies:
   crop_your_image: ^2.0.0
   zoom_widget: ^2.0.1
   image:
+  flutter_svg: ^2.0.17
 
 dev_dependencies:
   flutter_test:

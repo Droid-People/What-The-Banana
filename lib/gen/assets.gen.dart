@@ -12,19 +12,39 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/ad_button.webp
+  AssetGenImage get adButton =>
+      const AssetGenImage('assets/images/ad_button.webp');
+
   /// File path: assets/images/banana.webp
   AssetGenImage get banana => const AssetGenImage('assets/images/banana.webp');
 
-  /// File path: assets/images/big_banana.png
+  /// File path: assets/images/banana_on_plate.webp
+  AssetGenImage get bananaOnPlate =>
+      const AssetGenImage('assets/images/banana_on_plate.webp');
+
+  /// File path: assets/images/big_banana.webp
   AssetGenImage get bigBanana =>
-      const AssetGenImage('assets/images/big_banana.png');
+      const AssetGenImage('assets/images/big_banana.webp');
 
-  /// File path: assets/images/checked.png
-  AssetGenImage get checked => const AssetGenImage('assets/images/checked.png');
+  /// File path: assets/images/checked.webp
+  AssetGenImage get checked =>
+      const AssetGenImage('assets/images/checked.webp');
 
-  /// File path: assets/images/earth_icon.png
+  /// File path: assets/images/creators.webp
+  AssetGenImage get creators =>
+      const AssetGenImage('assets/images/creators.webp');
+
+  /// File path: assets/images/donation.svg
+  String get donation => 'assets/images/donation.svg';
+
+  /// File path: assets/images/dual_counter.webp
+  AssetGenImage get dualCounter =>
+      const AssetGenImage('assets/images/dual_counter.webp');
+
+  /// File path: assets/images/earth_icon.webp
   AssetGenImage get earthIcon =>
-      const AssetGenImage('assets/images/earth_icon.png');
+      const AssetGenImage('assets/images/earth_icon.webp');
 
   /// File path: assets/images/final_banana.webp
   AssetGenImage get finalBanana =>
@@ -38,24 +58,43 @@ class $AssetsImagesGen {
   AssetGenImage get forthBanana =>
       const AssetGenImage('assets/images/forth_banana.webp');
 
+  /// File path: assets/images/ghost_leg.webp
+  AssetGenImage get ghostLeg =>
+      const AssetGenImage('assets/images/ghost_leg.webp');
+
   /// File path: assets/images/hanna.webp
   AssetGenImage get hanna => const AssetGenImage('assets/images/hanna.webp');
 
-  /// File path: assets/images/home_top_banana.png
+  /// File path: assets/images/home_top_banana.webp
   AssetGenImage get homeTopBanana =>
-      const AssetGenImage('assets/images/home_top_banana.png');
+      const AssetGenImage('assets/images/home_top_banana.webp');
 
   /// File path: assets/images/hyegyeong_profile.webp
   AssetGenImage get hyegyeongProfile =>
       const AssetGenImage('assets/images/hyegyeong_profile.webp');
 
+  /// File path: assets/images/introduction.svg
+  String get introduction => 'assets/images/introduction.svg';
+
   /// File path: assets/images/main_banana.webp
   AssetGenImage get mainBanana =>
       const AssetGenImage('assets/images/main_banana.webp');
 
-  /// File path: assets/images/pixel_art.png
+  /// File path: assets/images/pace_counters.webp
+  AssetGenImage get paceCounters =>
+      const AssetGenImage('assets/images/pace_counters.webp');
+
+  /// File path: assets/images/pixel_art.webp
   AssetGenImage get pixelArt =>
-      const AssetGenImage('assets/images/pixel_art.png');
+      const AssetGenImage('assets/images/pixel_art.webp');
+
+  /// File path: assets/images/qr_maker.webp
+  AssetGenImage get qrMaker =>
+      const AssetGenImage('assets/images/qr_maker.webp');
+
+  /// File path: assets/images/roulette.webp
+  AssetGenImage get roulette =>
+      const AssetGenImage('assets/images/roulette.webp');
 
   /// File path: assets/images/salt_bread.webp
   AssetGenImage get saltBread =>
@@ -86,19 +125,29 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/yewon_profile.webp');
 
   /// List of all assets
-  List<AssetGenImage> get values => [
+  List<dynamic> get values => [
+        adButton,
         banana,
+        bananaOnPlate,
         bigBanana,
         checked,
+        creators,
+        donation,
+        dualCounter,
         earthIcon,
         finalBanana,
         firstBanana,
         forthBanana,
+        ghostLeg,
         hanna,
         homeTopBanana,
         hyegyeongProfile,
+        introduction,
         mainBanana,
+        paceCounters,
         pixelArt,
+        qrMaker,
+        roulette,
         saltBread,
         secondBanana,
         smallBanana,
@@ -156,16 +205,9 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-  });
+  const AssetGenImage(this._assetName);
 
   final String _assetName;
-
-  final Size? size;
-  final Set<String> flavors;
 
   Image image({
     Key? key,
@@ -185,7 +227,7 @@ class AssetGenImage {
     ImageRepeat repeat = ImageRepeat.noRepeat,
     Rect? centerSlice,
     bool matchTextDirection = false,
-    bool gaplessPlayback = true,
+    bool gaplessPlayback = false,
     bool isAntiAlias = false,
     String? package,
     FilterQuality filterQuality = FilterQuality.low,

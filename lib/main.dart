@@ -76,6 +76,13 @@ class MyApp extends StatelessWidget {
                 fontFamily: FontFamily.pixelFont,
                 height: 1.2,
               ),
+              labelSmall: TextStyle(
+                fontSize: 8,
+                fontWeight: FontWeight.normal,
+                height: 5/4,
+                fontFamily: FontFamily.inter,
+                color: Color(0xAA000000),
+              ),
             ),
             cupertinoOverrideTheme: const NoDefaultCupertinoThemeData(
               primaryColor: Colors.black,
