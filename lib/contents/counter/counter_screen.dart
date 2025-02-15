@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:what_the_banana/common/logger.dart';
 import 'package:what_the_banana/gen/fonts.gen.dart';
+import 'package:what_the_banana/ui/back_button.dart';
 
 class CounterScreen extends StatefulWidget {
   const CounterScreen({super.key});
@@ -275,15 +276,7 @@ class _CounterScreenState extends State<CounterScreen> {
             alignment: Alignment.topLeft,
             child: Padding(
               padding: const EdgeInsets.all(16),
-              child: IconButton(
-                onPressed: () {
-                  context.pop();
-                },
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                ),
-              ),
+              child: BackImage(context),
             ),
           ),
         ],

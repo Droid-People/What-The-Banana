@@ -1,7 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:what_the_banana/common/logger.dart';
+import 'package:what_the_banana/gen/assets.gen.dart';
 import 'package:what_the_banana/gen/colors.gen.dart';
+import 'package:what_the_banana/ui/photo_hero.dart';
 
 class SelectLanguageScreen extends StatelessWidget {
   const SelectLanguageScreen({super.key});
@@ -21,61 +24,51 @@ class SelectLanguageScreen extends StatelessWidget {
         backgroundColor: ColorName.yellowBackground,
       ),
       backgroundColor: ColorName.yellowBackground,
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Container(
-          padding: const EdgeInsets.all(4),
-          decoration: BoxDecoration(
-            color: Colors.white.withAlpha(200),
-            borderRadius: BorderRadius.circular(16),
-          ),
+      body: Align(
+        alignment: Alignment.topCenter,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 50),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              ListTile(
-                title: Text(
-                  'English',
-                  style: TextStyle(
-                    decoration: getDecorationBy(locale, 'en'),
-                  ),
-                ),
-                onTap: () {
-                  context.setLocale(const Locale('en'));
-                },
+              PhotoHero(
+                photo: Assets.images.bigEarth.path,
+                width: 170,
               ),
-              ListTile(
-                title: Text(
-                  '한국어',
-                  style: TextStyle(
-                    decoration: getDecorationBy(locale, 'ko'),
+              63.verticalSpace,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 14,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      context.setLocale(const Locale('en'));
+                    },
+                    child: Assets.images.english.image(),
                   ),
-                ),
-                onTap: () {
-                  context.setLocale(const Locale('ko'));
-                },
-              ),
-              ListTile(
-                title: Text(
-                  '日本語',
-                  style: TextStyle(
-                    decoration: getDecorationBy(locale, 'ja'),
+                  GestureDetector(
+                    onTap: () {
+                      context.setLocale(const Locale('ko'));
+                    },
+                    child: Assets.images.korean.image(),
                   ),
-                ),
-                onTap: () {
-                  context.setLocale(const Locale('ja'));
-                },
-              ),
-              ListTile(
-                title: Text(
-                  '中文',
-                  style: TextStyle(
-                    decoration: getDecorationBy(locale, 'zh'),
+                  GestureDetector(
+                    onTap: () {
+                      context.setLocale(const Locale('ja'));
+                    },
+                    child: Assets.images.japanese.image(),
                   ),
-                ),
-                onTap: () {
-                  context.setLocale(const Locale('zh'));
-                },
+                  GestureDetector(
+                    onTap: () {
+                      context.setLocale(const Locale('zh'));
+                    },
+                    child: Assets.images.chinese.image(),
+                  ),
+                ],
               ),
+              55.verticalSpace,
+              Assets.images.smallBananaOnPlate.image(),
             ],
           ),
         ),

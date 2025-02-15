@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:what_the_banana/gen/assets.gen.dart';
 import 'package:what_the_banana/gen/colors.gen.dart';
 import 'package:what_the_banana/routes.dart';
+import 'package:what_the_banana/ui/back_button.dart';
 
 class AdsScreen extends ConsumerWidget {
   const AdsScreen({super.key});
@@ -16,12 +17,7 @@ class AdsScreen extends ConsumerWidget {
           'Many Ads',
           style: TextStyle(fontSize: 36),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            context.pop();
-          },
-        ),
+        leading: BackImage(context),
         backgroundColor: ColorName.yellowBackground,
       ),
       backgroundColor: ColorName.yellowBackground,

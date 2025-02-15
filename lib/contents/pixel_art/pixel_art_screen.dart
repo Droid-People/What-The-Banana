@@ -8,8 +8,10 @@ import 'package:what_the_banana/contents/pixel_art/pixel_art_state.dart';
 import 'package:what_the_banana/contents/pixel_art/pixel_art_state_provider.dart';
 import 'package:what_the_banana/contents/pixel_art/pixel_canvas.dart';
 import 'package:what_the_banana/gen/assets.gen.dart';
+import 'package:what_the_banana/gen/colors.gen.dart';
 import 'package:what_the_banana/gen/fonts.gen.dart';
 import 'package:what_the_banana/routes.dart';
+import 'package:what_the_banana/ui/back_button.dart';
 
 class PixelArtScreen extends ConsumerWidget {
   const PixelArtScreen({super.key});
@@ -24,7 +26,7 @@ class PixelArtScreen extends ConsumerWidget {
     final paletteWidth = (width * (0.7)) / 9;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: ColorName.homeMainBackground,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -207,10 +209,7 @@ class PixelArtScreen extends ConsumerWidget {
           onTap: () {
             context.go(Routes.home);
           },
-          child: const Padding(
-            padding: EdgeInsets.all(16),
-            child: Icon(Icons.arrow_back_ios_new_rounded),
-          ),
+          child: BackImage(context),
         ),
         Text(
           'pixel',

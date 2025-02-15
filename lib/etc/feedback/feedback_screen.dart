@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:what_the_banana/data/firestore_provider.dart';
 import 'package:what_the_banana/gen/colors.gen.dart';
 import 'package:what_the_banana/routes.dart';
+import 'package:what_the_banana/ui/back_button.dart';
 
 class FeedbackScreen extends ConsumerStatefulWidget {
   const FeedbackScreen({super.key});
@@ -25,12 +26,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: ColorName.yellowBackground,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              context.pop();
-            },
-          ),
+          leading: BackImage(context),
         ),
         backgroundColor: ColorName.yellowBackground,
         body: Column(

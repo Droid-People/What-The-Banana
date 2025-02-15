@@ -22,7 +22,8 @@ class CodegenLoader extends AssetLoader{
   "send_feedback": "发送",
   "feedback_sent_success": "发送成功！",
   "select_languages": "选择语言",
-  "updates": "更新"
+  "updates": "更新",
+  "introduction": "关于应用"
 };
 static const Map<String,dynamic> _ja = {
   "app_name": "ワットザバナナ",
@@ -32,7 +33,8 @@ static const Map<String,dynamic> _ja = {
   "send_feedback": "送信",
   "feedback_sent_success": "送信しました！",
   "select_languages": "言語を選択",
-  "updates": "更新"
+  "updates": "更新",
+  "introduction": "アプリについて"
 };
 static const Map<String,dynamic> _en = {
   "app_name": "What The Banana",
@@ -42,7 +44,8 @@ static const Map<String,dynamic> _en = {
   "send_feedback": "SEND",
   "feedback_sent_success": "Successfully sent!",
   "select_languages": "Select Language",
-  "updates": "Updates"
+  "updates": "Updates",
+  "introduction": "about APP"
 };
 static const Map<String,dynamic> _ko = {
   "app_name": "왓더바나나",
@@ -52,7 +55,8 @@ static const Map<String,dynamic> _ko = {
   "send_feedback": "전송",
   "feedback_sent_success": "전송 완료!",
   "select_languages": "언어 선택",
-  "updates": "업데이트"
+  "updates": "업데이트",
+  "introduction": "앱 소개"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"zh": _zh, "ja": _ja, "en": _en, "ko": _ko};
 }

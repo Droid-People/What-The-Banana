@@ -7,6 +7,7 @@ import 'package:what_the_banana/gen/assets.gen.dart';
 import 'package:what_the_banana/gen/colors.gen.dart';
 import 'package:what_the_banana/routes.dart';
 import 'package:what_the_banana/ui/marquee.dart';
+import 'package:what_the_banana/ui/photo_hero.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: ColorName.homeMainBackground,
       body: SingleChildScrollView(
         controller: scrollController,
+        physics: const ClampingScrollPhysics(),
         child: Column(
           children: [
             ColoredBox(
@@ -124,15 +126,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   GestureDetector ScrollToTopButton() {
     return GestureDetector(
-            onTap: () {
-              scrollController.animateTo(
-                0,
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeInOut,
-              );
-            },
-            child: Assets.images.bananaOnPlate.image(),
-          );
+      onTap: () {
+        scrollController.animateTo(
+          0,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+      },
+      child: Assets.images.bananaOnPlate.image(),
+    );
   }
 
   Text SmallText(String text, {TextAlign textAlign = TextAlign.start}) {
@@ -162,8 +164,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  SvgPicture IntroductionButton() =>
-      SvgPicture.asset(Assets.images.introduction);
+  Widget IntroductionButton() {
+    return GestureDetector(
+      onTap: () {
+        context.go(Routes.introduction);
+      },
+      child: SvgPicture.asset(Assets.images.introduction),
+    );
+  }
 
   Container FirstText() {
     return Container(
@@ -275,14 +283,17 @@ class _HomeScreenState extends State<HomeScreen> {
       onTap: () {
         context.go(Routes.selectLanguage);
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
+      child: Container(
+        margin: const EdgeInsets.symmetric(
           horizontal: 20,
           vertical: 4,
         ),
         child: Align(
           alignment: Alignment.topRight,
-          child: Assets.images.earthIcon.image(width: 32, fit: BoxFit.cover),
+          child: PhotoHero(
+            photo: Assets.images.bigEarth.path,
+            width: 32,
+          ),
         ),
       ),
     );

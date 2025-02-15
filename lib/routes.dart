@@ -10,6 +10,8 @@ import 'package:what_the_banana/etc/ads/open_app_ad_screen.dart';
 import 'package:what_the_banana/etc/creators_screen.dart';
 import 'package:what_the_banana/etc/feedback/feedback_screen.dart';
 import 'package:what_the_banana/etc/feedback/sent_success_screen.dart';
+import 'package:what_the_banana/etc/introduction_screen.dart';
+import 'package:what_the_banana/etc/oss_licenses_view.dart';
 import 'package:what_the_banana/etc/select_language_screen.dart';
 import 'package:what_the_banana/etc/updates_screen.dart';
 import 'package:what_the_banana/home_screen.dart';
@@ -33,6 +35,8 @@ class Routes {
 
   static const String selectLanguage = '/selectLanguage';
   static const String updates = '/updates';
+  static const String introduction = '/introduction';
+  static const String ossLicenses = '/ossLicenses';
 
   static GoRouter getRouter = GoRouter(
     initialLocation: home,
@@ -42,12 +46,22 @@ class Routes {
         builder: (context, state) => const HomeScreen(),
         routes: [
           GoRoute(
+            path: introduction,
+            builder: (context, state) => const IntroductionScreen(),
+            routes: [
+              GoRoute(
+                path: ossLicenses,
+                builder: (context, state) => const OssLicensesView(),
+              ),
+            ],
+          ),
+          GoRoute(
             path: pixelArt,
             builder: (context, state) => const PixelArtScreen(),
             routes: [
               GoRoute(
-                  path: crop,
-                  builder: (context, state) => const CropScreen(),
+                path: crop,
+                builder: (context, state) => const CropScreen(),
               ),
             ],
           ),

@@ -22,6 +22,6 @@ class ColorName {
   /// Color: #44888888
   static const Color lightGrey = Color(0x44888888);
 
-  /// Color: #FFF6B3
-  static const Color yellowBackground = Color(0xFFFFF6B3);
+  /// Color: #F7ECC3
+  static const Color yellowBackground = Color(0xFFF7ECC3);
 }

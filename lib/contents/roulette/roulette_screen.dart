@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:what_the_banana/ui/back_button.dart';
 
 class RouletteScreen extends ConsumerWidget {
   const RouletteScreen({super.key});
@@ -10,12 +10,7 @@ class RouletteScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Roulette'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            context.pop();
-          },
-        ),
+        leading: BackImage(context),
       ),
       body: const Center(
         child: Text('Roulette'),

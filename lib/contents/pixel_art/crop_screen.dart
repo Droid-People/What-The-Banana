@@ -9,6 +9,7 @@ import 'package:image/image.dart' as lib;
 import 'package:what_the_banana/common/logger.dart';
 import 'package:what_the_banana/contents/pixel_art/pixel_art_state_provider.dart';
 import 'package:what_the_banana/contents/pixel_art/pixel_canvas.dart';
+import 'package:what_the_banana/ui/back_button.dart';
 
 class CropScreen extends ConsumerStatefulWidget {
   const CropScreen({super.key});
@@ -31,13 +32,7 @@ class _CropScreenState extends ConsumerState<CropScreen> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
-          onPressed: context.pop,
-        ),
+        leading: BackImage(context),
       ),
       body: Stack(
         children: [

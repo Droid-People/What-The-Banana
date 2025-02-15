@@ -6,5 +6,7 @@
   "send_feedback": "SEND",
   "feedback_sent_success": "Successfully sent!",
   "select_languages": "Select Language",
-  "updates": "Updates"
+  "updates": "Updates",
+  "introduction": "about APP",
+  "appDescription": "This is an app where we can freely create whatever we want.\nYou can choose from various features like pixel art drawing, roulette, QR code generator, pedometer, ladder game, and more from the home screen!\nIn the future, we may add more features based on your suggestions, so feel free to share your ideas with us anytime!\nAs for why the banana? Well, just because!"
 }

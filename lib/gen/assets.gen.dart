@@ -16,6 +16,9 @@ class $AssetsImagesGen {
   AssetGenImage get adButton =>
       const AssetGenImage('assets/images/ad_button.webp');
 
+  /// File path: assets/images/back_button.svg
+  String get backButton => 'assets/images/back_button.svg';
+
   /// File path: assets/images/banana.webp
   AssetGenImage get banana => const AssetGenImage('assets/images/banana.webp');
 
@@ -27,13 +30,25 @@ class $AssetsImagesGen {
   AssetGenImage get bigBanana =>
       const AssetGenImage('assets/images/big_banana.webp');
 
+  /// File path: assets/images/big_earth.webp
+  AssetGenImage get bigEarth =>
+      const AssetGenImage('assets/images/big_earth.webp');
+
   /// File path: assets/images/checked.webp
   AssetGenImage get checked =>
       const AssetGenImage('assets/images/checked.webp');
 
+  /// File path: assets/images/chinese.webp
+  AssetGenImage get chinese =>
+      const AssetGenImage('assets/images/chinese.webp');
+
   /// File path: assets/images/creators.webp
   AssetGenImage get creators =>
       const AssetGenImage('assets/images/creators.webp');
+
+  /// File path: assets/images/creators_image.webp
+  AssetGenImage get creatorsImage =>
+      const AssetGenImage('assets/images/creators_image.webp');
 
   /// File path: assets/images/donation.svg
   String get donation => 'assets/images/donation.svg';
@@ -45,6 +60,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/earth_icon.webp
   AssetGenImage get earthIcon =>
       const AssetGenImage('assets/images/earth_icon.webp');
+
+  /// File path: assets/images/english.webp
+  AssetGenImage get english =>
+      const AssetGenImage('assets/images/english.webp');
 
   /// File path: assets/images/final_banana.webp
   AssetGenImage get finalBanana =>
@@ -76,9 +95,12 @@ class $AssetsImagesGen {
   /// File path: assets/images/introduction.svg
   String get introduction => 'assets/images/introduction.svg';
 
-  /// File path: assets/images/main_banana.webp
-  AssetGenImage get mainBanana =>
-      const AssetGenImage('assets/images/main_banana.webp');
+  /// File path: assets/images/japanese.webp
+  AssetGenImage get japanese =>
+      const AssetGenImage('assets/images/japanese.webp');
+
+  /// File path: assets/images/korean.webp
+  AssetGenImage get korean => const AssetGenImage('assets/images/korean.webp');
 
   /// File path: assets/images/pace_counters.webp
   AssetGenImage get paceCounters =>
@@ -100,13 +122,17 @@ class $AssetsImagesGen {
   AssetGenImage get saltBread =>
       const AssetGenImage('assets/images/salt_bread.webp');
 
-  /// File path: assets/images/second_banana.webp
-  AssetGenImage get secondBanana =>
-      const AssetGenImage('assets/images/second_banana.webp');
-
   /// File path: assets/images/small_banana.webp
   AssetGenImage get smallBanana =>
       const AssetGenImage('assets/images/small_banana.webp');
+
+  /// File path: assets/images/small_banana_on_plate.webp
+  AssetGenImage get smallBananaOnPlate =>
+      const AssetGenImage('assets/images/small_banana_on_plate.webp');
+
+  /// File path: assets/images/smelly_banana.png
+  AssetGenImage get smellyBanana =>
+      const AssetGenImage('assets/images/smelly_banana.png');
 
   /// File path: assets/images/snowbun.webp
   AssetGenImage get snowbun =>
@@ -127,14 +153,19 @@ class $AssetsImagesGen {
   /// List of all assets
   List<dynamic> get values => [
         adButton,
+        backButton,
         banana,
         bananaOnPlate,
         bigBanana,
+        bigEarth,
         checked,
+        chinese,
         creators,
+        creatorsImage,
         donation,
         dualCounter,
         earthIcon,
+        english,
         finalBanana,
         firstBanana,
         forthBanana,
@@ -143,14 +174,16 @@ class $AssetsImagesGen {
         homeTopBanana,
         hyegyeongProfile,
         introduction,
-        mainBanana,
+        japanese,
+        korean,
         paceCounters,
         pixelArt,
         qrMaker,
         roulette,
         saltBread,
-        secondBanana,
         smallBanana,
+        smallBananaOnPlate,
+        smellyBanana,
         snowbun,
         starButterfly,
         thirdBanana,
