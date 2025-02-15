@@ -25,40 +25,42 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: 330,
-              child: Stack(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      context.go(Routes.updates);
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 330,
-                      color: ColorName.homeTopBackground,
-                    ),
+            ColoredBox(
+              color: ColorName.homeTopBackground,
+              child: SafeArea(
+                left: false,
+                right: false,
+                bottom: false,
+                child: SizedBox(
+                  height: 213,
+                  child: Stack(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          context.go(Routes.updates);
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          height: 213,
+                          color: ColorName.homeTopBackground,
+                        ),
+                      ),
+                      Center(child: Assets.images.homeTopBanana.image()),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                        child: Align(
+                          alignment: Alignment.topRight,
+                          child: Assets.images.earthIcon.image(width: 32, fit: BoxFit.cover),
+                        ),
+                      ),
+                    ],
                   ),
-                  SafeArea(
-                    child: Center(child: Assets.images.homeTopBanana.image()),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 55, horizontal: 35),
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: Assets.images.earthIcon.image(),
-                    ),
-                  ),
-                  const Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 8),
-                      child: MarqueeWidget(),
-                    ),
-                  )
-                ],
+                ),
               ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 8),
+              child: MarqueeWidget(),
             ),
           ],
         ),
