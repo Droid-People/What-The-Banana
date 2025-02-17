@@ -130,9 +130,9 @@ class $AssetsImagesGen {
   AssetGenImage get smallBananaOnPlate =>
       const AssetGenImage('assets/images/small_banana_on_plate.webp');
 
-  /// File path: assets/images/smelly_banana.png
+  /// File path: assets/images/smelly_banana.webp
   AssetGenImage get smellyBanana =>
-      const AssetGenImage('assets/images/smelly_banana.png');
+      const AssetGenImage('assets/images/smelly_banana.webp');
 
   /// File path: assets/images/snowbun.webp
   AssetGenImage get snowbun =>
@@ -145,6 +145,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/third_banana.webp
   AssetGenImage get thirdBanana =>
       const AssetGenImage('assets/images/third_banana.webp');
+
+  /// File path: assets/images/update_button.webp
+  AssetGenImage get updateButton =>
+      const AssetGenImage('assets/images/update_button.webp');
 
   /// File path: assets/images/yewon_profile.webp
   AssetGenImage get yewonProfile =>
@@ -187,6 +191,7 @@ class $AssetsImagesGen {
         snowbun,
         starButterfly,
         thirdBanana,
+        updateButton,
         yewonProfile
       ];
 }
@@ -238,9 +243,16 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(this._assetName);
+  const AssetGenImage(
+    this._assetName, {
+    this.size,
+    this.flavors = const {},
+  });
 
   final String _assetName;
+
+  final Size? size;
+  final Set<String> flavors;
 
   Image image({
     Key? key,
@@ -260,7 +272,7 @@ class AssetGenImage {
     ImageRepeat repeat = ImageRepeat.noRepeat,
     Rect? centerSlice,
     bool matchTextDirection = false,
-    bool gaplessPlayback = false,
+    bool gaplessPlayback = true,
     bool isAntiAlias = false,
     String? package,
     FilterQuality filterQuality = FilterQuality.low,

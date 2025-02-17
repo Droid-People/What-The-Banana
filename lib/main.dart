@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -15,6 +16,7 @@ void main() async {
   await Firebase.initializeApp();
   await EasyLocalization.ensureInitialized();
   await MobileAds.instance.initialize();
+  await dotenv.load();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -41,6 +43,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -61,6 +65,16 @@ class MyApp extends StatelessWidget {
               selectionColor: ColorName.lightGrey,
               selectionHandleColor: Colors.white,
             ),
+            appBarTheme: const AppBarTheme(
+              titleTextStyle: TextStyle(
+                fontSize: 30,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontFamily: FontFamily.unkemptBold,
+              ),
+              backgroundColor: ColorName.homeMainBackground,
+            ),
+            scaffoldBackgroundColor: ColorName.homeMainBackground,
             textTheme: const TextTheme(
               bodyLarge: TextStyle(
                 fontSize: 30,

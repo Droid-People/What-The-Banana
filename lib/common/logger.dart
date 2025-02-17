@@ -21,6 +21,10 @@ class Log {
     Logger(printer: prettyPrinter).e(msg);
   }
 
+  static void w(dynamic msg) {
+    Logger(printer: prettyPrinter).w(msg);
+  }
+
   static void longPrint(String text) {
     final pattern = RegExp('.{1,600}');
     pattern.allMatches(text).forEach((match) => i(match.group(0)));

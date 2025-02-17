@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:what_the_banana/etc/ads/admob_ids.dart';
+import 'package:what_the_banana/etc/paypal_donation.dart';
 import 'package:what_the_banana/gen/assets.gen.dart';
 import 'package:what_the_banana/gen/colors.gen.dart';
 import 'package:what_the_banana/routes.dart';
@@ -98,8 +99,30 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Assets.images.qrMaker.image(),
             36.verticalSpace,
-            SmallText('DOWN, DOWN'),
-            36.verticalSpace,
+            Stack(
+              children: [
+                Center(
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                      top: 16,
+                    ),
+                    child: SmallText('DOWN, DOWN'),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: GestureDetector(
+                    onTap: () {
+                      context.go(Routes.updates);
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 20),
+                      child: Assets.images.updateButton.image(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
             Assets.images.paceCounters.image(),
             30.verticalSpace,
             SmallText("DON'T STOP\nCHEER UP", textAlign: TextAlign.center),
@@ -194,10 +217,15 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Container DonationButton() {
-    return Container(
-      margin: const EdgeInsets.only(right: 24),
-      child: SvgPicture.asset(Assets.images.donation),
+  Widget DonationButton() {
+    return GestureDetector(
+      onTap: () {
+        moveToDonationPage(context);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(right: 24),
+        child: SvgPicture.asset(Assets.images.donation),
+      ),
     );
   }
 
