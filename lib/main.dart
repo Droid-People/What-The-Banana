@@ -41,6 +41,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -61,6 +63,16 @@ class MyApp extends StatelessWidget {
               selectionColor: ColorName.lightGrey,
               selectionHandleColor: Colors.white,
             ),
+            appBarTheme: const AppBarTheme(
+              titleTextStyle: TextStyle(
+                fontSize: 30,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontFamily: FontFamily.unkemptBold,
+              ),
+              backgroundColor: ColorName.homeMainBackground,
+            ),
+            scaffoldBackgroundColor: ColorName.homeMainBackground,
             textTheme: const TextTheme(
               bodyLarge: TextStyle(
                 fontSize: 30,

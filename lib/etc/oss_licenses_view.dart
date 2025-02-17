@@ -13,9 +13,9 @@ class OssLicensesView extends StatelessWidget {
     return Scaffold(
       backgroundColor: ColorName.homeMainBackground,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Open Source Licenses',
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 24),
+          style: TextStyle(fontSize: 24),
         ),
         backgroundColor: ColorName.homeMainBackground,
         elevation: 0,
@@ -30,7 +30,8 @@ class OssLicensesView extends StatelessWidget {
           return ListTile(
             title: Text(
               '${package.name} ${package.version}',
-              style: const TextStyle(fontFamily: FontFamily.inter, fontSize: 18),
+              style:
+                  const TextStyle(fontFamily: FontFamily.inter, fontSize: 18),
             ),
             subtitle: package.description.isNotEmpty
                 ? Text(
@@ -73,9 +74,7 @@ class MiscOssLicenseSingle extends StatelessWidget {
             padding: const EdgeInsets.only(right: 20),
             child: Text(
               '${package.name} ${package.version}',
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontSize: 20,
-                  ),
+              style: const TextStyle(fontSize: 20),
             ),
           ),
         ),

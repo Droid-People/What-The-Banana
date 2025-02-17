@@ -17,13 +17,11 @@ class SelectLanguageScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'select_languages',
-          style: Theme.of(context).textTheme.bodyLarge,
         ).tr(),
-        backgroundColor: ColorName.yellowBackground,
       ),
-      backgroundColor: ColorName.yellowBackground,
+      backgroundColor: ColorName.homeMainBackground,
       body: Align(
         alignment: Alignment.topCenter,
         child: Padding(

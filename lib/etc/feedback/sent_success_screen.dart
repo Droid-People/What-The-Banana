@@ -34,10 +34,7 @@ class _SentSuccessScreenState extends State<SentSuccessScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'feedback_sent_success',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ).tr(),
+            const Text('feedback_sent_success').tr(),
             const SizedBox(height: 20),
             Assets.images.checked.image(
               width: 100,

@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:what_the_banana/gen/colors.gen.dart';
 
 class UpdatesScreen extends StatefulWidget {
   const UpdatesScreen({super.key});
@@ -52,13 +53,9 @@ class _UpdatesScreenState extends State<UpdatesScreen> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text(
-          'updates',
-          style: Theme.of(context).textTheme.bodyLarge,
-        ).tr(),
-        backgroundColor: Colors.white,
+        title: const Text('updates').tr(),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: ColorName.homeMainBackground,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16),
