@@ -26,6 +26,14 @@ class $AssetsImagesGen {
   AssetGenImage get bananaOnPlate =>
       const AssetGenImage('assets/images/banana_on_plate.webp');
 
+  /// File path: assets/images/banana_sub_first.webp
+  AssetGenImage get bananaSubFirst =>
+      const AssetGenImage('assets/images/banana_sub_first.webp');
+
+  /// File path: assets/images/banana_sub_second.webp
+  AssetGenImage get bananaSubSecond =>
+      const AssetGenImage('assets/images/banana_sub_second.webp');
+
   /// File path: assets/images/big_banana.webp
   AssetGenImage get bigBanana =>
       const AssetGenImage('assets/images/big_banana.webp');
@@ -64,6 +72,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/english.webp
   AssetGenImage get english =>
       const AssetGenImage('assets/images/english.webp');
+
+  /// File path: assets/images/feedback.webp
+  AssetGenImage get feedback =>
+      const AssetGenImage('assets/images/feedback.webp');
 
   /// File path: assets/images/final_banana.webp
   AssetGenImage get finalBanana =>
@@ -146,9 +158,8 @@ class $AssetsImagesGen {
   AssetGenImage get thirdBanana =>
       const AssetGenImage('assets/images/third_banana.webp');
 
-  /// File path: assets/images/update_button.webp
-  AssetGenImage get updateButton =>
-      const AssetGenImage('assets/images/update_button.webp');
+  /// File path: assets/images/update.webp
+  AssetGenImage get update => const AssetGenImage('assets/images/update.webp');
 
   /// File path: assets/images/yewon_profile.webp
   AssetGenImage get yewonProfile =>
@@ -160,6 +171,8 @@ class $AssetsImagesGen {
         backButton,
         banana,
         bananaOnPlate,
+        bananaSubFirst,
+        bananaSubSecond,
         bigBanana,
         bigEarth,
         checked,
@@ -170,6 +183,7 @@ class $AssetsImagesGen {
         dualCounter,
         earthIcon,
         english,
+        feedback,
         finalBanana,
         firstBanana,
         forthBanana,
@@ -191,7 +205,7 @@ class $AssetsImagesGen {
         snowbun,
         starButterfly,
         thirdBanana,
-        updateButton,
+        update,
         yewonProfile
       ];
 }
@@ -243,16 +257,9 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-  });
+  const AssetGenImage(this._assetName);
 
   final String _assetName;
-
-  final Size? size;
-  final Set<String> flavors;
 
   Image image({
     Key? key,
@@ -272,7 +279,7 @@ class AssetGenImage {
     ImageRepeat repeat = ImageRepeat.noRepeat,
     Rect? centerSlice,
     bool matchTextDirection = false,
-    bool gaplessPlayback = true,
+    bool gaplessPlayback = false,
     bool isAntiAlias = false,
     String? package,
     FilterQuality filterQuality = FilterQuality.low,

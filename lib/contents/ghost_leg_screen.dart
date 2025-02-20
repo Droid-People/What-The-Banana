@@ -2,14 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:what_the_banana/ui/back_button.dart';
 
-class RouletteScreen extends StatelessWidget {
-  const RouletteScreen({super.key});
+class GhostLegScreen extends StatelessWidget {
+  const GhostLegScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Roulette'),
+        title: const Text('Ghost Leg'),
         leading: BackImage(context),
       ),
       body: Center(

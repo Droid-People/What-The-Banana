@@ -28,6 +28,7 @@ class PixelCanvas extends StatelessWidget {
       width: boardSize,
       height: boardSize,
       decoration: BoxDecoration(
+        color: Colors.white,
         border: Border.all(color: ColorName.lightGrey),
       ),
       child: GestureDetector(

@@ -1,13 +1,17 @@
 import 'package:go_router/go_router.dart';
 import 'package:what_the_banana/contents/counter/counter_screen.dart';
+import 'package:what_the_banana/contents/ghost_leg_screen.dart';
+import 'package:what_the_banana/contents/pace_counter_screen.dart';
 import 'package:what_the_banana/contents/pixel_art/crop_screen.dart';
 import 'package:what_the_banana/contents/pixel_art/pixel_art_screen.dart';
+import 'package:what_the_banana/contents/qr_maker_screen.dart';
 import 'package:what_the_banana/contents/roulette/roulette_screen.dart';
 import 'package:what_the_banana/etc/ads/ads_screen.dart';
 import 'package:what_the_banana/etc/ads/interstitial_ad_screen.dart';
 import 'package:what_the_banana/etc/ads/native_ad_screen.dart';
 import 'package:what_the_banana/etc/ads/open_app_ad_screen.dart';
 import 'package:what_the_banana/etc/creators_screen.dart';
+import 'package:what_the_banana/etc/donation/donation_screen.dart';
 import 'package:what_the_banana/etc/feedback/feedback_screen.dart';
 import 'package:what_the_banana/etc/feedback/sent_success_screen.dart';
 import 'package:what_the_banana/etc/introduction_screen.dart';
@@ -22,11 +26,15 @@ class Routes {
   static const String pixelArt = '/pixelArt';
   static const String crop = '/crop';
   static const String roulette = '/roulette';
+  static const String qrMaker = '/qrMaker';
+  static const String paceCounter = '/paceCounter';
+  static const String ghostLeg = '/ghostLeg';
   static const String counter = '/counter';
 
   static const String creators = '/creators';
   static const String feedback = '/feedback';
   static const String sentSuccess = '/sentSuccess';
+  static const String donation = '/donation';
 
   static const String ads = '/ads';
   static const String openAppAd = '/openAppAd';
@@ -56,6 +64,10 @@ class Routes {
             ],
           ),
           GoRoute(
+            path: donation,
+            builder: (context, state) => const DonationScreen(),
+          ),
+          GoRoute(
             path: pixelArt,
             builder: (context, state) => const PixelArtScreen(),
             routes: [
@@ -68,6 +80,18 @@ class Routes {
           GoRoute(
             path: roulette,
             builder: (context, state) => const RouletteScreen(),
+          ),
+          GoRoute(
+            path: qrMaker,
+            builder: (context, state) => const QrMakerScreen(),
+          ),
+          GoRoute(
+            path: paceCounter,
+            builder: (context, state) => const PaceCounterScreen(),
+          ),
+          GoRoute(
+            path: ghostLeg,
+            builder: (context, state) => const GhostLegScreen(),
           ),
           GoRoute(
             path: creators,

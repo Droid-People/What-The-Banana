@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:what_the_banana/etc/ads/admob_ids.dart';
-import 'package:what_the_banana/etc/paypal_donation.dart';
 import 'package:what_the_banana/gen/assets.gen.dart';
 import 'package:what_the_banana/gen/colors.gen.dart';
 import 'package:what_the_banana/routes.dart';
@@ -18,9 +16,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String adUnitId = AdmobIds.getHomeBannerAdId();
-  int tappedBananaLevel = 0;
-  GlobalKey key = GlobalKey();
+  // TODO(boring-km): 홈화면에 배너 광고 넣기 - String adUnitId = AdmobIds.getHomeBannerAdId();
   final scrollController = ScrollController();
 
   @override
@@ -97,14 +93,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            Assets.images.qrMaker.image(),
-            36.verticalSpace,
+            GestureDetector(
+              onTap: () {
+                context.go(Routes.qrMaker);
+              },
+              child: Assets.images.qrMaker.image(),
+            ),
+            18.verticalSpace,
             Stack(
               children: [
                 Center(
                   child: Container(
                     margin: const EdgeInsets.only(
-                      top: 16,
+                      top: 18,
                     ),
                     child: SmallText('DOWN, DOWN'),
                   ),
@@ -113,21 +114,55 @@ class _HomeScreenState extends State<HomeScreen> {
                   alignment: Alignment.topRight,
                   child: GestureDetector(
                     onTap: () {
-                      context.go(Routes.updates);
+                      context.go(Routes.feedback);
                     },
                     child: Container(
-                      margin: const EdgeInsets.only(right: 20),
-                      child: Assets.images.updateButton.image(),
+                      margin: const EdgeInsets.only(right: 28),
+                      child: Assets.images.feedback.image(),
                     ),
                   ),
                 ),
               ],
             ),
-            Assets.images.paceCounters.image(),
-            30.verticalSpace,
-            SmallText("DON'T STOP\nCHEER UP", textAlign: TextAlign.center),
-            27.verticalSpace,
-            Assets.images.ghostLeg.image(),
+            7.verticalSpace,
+            GestureDetector(
+              onTap: () {
+                context.go(Routes.paceCounter);
+              },
+              child: Assets.images.paceCounters.image(),
+            ),
+            18.verticalSpace,
+            Stack(
+              children: [
+                Center(
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 12),
+                    child: SmallText(
+                      "DON'T STOP\nCHEER UP",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: GestureDetector(
+                    onTap: () {
+                      context.go(Routes.updates);
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 31),
+                      child: Assets.images.update.image(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            GestureDetector(
+              onTap: () {
+                context.go(Routes.ghostLeg);
+              },
+              child: Assets.images.ghostLeg.image(),
+            ),
             38.verticalSpace,
             SmallText('HAVE A NICE DAY.'),
             38.verticalSpace,
@@ -220,24 +255,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget DonationButton() {
     return GestureDetector(
       onTap: () {
-        moveToDonationPage(context);
+        context.go(Routes.donation);
       },
       child: Container(
         margin: const EdgeInsets.only(right: 24),
         child: SvgPicture.asset(Assets.images.donation),
       ),
     );
-  }
-
-  void tapBanana() {
-    setState(() {
-      if (tappedBananaLevel == 5) {
-        tappedBananaLevel = 0;
-        // TODO 소개 페이지로 이동
-      } else {
-        tappedBananaLevel++;
-      }
-    });
   }
 
   Widget PixelArtButton() {
@@ -260,27 +284,6 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
         margin: const EdgeInsets.only(left: 28),
         child: Assets.images.creators.image(),
-      ),
-    );
-  }
-
-  GestureDetector FeedbackButton() {
-    return GestureDetector(
-      onTap: () {
-        context.go(Routes.feedback);
-      },
-      child: Container(
-        color: Colors.blue,
-        padding: const EdgeInsets.all(8),
-        child: const Center(
-          child: Text(
-            'Feedback',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-            ),
-          ),
-        ),
       ),
     );
   }
@@ -321,27 +324,6 @@ class _HomeScreenState extends State<HomeScreen> {
           child: PhotoHero(
             photo: Assets.images.bigEarth.path,
             width: 32,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget UpdatesButton() {
-    return GestureDetector(
-      onTap: () {
-        context.go(Routes.updates);
-      },
-      child: Container(
-        color: Colors.blue,
-        padding: const EdgeInsets.all(8),
-        child: const Center(
-          child: Text(
-            'Updates',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-            ),
           ),
         ),
       ),
