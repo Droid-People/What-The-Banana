@@ -44,6 +44,11 @@ class _CounterScreenState extends State<CounterScreen> {
 
   Scaffold HorizontalView(BuildContext context, int maxLines) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Dual Counter', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.black,
+        leading: BackImage(context, color: Colors.white),
+      ),
       body: Stack(
         children: [
           Row(

@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:what_the_banana/gen/assets.gen.dart';
 
-Widget BackImage(BuildContext context) {
+Widget BackImage(BuildContext context, {Color? color = Colors.black}) {
   return GestureDetector(
     onTap: () {
       context.pop();
@@ -12,6 +12,7 @@ Widget BackImage(BuildContext context) {
       padding: const EdgeInsets.all(16),
       child: SvgPicture.asset(
         Assets.images.backButton,
+        colorFilter: ColorFilter.mode(color!, BlendMode.srcIn),
       ),
     ),
   );
