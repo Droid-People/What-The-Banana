@@ -24,9 +24,7 @@ class _CounterScreenState extends State<CounterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // screen width < screen height
-    final isPortrait =
-        MediaQuery.of(context).size.width < MediaQuery.of(context).size.height;
+    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
 
     final isSpecial = getIsSpecial(context);
     final maxLines = isSpecial ? 2 : 1;
@@ -397,9 +395,9 @@ class _CounterScreenState extends State<CounterScreen> {
                     maxLines: maxLines,
                     cursorColor: Colors.white,
                     textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      hintText: 'Name 2',
-                      hintStyle: TextStyle(fontSize: 24, color: Colors.white),
+                    decoration: InputDecoration(
+                      hintText: context.tr('tap_description'),
+                      hintStyle: const TextStyle(fontSize: 24, color: Colors.white),
                       focusColor: Colors.white,
                       border: InputBorder.none,
                     ),
@@ -489,9 +487,9 @@ class _CounterScreenState extends State<CounterScreen> {
                     maxLines: maxLines,
                     cursorColor: Colors.white,
                     textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      hintText: 'Name 1',
-                      hintStyle: TextStyle(fontSize: 24, color: Colors.white),
+                    decoration: InputDecoration(
+                      hintText: context.tr('tap_description'),
+                      hintStyle: const TextStyle(fontSize: 24, color: Colors.white),
                       focusColor: Colors.white,
                       border: InputBorder.none,
                     ),

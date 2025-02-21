@@ -19,11 +19,14 @@ class PixelArtScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    final isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
 
-    final boardSize = width - 8.h;
+    final boardSize = isPortrait ? width - 8 : height - 200;
     final state = ref.watch(pixelArtStateNotifierProvider);
     final viewModel = ref.read(pixelArtStateNotifierProvider.notifier);
-    final paletteWidth = (width * (0.7)) / 9;
+    final paletteWidth = isPortrait ? (width * (0.7)) / 9 : (width / 2 - 300) / 9;
 
     return Scaffold(
       backgroundColor: ColorName.homeMainBackground,
@@ -31,46 +34,108 @@ class PixelArtScreen extends ConsumerWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Column(
-                children: [
-                  TitleText(context),
-                  DeveloperText(),
-                  20.verticalSpace,
-                  PixelCanvas(
-                    boardSize: boardSize,
-                    pixelSize: state.pixelSize,
-                    gridMap: state.gridMap,
-                    gridState: state.showGrid,
-                    onStartRecord: viewModel.startRecord,
-                    callback: viewModel.changePixelColor,
-                  ),
-                  12.verticalSpace,
-                  MiddleButtons(
-                    pickColorState: state.pickColorState,
-                    showGrid: state.showGrid,
-                    onSelectBanana: viewModel.selectBanana,
-                    onDrawMapWhite: viewModel.drawMapWhite,
-                    onShareImage: () => viewModel.shareImage(boardSize.toInt()),
-                    onPickImageFromGallery: () {
-                      viewModel.pickImageFromGallery(
-                        callbackImage: (path) async {
-                          context.go(Routes.pixelArt + Routes.crop, extra: path);
-                        },
-                      );
-                    },
-                    onPickColor: viewModel.togglePickColor,
-                    onLoadPrevious: viewModel.loadPrevious,
-                    onToggleGrid: viewModel.toggleGrid,
-                  ),
-                  12.verticalSpace,
-                  PixelSizeController(viewModel, state.pixelSize),
-                ],
-              ),
-              ColorPalette(paletteWidth, state, viewModel, context),
+              TitleText(context),
+              DeveloperText(),
+              20.verticalSpace,
+              if (isPortrait)
+                VerticalBody(context, boardSize, state, paletteWidth, viewModel)
+              else
+                HorizontalBody(
+                    context, boardSize, state, paletteWidth, viewModel),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget HorizontalBody(
+    BuildContext context,
+    double boardSize,
+    PixelArtState state,
+    double paletteWidth,
+    PixelArtStateProvider viewModel,
+  ) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        PixelCanvas(
+          boardSize: boardSize,
+          pixelSize: state.pixelSize,
+          gridMap: state.gridMap,
+          gridState: state.showGrid,
+          onStartRecord: viewModel.startRecord,
+          callback: viewModel.changePixelColor,
+        ),
+        20.horizontalSpace,
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MiddleButtons(
+              pickColorState: state.pickColorState,
+              showGrid: state.showGrid,
+              onSelectBanana: viewModel.selectBanana,
+              onDrawMapWhite: viewModel.drawMapWhite,
+              onShareImage: () => viewModel.shareImage(boardSize.toInt()),
+              onPickImageFromGallery: () {
+                viewModel.pickImageFromGallery(
+                  callbackImage: (path) async {
+                    context.go(Routes.pixelArt + Routes.crop, extra: path);
+                  },
+                );
+              },
+              onPickColor: viewModel.togglePickColor,
+              onLoadPrevious: viewModel.loadPrevious,
+              onToggleGrid: viewModel.toggleGrid,
+            ),
+            12.verticalSpace,
+            PixelSizeController(viewModel, state.pixelSize),
+            ColorPalette(paletteWidth, state, viewModel, context),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget VerticalBody(
+    BuildContext context,
+    double boardSize,
+    PixelArtState state,
+    double paletteWidth,
+    PixelArtStateProvider viewModel,
+  ) {
+    return Column(
+      children: [
+        PixelCanvas(
+          boardSize: boardSize,
+          pixelSize: state.pixelSize,
+          gridMap: state.gridMap,
+          gridState: state.showGrid,
+          onStartRecord: viewModel.startRecord,
+          callback: viewModel.changePixelColor,
+        ),
+        12.verticalSpace,
+        MiddleButtons(
+          pickColorState: state.pickColorState,
+          showGrid: state.showGrid,
+          onSelectBanana: viewModel.selectBanana,
+          onDrawMapWhite: viewModel.drawMapWhite,
+          onShareImage: () => viewModel.shareImage(boardSize.toInt()),
+          onPickImageFromGallery: () {
+            viewModel.pickImageFromGallery(
+              callbackImage: (path) async {
+                context.go(Routes.pixelArt + Routes.crop, extra: path);
+              },
+            );
+          },
+          onPickColor: viewModel.togglePickColor,
+          onLoadPrevious: viewModel.loadPrevious,
+          onToggleGrid: viewModel.toggleGrid,
+        ),
+        12.verticalSpace,
+        PixelSizeController(viewModel, state.pixelSize),
+        ColorPalette(paletteWidth, state, viewModel, context),
+      ],
     );
   }
 
@@ -94,8 +159,7 @@ class PixelArtScreen extends ConsumerWidget {
               height: paletteWidth * 2,
               child: GridView.builder(
                 padding: EdgeInsets.zero,
-                gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 9,
                 ),
                 itemCount: state.arrayDeque.length,
@@ -138,8 +202,7 @@ class PixelArtScreen extends ConsumerWidget {
                               children: [
                                 ColorPicker(
                                   pickerColor: state.selectedColor,
-                                  onColorChanged:
-                                      viewModel.setSelectedColor,
+                                  onColorChanged: viewModel.setSelectedColor,
                                   pickerAreaBorderRadius:
                                       const BorderRadius.all(
                                     Radius.circular(20),
