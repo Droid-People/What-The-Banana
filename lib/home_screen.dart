@@ -167,10 +167,44 @@ class _HomeScreenState extends State<HomeScreen> {
             //   child: Assets.images.ghostLeg.image(),
             // ),
             38.verticalSpace,
-            SmallText('HAVE A NICE DAY.'),
-            38.verticalSpace,
-            SmallText('GOOD LUCK'),
-            38.verticalSpace,
+            Stack(
+              children: [
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 39),
+                    child: SmallText('HAVE A NICE DAY.'),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 40),
+                    child: Assets.images.bananaSubFirst.image(),
+                  ),
+                ),
+              ],
+            ),
+            24.verticalSpace,
+            Stack(
+              children: [
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 38),
+                    child: SmallText('GOOD LUCK'),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 35),
+                    child: Assets.images.bananaSubSecond.image(),
+                  ),
+                ),
+              ],
+            ),
+            15.verticalSpace,
             AdsButton(),
             66.verticalSpace,
             SmallText('GOOD BANANA'),
@@ -292,7 +326,7 @@ class _HomeScreenState extends State<HomeScreen> {
   GestureDetector AdsButton() {
     return GestureDetector(
       onTap: () {
-        if(defaultTargetPlatform == TargetPlatform.iOS) {
+        if (defaultTargetPlatform == TargetPlatform.iOS) {
           Permission.appTrackingTransparency.request();
         }
         context.go(Routes.ads);
