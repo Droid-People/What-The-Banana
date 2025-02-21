@@ -1,0 +1,8 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by Kangmin Jin on 2/21/25.
+  
+*/
+NSUserTrackingUsageDescription="사용자의 관심사에 맞춘 광고를 받으려면 추적을 허용하세요.";

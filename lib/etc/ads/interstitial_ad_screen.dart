@@ -86,6 +86,9 @@ class _InterstitialAdScreenState extends State<InterstitialAdScreen> {
         backgroundColor: ColorName.yellowBackground,
       ),
       backgroundColor: ColorName.yellowBackground,
+      body: const Center(
+        child: Text('Interstitial Ad Screen', style: TextStyle(fontSize: 24)),
+      ),
     );
   }
 }

@@ -53,6 +53,9 @@ class _OpenAppAdScreenState extends State<OpenAppAdScreen> {
         ),
       ),
       backgroundColor: ColorName.yellowBackground,
+      body: const Center(
+        child: Text('Open App Ad Screen', style: TextStyle(fontSize: 24)),
+      ),
     );
   }
 }

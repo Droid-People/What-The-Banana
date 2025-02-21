@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:what_the_banana/gen/assets.gen.dart';
 import 'package:what_the_banana/gen/colors.gen.dart';
 import 'package:what_the_banana/routes.dart';
@@ -68,10 +70,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Stack(
               children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: DonationButton(),
-                ),
+                // Align(
+                //   alignment: Alignment.topRight,
+                //   child: DonationButton(),
+                // ),
                 Align(
                   alignment: Alignment.topCenter,
                   child: FirstText(),
@@ -79,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             15.verticalSpace,
-            RouletteButton(),
+            // RouletteButton(),
             8.verticalSpace,
             Stack(
               children: [
@@ -93,12 +95,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            GestureDetector(
-              onTap: () {
-                context.go(Routes.qrMaker);
-              },
-              child: Assets.images.qrMaker.image(),
-            ),
+            CounterButton(),
+            // GestureDetector(
+            //   onTap: () {
+            //     context.go(Routes.qrMaker);
+            //   },
+            //   child: Assets.images.qrMaker.image(),
+            // ),
             18.verticalSpace,
             Stack(
               children: [
@@ -125,12 +128,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             7.verticalSpace,
-            GestureDetector(
-              onTap: () {
-                context.go(Routes.paceCounter);
-              },
-              child: Assets.images.paceCounters.image(),
-            ),
+            // GestureDetector(
+            //   onTap: () {
+            //     context.go(Routes.paceCounter);
+            //   },
+            //   child: Assets.images.paceCounters.image(),
+            // ),
             18.verticalSpace,
             Stack(
               children: [
@@ -157,16 +160,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            GestureDetector(
-              onTap: () {
-                context.go(Routes.ghostLeg);
-              },
-              child: Assets.images.ghostLeg.image(),
-            ),
+            // GestureDetector(
+            //   onTap: () {
+            //     context.go(Routes.ghostLeg);
+            //   },
+            //   child: Assets.images.ghostLeg.image(),
+            // ),
             38.verticalSpace,
             SmallText('HAVE A NICE DAY.'),
-            38.verticalSpace,
-            CounterButton(),
             38.verticalSpace,
             SmallText('GOOD LUCK'),
             38.verticalSpace,
@@ -255,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget DonationButton() {
     return GestureDetector(
       onTap: () {
-        context.go(Routes.donation);
+        // context.go(Routes.donation);
       },
       child: Container(
         margin: const EdgeInsets.only(right: 24),
@@ -291,6 +292,9 @@ class _HomeScreenState extends State<HomeScreen> {
   GestureDetector AdsButton() {
     return GestureDetector(
       onTap: () {
+        if(defaultTargetPlatform == TargetPlatform.iOS) {
+          Permission.appTrackingTransparency.request();
+        }
         context.go(Routes.ads);
       },
       child: Assets.images.adButton.image(),

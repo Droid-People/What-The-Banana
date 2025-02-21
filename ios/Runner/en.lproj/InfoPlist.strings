@@ -1,0 +1,8 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by Kangmin Jin on 2/21/25.
+  
+*/
+NSUserTrackingUsageDescription="Allow tracking to receive more relevant advertisements tailored to your interests.";

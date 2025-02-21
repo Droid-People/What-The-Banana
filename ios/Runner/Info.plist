@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>Allow tracking to receive more relevant advertisements tailored to your interests.</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>NSCameraUsageDescription</key>
@@ -54,11 +56,11 @@
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-4452713350716636~6338687417</string>
 	<key>CFBundleLocalizations</key>
-    <array>
-    	<string>en</string>
-    	<string>ko</string>
-    	<string>ja</string>
-    	<string>zh</string>
-    </array>
+	<array>
+		<string>en</string>
+		<string>ko</string>
+		<string>ja</string>
+		<string>zh</string>
+	</array>
 </dict>
 </plist>
