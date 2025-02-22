@@ -12,7 +12,7 @@ class CreatorsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Creators',),
+        title: const Text('CREATORS',),
         backgroundColor: ColorName.yellowBackground,
         elevation: 0,
         scrolledUnderElevation: 0,

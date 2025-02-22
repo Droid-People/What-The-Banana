@@ -43,7 +43,7 @@ class _CounterScreenState extends State<CounterScreen> {
   Scaffold HorizontalView(BuildContext context, int maxLines) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dual Counter', style: TextStyle(color: Colors.white)),
+        title: const Text('DUAL COUNTER', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.black,
         leading: BackImage(context, color: Colors.white),
       ),
@@ -71,7 +71,7 @@ class _CounterScreenState extends State<CounterScreen> {
   Widget VerticalView(BuildContext context, int maxLines) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dual Counter'),
+        title: const Text('DUAL COUNTER'),
         leading: BackImage(context),
       ),
       body: SafeArea(
@@ -556,7 +556,7 @@ class _CounterScreenState extends State<CounterScreen> {
         return const AlertDialog(
           title: Text(
             '평화교회 청년부(4부) 예배에 오신 것을 환영합니다!',
-            style: TextStyle(fontFamily: FontFamily.pixelFont, fontSize: 30),
+            style: TextStyle(fontFamily: FontFamily.inter, fontSize: 30),
           ),
           backgroundColor: Colors.white,
           content: Text(

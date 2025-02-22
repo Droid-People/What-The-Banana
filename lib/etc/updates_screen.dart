@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:what_the_banana/gen/assets.gen.dart';
 import 'package:what_the_banana/gen/colors.gen.dart';
 
 class UpdatesScreen extends StatefulWidget {
@@ -54,29 +55,38 @@ class _UpdatesScreenState extends State<UpdatesScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: const Text('updates').tr(),
+        scrolledUnderElevation: 0,
       ),
       backgroundColor: ColorName.homeMainBackground,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
-            children: updates.map((update) {
-              return Column(
-                children: [
-                  Text(update['version']!, style: const TextStyle(fontSize: 24)),
-                  Text(update['date']!),
-                  8.verticalSpace,
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Text(update['content']!),
-                    ),
-                  ),
-                  const Divider(),
-                ],
-              );
-            }).toList(),
+            children: [
+              Column(
+                children: updates.map((update) {
+                  return Column(
+                    children: [
+                      Text(update['version']!, style: const TextStyle(fontSize: 24)),
+                      Text(update['date']!),
+                      8.verticalSpace,
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: Text(update['content']!),
+                        ),
+                      ),
+                      const Divider(),
+                    ],
+                  );
+                }).toList(),
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 32),
+                child: Assets.images.smallBananaOnPlate.image(),
+              ),
+            ],
           ),
         ),
       ),

@@ -10,6 +10,9 @@
 class FontFamily {
   FontFamily._();
 
+  /// Font family: Hannah
+  static const String hannah = 'Hannah';
+
   /// Font family: Inter
   static const String inter = 'Inter';
 
@@ -18,4 +21,7 @@ class FontFamily {
 
   /// Font family: UnkemptBold
   static const String unkemptBold = 'UnkemptBold';
+
+  /// Font family: ssronet
+  static const String ssronet = 'ssronet';
 }

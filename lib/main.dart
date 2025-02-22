@@ -69,7 +69,8 @@ class MyApp extends StatelessWidget {
                 fontSize: 30,
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
-                fontFamily: FontFamily.unkemptBold,
+                fontFamily: FontFamily.hannah,
+                fontFamilyFallback: [FontFamily.unkemptBold, FontFamily.ssronet],
               ),
               backgroundColor: ColorName.homeMainBackground,
             ),
@@ -86,7 +87,7 @@ class MyApp extends StatelessWidget {
               labelMedium: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                fontFamily: FontFamily.pixelFont,
+                fontFamily: FontFamily.inter,
                 height: 1.2,
               ),
               labelSmall: TextStyle(

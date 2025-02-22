@@ -1,108 +1,132 @@
 import 'package:flutter/material.dart';
 import 'package:what_the_banana/gen/fonts.gen.dart';
 
-class MarqueeWidget extends StatefulWidget {
-  const MarqueeWidget({super.key});
+class CustomMarquee extends StatefulWidget {
+  const CustomMarquee({super.key});
 
   @override
-  State<MarqueeWidget> createState() => _MarqueeWidgetState();
+  State<CustomMarquee> createState() => _CustomMarqueeState();
 }
 
-class _MarqueeWidgetState extends State<MarqueeWidget>
+class _CustomMarqueeState extends State<CustomMarquee>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-  late final Animation<double> _animation;
+  late AnimationController _controller;
+  late ScrollController _scrollController;
+  double textWidth = 0;
+
+  static const String marqueeText =
+      'WHAT THE BANXNX WHAT THE BANXNX WHAT THE BANXNX WHAT THE BANXNX ';
 
   @override
   void initState() {
     super.initState();
+
+    // AnimationController 설정
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 8),
-    )..repeat();
+      duration: const Duration(seconds: 30), // 한 바퀴 스크롤 시간
+    )..repeat(); // 무한 반복
 
-    _animation = Tween<double>(
-      begin: 0,
-      end: -1,
-    ).animate(_controller);
+    _scrollController = ScrollController();
+
+    // 애니메이션과 스크롤 연결
+    _controller.addListener(() {
+      if (_scrollController.hasClients) {
+        final maxScroll = _scrollController.position.maxScrollExtent;
+        final progress = _controller.value;
+        _scrollController.jumpTo(progress * maxScroll);
+      }
+    });
+
+    // 텍스트 너비 계산을 위해 위젯 빌드 후 실행
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _calculateTextWidth();
+    });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-
-    return ClipRect(
-      child: Stack(
-        children: [
-          // 첫 번째 텍스트
-          AnimatedMarqueeText(
-            animation: _animation,
-            screenWidth: screenWidth,
-            key: const ValueKey(1), // ✅ Key 추가
-          ),
-
-          // 두 번째 텍스트 (첫 번째보다 반 텀 늦게 시작)
-          AnimatedMarqueeText(
-            animation: Tween<double>(begin: 1, end: 0).animate(_controller),
-            screenWidth: screenWidth,
-            key: const ValueKey(2), // ✅ Key 추가
-          ),
-        ],
+  // 텍스트 너비 계산
+  void _calculateTextWidth() {
+    const textSpan = TextSpan(
+      text: marqueeText,
+      style: TextStyle(
+        fontSize: 8,
+        fontFamily: FontFamily.inter,
+        overflow: TextOverflow.visible,
       ),
     );
+    final textPainter = TextPainter(
+      text: textSpan,
+      textDirection: TextDirection.ltr,
+    )..layout();
+    setState(() {
+      textWidth = textPainter.width;
+    });
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
-}
-
-class AnimatedMarqueeText extends StatelessWidget {
-  const AnimatedMarqueeText({
-    required this.animation,
-    required this.screenWidth,
-    super.key,
-  });
-
-  final Animation<double> animation;
-  final double screenWidth;
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: animation,
-      builder: (context, _) {
-        return Transform.translate(
-          offset: Offset(animation.value * screenWidth, 0),
-          child: SizedBox(
-            width: screenWidth,
-            child: Column(
-              children: [
-                LongText(),
-                LongText(),
-                LongText(),
-                LongText(),
-              ],
-            ),
-          ),
-        );
-      },
+    return SizedBox(
+      height: 50, // Marquee 높이
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        scrollDirection: Axis.horizontal,
+        physics: const NeverScrollableScrollPhysics(), // 사용자 스크롤 비활성화
+        child: Row(
+          children: _buildInfiniteText(),
+        ),
+      ),
     );
   }
-}
 
-Widget LongText() {
-  return const Text(
-    ' WHAT TH BXNXNX WHAT TH BXNXNX WHAT TH BXNXNX WHAT TH BXNXNX WHAT TH BXNXNX ',
-    style: TextStyle(
-      color: Colors.black,
-      fontSize: 8,
-      fontFamily: FontFamily.inter,
-      height: 9.5 / 8,
-      overflow: TextOverflow.visible,
-    ),
-    softWrap: false,
-  );
+  // 텍스트를 반복하여 무한 루프처럼 보이게 만듦
+  List<Widget> _buildInfiniteText() {
+    if (textWidth == 0) {
+      return [
+        Column(
+          children: [
+            LongText(),
+            LongText(),
+            LongText(),
+            LongText(),
+          ],
+        ),
+      ]; // 초기 렌더링 시
+    }
+
+    final screenWidth = MediaQuery.of(context).size.width;
+    // 화면 너비와 텍스트 너비를 기반으로 필요한 반복 횟수 계산
+    final repeatCount = (screenWidth / textWidth).ceil() + 1;
+
+    return List.generate(
+      repeatCount * 2, // 충분히 많은 반복으로 끊김 방지
+      (index) => Column(
+        children: [
+          LongText(),
+          LongText(),
+          LongText(),
+          LongText(),
+        ],
+      ),
+    );
+  }
+
+  Widget LongText() {
+    return const Text(
+      marqueeText,
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: 8,
+        fontFamily: FontFamily.inter,
+        height: 9.5 / 8,
+        overflow: TextOverflow.visible,
+      ),
+    );
+  }
 }

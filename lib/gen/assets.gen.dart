@@ -22,17 +22,21 @@ class $AssetsImagesGen {
   /// File path: assets/images/banana.webp
   AssetGenImage get banana => const AssetGenImage('assets/images/banana.webp');
 
+  /// File path: assets/images/banana_first.webp
+  AssetGenImage get bananaFirst =>
+      const AssetGenImage('assets/images/banana_first.webp');
+
   /// File path: assets/images/banana_on_plate.webp
   AssetGenImage get bananaOnPlate =>
       const AssetGenImage('assets/images/banana_on_plate.webp');
 
-  /// File path: assets/images/banana_sub_first.webp
-  AssetGenImage get bananaSubFirst =>
-      const AssetGenImage('assets/images/banana_sub_first.webp');
+  /// File path: assets/images/banana_second.webp
+  AssetGenImage get bananaSecond =>
+      const AssetGenImage('assets/images/banana_second.webp');
 
-  /// File path: assets/images/banana_sub_second.webp
-  AssetGenImage get bananaSubSecond =>
-      const AssetGenImage('assets/images/banana_sub_second.webp');
+  /// File path: assets/images/banana_third.webp
+  AssetGenImage get bananaThird =>
+      const AssetGenImage('assets/images/banana_third.webp');
 
   /// File path: assets/images/big_banana.webp
   AssetGenImage get bigBanana =>
@@ -104,8 +108,9 @@ class $AssetsImagesGen {
   AssetGenImage get hyegyeongProfile =>
       const AssetGenImage('assets/images/hyegyeong_profile.webp');
 
-  /// File path: assets/images/introduction.svg
-  String get introduction => 'assets/images/introduction.svg';
+  /// File path: assets/images/introduction.webp
+  AssetGenImage get introduction =>
+      const AssetGenImage('assets/images/introduction.webp');
 
   /// File path: assets/images/japanese.webp
   AssetGenImage get japanese =>
@@ -161,6 +166,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/update.webp
   AssetGenImage get update => const AssetGenImage('assets/images/update.webp');
 
+  /// File path: assets/images/wtb_round_text.webp
+  AssetGenImage get wtbRoundText =>
+      const AssetGenImage('assets/images/wtb_round_text.webp');
+
   /// File path: assets/images/yewon_profile.webp
   AssetGenImage get yewonProfile =>
       const AssetGenImage('assets/images/yewon_profile.webp');
@@ -170,9 +179,10 @@ class $AssetsImagesGen {
         adButton,
         backButton,
         banana,
+        bananaFirst,
         bananaOnPlate,
-        bananaSubFirst,
-        bananaSubSecond,
+        bananaSecond,
+        bananaThird,
         bigBanana,
         bigEarth,
         checked,
@@ -206,6 +216,7 @@ class $AssetsImagesGen {
         starButterfly,
         thirdBanana,
         update,
+        wtbRoundText,
         yewonProfile
       ];
 }
@@ -244,8 +255,14 @@ class $AssetsUpdateNotesGen {
   /// File path: assets/update_notes/v1.0.4.json
   String get v104 => 'assets/update_notes/v1.0.4.json';
 
+  /// File path: assets/update_notes/v1.0.5.json
+  String get v105 => 'assets/update_notes/v1.0.5.json';
+
+  /// File path: assets/update_notes/v1.0.6.json
+  String get v106 => 'assets/update_notes/v1.0.6.json';
+
   /// List of all assets
-  List<String> get values => [v100, v102, v103, v104];
+  List<String> get values => [v100, v102, v103, v104, v105, v106];
 }
 
 class Assets {
