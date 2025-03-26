@@ -60,6 +60,10 @@ dependencies:
   # donation
   flutter_paypal_payment: ^1.0.8
 
+  # qr maker
+  qr_flutter: ^4.1.0
+  image_gallery_saver_plus: ^4.0.1
+
 
 dev_dependencies:
   flutter_test:

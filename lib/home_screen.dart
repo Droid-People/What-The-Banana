@@ -170,6 +170,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             26.verticalSpace,
+            QrMakerButton(),
+            // TODO(yewon-yw) 홈화면 수정 필요
             AdsButton(),
             9.verticalSpace,
             Stack(
@@ -321,6 +323,15 @@ class _HomeScreenState extends State<HomeScreen> {
         context.go(Routes.roulette);
       },
       child: Assets.images.roulette.image(),
+    );
+  }
+
+  GestureDetector QrMakerButton() {
+    return GestureDetector(
+      onTap: () {
+        context.go(Routes.qrMaker);
+      },
+      child: Assets.images.qrMaker.image(),
     );
   }
 
