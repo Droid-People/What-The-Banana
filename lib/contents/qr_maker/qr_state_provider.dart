@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
@@ -49,13 +50,16 @@ class QrStateNotifier extends Notifier<QrState> {
       final image = await boundary.toImage(pixelRatio: 3);
       final byteData = await image.toByteData(format: ImageByteFormat.png);
       if (byteData == null) {
-        showMessage('Failed to save QR code');
+        showMessage('qr_save_fail');
         return;
       }
       await ImageGallerySaverPlus.saveImage(byteData.buffer.asUint8List());
-      showMessage('QR code saved');
+      showMessage('qr_save_success');
     } on Exception catch (e) {
-      showMessage('Failed to save QR code $e');
+      showMessage('qr_save_fail');
+      if (kDebugMode) {
+        print('qr_error $e');
+      }
     }
   }
 }

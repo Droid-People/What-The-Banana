@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -20,12 +21,12 @@ class QrMakerScreen extends ConsumerWidget {
     final viewModel = ref.read(QrStateNotifierProvider.notifier);
 
     void showSnackBar(String text) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text).tr()));
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('QR MAKER'),
+        title: const Text('qr_maker_title').tr(),
         leading: BackImage(context),
       ),
       body: SingleChildScrollView(
@@ -48,16 +49,16 @@ class QrMakerScreen extends ConsumerWidget {
                   viewModel.updateImageSize,
                 ),
               QrMakerButton(
-                'Save QR Code',
+                'qr_save',
                 () async {
                   await viewModel.saveQrCode(qrKey, showSnackBar);
                 },
               ),
               if (qrState.imagePath.isEmpty)
-                QrMakerButton('Add Image', viewModel.getImage)
+                QrMakerButton('qr_add_image', viewModel.getImage)
               else
                 QrMakerButton(
-                  'Remove Image',
+                  'qr_remove_image',
                   viewModel.removeImagePath,
                 ),
               const SizedBox(height: 20),
@@ -84,7 +85,7 @@ Widget QrMakerButton(String text, void Function() onPressed) {
         child: Text(
           text,
           style: const TextStyle(fontSize: 21),
-        ),
+        ).tr(),
       ),
     ),
   );

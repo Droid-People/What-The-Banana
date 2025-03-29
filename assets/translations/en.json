@@ -11,5 +11,11 @@
   "appDescription": "This is an app where we can freely create whatever we want.\nYou can choose from various features like pixel art drawing, counter, (roulette, QR code generator, pedometer, ladder game) and more from the home screen!\nIn the future, we may add more features based on your suggestions, so feel free to share your ideas with us anytime!\nAs for why the banana? Well, just because!",
   "not_ready": "This feature is not ready yet.\nPlease wait for the next update!",
   "tap_description": "Tap to enter a name",
-  "ads": "Show Ads"
+  "ads": "Show Ads",
+  "qr_maker_title": "QR Maker",
+  "qr_save": "Save QR Code",
+  "qr_add_image": "Add Image",
+  "qr_remove_image": "Remove Image",
+  "qr_save_fail": "Failed to save QR code",
+  "qr_save_success": "QR code saved"
 }
