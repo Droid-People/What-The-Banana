@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:what_the_banana/contents/counter/counter_screen.dart';
 import 'package:what_the_banana/contents/ghost_leg_screen.dart';
-import 'package:what_the_banana/contents/pace_counter_screen.dart';
+import 'package:what_the_banana/contents/pace_counter/pace_counter_screen.dart';
 import 'package:what_the_banana/contents/pixel_art/crop_screen.dart';
 import 'package:what_the_banana/contents/pixel_art/pixel_art_screen.dart';
 import 'package:what_the_banana/contents/qr_maker_screen.dart';
