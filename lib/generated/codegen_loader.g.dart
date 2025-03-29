@@ -29,9 +29,6 @@ class CodegenLoader extends AssetLoader{
   "tap_description": "点击输入名称",
   "ads": "显示广告",
   "qr_maker_title": "QR 生成器",
-  "qr_save": "保存二维码",
-  "qr_add_image": "添加图片",
-  "qr_remove_image": "移除图片",
   "qr_save_fail": "无法保存二维码。",
   "qr_save_success": "二维码已保存。"
 };
@@ -50,9 +47,6 @@ static const Map<String,dynamic> _ja = {
   "tap_description": "タップして名前を入力",
   "ads": "広告を表示",
   "qr_maker_title": "QRメーカー",
-  "qr_save": "QRコード保存",
-  "qr_add_image": "画像を追加",
-  "qr_remove_image": "画像を削除",
   "qr_save_fail": "QRコードの保存に失敗しました。",
   "qr_save_success": "QRコードを保存しました。"
 };
@@ -71,9 +65,6 @@ static const Map<String,dynamic> _en = {
   "tap_description": "Tap to enter a name",
   "ads": "Show Ads",
   "qr_maker_title": "QR Maker",
-  "qr_save": "Save QR Code",
-  "qr_add_image": "Add Image",
-  "qr_remove_image": "Remove Image",
   "qr_save_fail": "Failed to save QR code",
   "qr_save_success": "QR code saved"
 };
@@ -92,9 +83,6 @@ static const Map<String,dynamic> _ko = {
   "tap_description": "탭하여 이름을 입력하세요",
   "ads": "광고 보기",
   "qr_maker_title": "QR 메이커",
-  "qr_save": "QR 코드 저장",
-  "qr_add_image": "이미지 추가",
-  "qr_remove_image": "이미지 제거",
   "qr_save_fail": "QR 코드를 저장하는데 실패했습니다.",
   "qr_save_success": "QR 코드를 저장했습니다."
 };

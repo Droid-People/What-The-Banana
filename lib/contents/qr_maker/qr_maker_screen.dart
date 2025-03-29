@@ -10,6 +10,10 @@ import 'package:what_the_banana/ui/back_button.dart';
 
 final qrKeyProvider = Provider<GlobalKey>((ref) => GlobalKey());
 
+const double qrCodeSize = 250;
+const double iconSize = 35;
+const double maxImageSize = 60;
+
 // TODO(yewon-yw): 광고 배너, 슬라이더
 class QrMakerScreen extends ConsumerWidget {
   const QrMakerScreen({super.key});
@@ -21,7 +25,8 @@ class QrMakerScreen extends ConsumerWidget {
     final viewModel = ref.read(QrStateNotifierProvider.notifier);
 
     void showSnackBar(String text) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text).tr()));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(text).tr()));
     }
 
     return Scaffold(
@@ -34,7 +39,19 @@ class QrMakerScreen extends ConsumerWidget {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              QrView(qrKey, qrState),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  QrView(qrKey, qrState),
+                  QrIconButtons(
+                    () async {
+                      await viewModel.saveQrCode(qrKey, showSnackBar);
+                    },
+                    viewModel.getImage,
+                    viewModel.removeImagePath,
+                  ),
+                ],
+              ),
               const SizedBox(height: 20),
               QrMakerTextField(
                 qrState.data,
@@ -48,20 +65,6 @@ class QrMakerScreen extends ConsumerWidget {
                   qrState.imageSize,
                   viewModel.updateImageSize,
                 ),
-              QrMakerButton(
-                'qr_save',
-                () async {
-                  await viewModel.saveQrCode(qrKey, showSnackBar);
-                },
-              ),
-              if (qrState.imagePath.isEmpty)
-                QrMakerButton('qr_add_image', viewModel.getImage)
-              else
-                QrMakerButton(
-                  'qr_remove_image',
-                  viewModel.removeImagePath,
-                ),
-              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -70,40 +73,49 @@ class QrMakerScreen extends ConsumerWidget {
   }
 }
 
-Widget QrMakerButton(String text, void Function() onPressed) {
-  return GestureDetector(
-    onTap: onPressed,
-    child: Container(
-      height: 48,
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(width: 1.5),
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Center(
-        child: Text(
-          text,
-          style: const TextStyle(fontSize: 21),
-        ).tr(),
-      ),
-    ),
-  );
-}
-
 Widget QrView(GlobalKey qrKey, QrState qrState) {
   return RepaintBoundary(
     key: qrKey,
     child: QrImageView(
       backgroundColor: Colors.white,
       data: qrState.data,
-      size: 200,
+      size: qrCodeSize,
       embeddedImage: FileImage(File(qrState.imagePath)),
       embeddedImageStyle: QrEmbeddedImageStyle(
         size: Size(qrState.imageSize, qrState.imageSize),
       ),
       errorCorrectionLevel: QrErrorCorrectLevel.H,
     ),
+  );
+}
+
+Widget QrIconButtons(
+  Future<void> Function() saveQrCode,
+  void Function() getImage,
+  void Function() removeImage,
+) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: [
+      IconButton(
+        icon: const Icon(Icons.download, size: iconSize),
+        onPressed: saveQrCode,
+      ),
+      IconButton(
+        icon: const Icon(
+          Icons.image_search,
+          size: iconSize,
+        ),
+        onPressed: getImage,
+      ),
+      IconButton(
+        icon: const Icon(
+          Icons.delete,
+          size: iconSize,
+        ),
+        onPressed: removeImage,
+      ),
+    ],
   );
 }
 
@@ -143,17 +155,13 @@ Widget ImageSizeSlider(
   double imageSize,
   void Function(double) updateImageSize,
 ) {
-  return Column(
-    children: [
-      Slider(
-        value: imageSize,
-        onChanged: updateImageSize,
-        max: 60,
-        min: 1,
-        thumbColor: Colors.amberAccent,
-        activeColor: Colors.amberAccent,
-        inactiveColor: Colors.white70,
-      ),
-    ],
+  return Slider(
+    value: imageSize,
+    onChanged: updateImageSize,
+    max: maxImageSize,
+    min: 1,
+    thumbColor: Colors.amberAccent,
+    activeColor: Colors.amberAccent,
+    inactiveColor: Colors.white70,
   );
 }

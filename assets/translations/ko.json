@@ -13,9 +13,6 @@
   "tap_description": "탭하여 이름을 입력하세요",
   "ads": "광고 보기",
   "qr_maker_title": "QR 메이커",
-  "qr_save": "QR 코드 저장",
-  "qr_add_image": "이미지 추가",
-  "qr_remove_image": "이미지 제거",
   "qr_save_fail": "QR 코드를 저장하는데 실패했습니다.",
   "qr_save_success": "QR 코드를 저장했습니다."
 }

@@ -13,9 +13,6 @@
   "tap_description": "Tap to enter a name",
   "ads": "Show Ads",
   "qr_maker_title": "QR Maker",
-  "qr_save": "Save QR Code",
-  "qr_add_image": "Add Image",
-  "qr_remove_image": "Remove Image",
   "qr_save_fail": "Failed to save QR code",
   "qr_save_success": "QR code saved"
 }

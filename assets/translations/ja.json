@@ -13,9 +13,6 @@
   "tap_description": "タップして名前を入力",
   "ads": "広告を表示",
   "qr_maker_title": "QRメーカー",
-  "qr_save": "QRコード保存",
-  "qr_add_image": "画像を追加",
-  "qr_remove_image": "画像を削除",
   "qr_save_fail": "QRコードの保存に失敗しました。",
   "qr_save_success": "QRコードを保存しました。"
 }

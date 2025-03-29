@@ -13,9 +13,6 @@
   "tap_description": "点击输入名称",
   "ads": "显示广告",
   "qr_maker_title": "QR 生成器",
-  "qr_save": "保存二维码",
-  "qr_add_image": "添加图片",
-  "qr_remove_image": "移除图片",
   "qr_save_fail": "无法保存二维码。",
   "qr_save_success": "二维码已保存。"
 }
