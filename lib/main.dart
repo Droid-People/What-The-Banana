@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
             ),
             appBarTheme: const AppBarTheme(
               titleTextStyle: TextStyle(
-                fontSize: 30,
+                fontSize: 50,
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontFamily: FontFamily.hannah,

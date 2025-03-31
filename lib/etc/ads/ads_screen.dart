@@ -16,7 +16,6 @@ class AdsScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text(
           'ads',
-          style: TextStyle(fontSize: 36),
         ).tr(),
         leading: BackImage(context),
         backgroundColor: ColorName.yellowBackground,

@@ -99,7 +99,7 @@ flutter:
         - asset: assets/fonts/inter.ttf
     - family: Hannah
       fonts:
-        - asset: assets/fonts/bananahanna_regular.ttf
+        - asset: assets/fonts/hannabanana.otf
     - family: ssronet
       fonts:
         - asset: assets/fonts/ssronet.otf

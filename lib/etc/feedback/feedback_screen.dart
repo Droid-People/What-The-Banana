@@ -41,6 +41,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                     'feedback_title',
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontFamily: FontFamily.hannah,
+                      fontSize: 60,
                     ),
                   ).tr(),
                   Text(
