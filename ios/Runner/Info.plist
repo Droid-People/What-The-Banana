@@ -58,11 +58,17 @@
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-4452713350716636~6338687417</string>
 	<key>CFBundleLocalizations</key>
-	<array>
-		<string>en</string>
-		<string>ko</string>
-		<string>ja</string>
-		<string>zh</string>
-	</array>
+    <array>
+    	<string>en</string>
+    	<string>ko</string>
+    	<string>ja</string>
+    	<string>zh</string>
+    </array>
+    <key>NSMotionUsageDescription</key>
+    <string>This application tracks your steps</string>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>processing</string>
+    </array>
 </dict>
 </plist>
