@@ -37,8 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _loadAd() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final size =
-          await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+      final size = await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
         MediaQuery.sizeOf(context).width.truncate() - 32,
       );
       if (size == null) return;
@@ -103,16 +102,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            21.verticalSpace,
+            17.verticalSpace,
             Stack(
               children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    margin: const EdgeInsets.only(left: 50),
-                    child: Assets.images.bananaFirst.image(),
-                  ),
-                ),
                 Align(
                   alignment: Alignment.topCenter,
                   child: FirstText(),
@@ -131,28 +123,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            23.verticalSpace,
+            28.verticalSpace,
             CounterButton(),
-            18.verticalSpace,
+            13.verticalSpace,
             Stack(
               children: [
                 Align(
                   alignment: Alignment.topCenter,
                   child: Container(
                     margin: const EdgeInsets.only(
-                      top: 7,
+                      top: 37,
                     ),
-                    child: Column(
-                      children: [
-                        SmallText('DOWN, DOWN'),
-                        15.verticalSpace,
-                        SmallText(
-                          "DON'T STOP\nCHEER UP",
-                          textAlign: TextAlign.center,
-                        ),
-                        14.verticalSpace,
-                        SmallText('HAVE A NICE DAY.'),
-                      ],
+                    child: SmallText(
+                      'Click on\nthe function you want',
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),
@@ -160,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   alignment: Alignment.topRight,
                   child: Container(
                     margin: const EdgeInsets.only(right: 43),
-                    child: Assets.images.bananaSecond.image(),
+                    child: Assets.images.bananaForth.image(),
                   ),
                 ),
                 Align(
@@ -169,11 +153,70 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            26.verticalSpace,
+            23.verticalSpace,
             QrMakerButton(),
-            // TODO(yewon-yw) 홈화면 수정 필요
+            33.verticalSpace,
+            Stack(
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 42),
+                    child: Assets.images.bananaFirst.image(),
+                  ),
+                ),
+                Center(
+                  child: Column(
+                    children: [
+                      SmallText('DOWN, DOWN'),
+                      15.verticalSpace,
+                      SmallText(
+                        "DON'T STOP\nCHEER UP",
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 23),
+                    child: Assets.images.update.image(),
+                  ),
+                ),
+              ],
+            ),
+            12.verticalSpace,
+            GestureDetector(
+              onTap: () {
+                context.go(Routes.paceCounter);
+              },
+              child: Assets.images.paceCounters.image(),
+            ),
+            14.verticalSpace,
+            Stack(
+              children: [
+                Center(
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 30),
+                    child: SmallText('HAVE A NICE DAY.'),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                      top: 14,
+                      right: 41,
+                    ),
+                    child: Assets.images.bananaSecond.image(),
+                  ),
+                ),
+              ],
+            ),
+            23.verticalSpace,
             AdsButton(),
-            9.verticalSpace,
+            23.verticalSpace,
             Stack(
               children: [
                 Align(
@@ -195,21 +238,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: GestureDetector(
-                    onTap: () {
-                      context.go(Routes.updates);
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(left: 31),
-                      child: Assets.images.update.image(),
-                    ),
-                  ),
+                Container(
+                  margin: const EdgeInsets.only(left: 42),
+                  child: Assets.images.bananaThird.image(),
                 ),
               ],
             ),
-            23.verticalSpace,
+            29.verticalSpace,
             Stack(
               alignment: Alignment.topCenter,
               children: [
@@ -224,7 +259,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            28.verticalSpace,
+            41.verticalSpace,
             BottomAdView(),
             50.verticalSpace,
           ],
@@ -348,14 +383,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+        14.verticalSpace,
         SmallText('HELLO'),
         13.verticalSpace,
         SmallText('WELCOME TO\nWTB', textAlign: TextAlign.center),
-        11.verticalSpace,
-        SmallText(
-          'Click on\nthe function you want',
-          textAlign: TextAlign.center,
-        ),
       ],
     );
   }
@@ -390,7 +421,7 @@ class _HomeScreenState extends State<HomeScreen> {
         context.go(Routes.creators);
       },
       child: Container(
-        margin: const EdgeInsets.only(left: 35, top: 5),
+        margin: const EdgeInsets.only(left: 35, top: 16),
         child: Assets.images.creators.image(),
       ),
     );

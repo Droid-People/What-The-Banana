@@ -26,6 +26,10 @@ class $AssetsImagesGen {
   AssetGenImage get bananaFirst =>
       const AssetGenImage('assets/images/banana_first.webp');
 
+  /// File path: assets/images/banana_forth.webp
+  AssetGenImage get bananaForth =>
+      const AssetGenImage('assets/images/banana_forth.webp');
+
   /// File path: assets/images/banana_on_plate.webp
   AssetGenImage get bananaOnPlate =>
       const AssetGenImage('assets/images/banana_on_plate.webp');
@@ -180,6 +184,7 @@ class $AssetsImagesGen {
         backButton,
         banana,
         bananaFirst,
+        bananaForth,
         bananaOnPlate,
         bananaSecond,
         bananaThird,
