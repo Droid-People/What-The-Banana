@@ -11,18 +11,20 @@ class SingleRotatingBananaController {
     _controller = StreamController<String>();
   }
 
-  late final StreamController<String> _controller;
+  StreamController<String>? _controller;
 
   void send(String status) {
-    _controller.add(status);
+    _controller?.add(status);
   }
 
   void dispose() {
-    _controller.close();
+    _controller?.sink.close();
+    _controller?.close();
+    _controller = null;
   }
 
   void listen(void Function(dynamic event) callback) {
-    _controller.stream.listen((event) {
+    _controller?.stream.listen((event) {
       callback(event);
     });
   }

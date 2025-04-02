@@ -14,5 +14,16 @@
   "ads": "광고 보기",
   "qr_maker_title": "큐알 메이커",
   "qr_save_fail": "QR 코드를 저장하는데 실패했습니다.",
-  "qr_save_success": "QR 코드를 저장했습니다."
+  "qr_save_success": "QR 코드를 저장했습니다.",
+  "creators": "제작자들",
+  "pace_counter": "만보기",
+  "step_count": "걸음 수",
+  "start": "시작",
+  "stop": "정지",
+  "DeviceNotSupportedTitle": "이 기기로 걸음 수를 측정할 수 없습니다.",
+  "DeviceNotSupportedContent": "걸음 수를 추적하려면 모션 칩이 내장된 단말이 필요합니다",
+  "PermissionTitle": "권한 요청",
+  "PermissionContent": "이 앱은 활동 인식 권한이 필요합니다. 설정에서 권한을 허용해주세요.",
+  "confirm": "확인",
+  "cancel": "취소"
 }

@@ -19,11 +19,11 @@ class PaceCounterNotifier extends StateNotifier<StepCounterState> {
   int lastKnownStepsUntilYesterday = 0; // 부팅 시점부터 어제까지의 총 걸음 수
 
   final controller = SingleRotatingBananaController();
+  StreamSubscription<PedestrianStatus>? _statusStream;
 
   Future<void> initialize() async {
     _prefs = await SharedPreferences.getInstance();
-
-    Pedometer.pedestrianStatusStream.listen((PedestrianStatus data) {
+    _statusStream = Pedometer.pedestrianStatusStream.listen((PedestrianStatus data) {
       if (state.status != data.status) {
         controller.send(data.status);
       }
@@ -81,5 +81,15 @@ class PaceCounterNotifier extends StateNotifier<StepCounterState> {
   void stop() {
     _stepCountStream?.cancel();
     _stepCountStream = null;
+  }
+
+  @override
+  void dispose() {
+    Log.d('dispose');
+    _statusStream?.cancel();
+    _statusStream = null;
+    stop();
+    controller.dispose();
+    super.dispose();
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:what_the_banana/contents/pace_counter/pace_counter_provider.dart';
 import 'package:what_the_banana/contents/pace_counter/pace_counter_service.dart';
+import 'package:what_the_banana/gen/fonts.gen.dart';
 import 'package:what_the_banana/ui/back_button.dart';
 import 'package:what_the_banana/ui/single_rotating_banana.dart';
 
@@ -19,8 +21,7 @@ class PaceCounterScreen extends ConsumerStatefulWidget {
 }
 
 class _PaceCounterScreen extends ConsumerState<PaceCounterScreen> {
-
-  var buttonText = 'START';
+  var buttonText = 'start';
 
   @override
   void initState() {
@@ -59,8 +60,7 @@ class _PaceCounterScreen extends ConsumerState<PaceCounterScreen> {
     var granted = await Permission.activityRecognition.isGranted;
 
     if (!granted) {
-      granted = await Permission.activityRecognition.request() ==
-          PermissionStatus.granted;
+      granted = await Permission.activityRecognition.request() == PermissionStatus.granted;
     }
 
     return granted;
@@ -70,17 +70,17 @@ class _PaceCounterScreen extends ConsumerState<PaceCounterScreen> {
     showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('권한 필요'),
-        content: const Text('이 앱은 활동 인식 권한이 필요합니다. 설정에서 권한을 허용해주세요.'),
+        title: const Text('PermissionTitle').tr(),
+        content: const Text('PermissionContent').tr(),
         actions: <Widget>[
           TextButton(
-            child: const Text('확인'),
+            child: const Text('confirm').tr(),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           TextButton(
-            child: const Text('취소'),
+            child: const Text('cancel').tr(),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ],
@@ -92,11 +92,11 @@ class _PaceCounterScreen extends ConsumerState<PaceCounterScreen> {
     showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('이 기기로 걸음 수를 측정할 수 없습니다.'),
-        content: const Text('걸음 수를 추적하려면 모션 칩이 내장된 단말이 필요합니다'),
+        title: const Text('DeviceNotSupportedTitle').tr(),
+        content: const Text('DeviceNotSupportedContent').tr(),
         actions: <Widget>[
           TextButton(
-            child: const Text('확인'),
+            child: const Text('confirm', style: TextStyle(color: Colors.black),).tr(),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -110,63 +110,72 @@ class _PaceCounterScreen extends ConsumerState<PaceCounterScreen> {
   Widget build(BuildContext context) {
     final stepCounterState = ref.watch(paceCounterProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Pace Counter'),
-        leading: BackImage(context),
-      ),
-      body: SizedBox(
-        width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SingleRotatingBanana(ref.read(paceCounterProvider.notifier).controller),
-            100.verticalSpace,
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Step Count',
-                  style: TextStyle(fontSize: 24, height: 1),
-                ),
-                20.verticalSpace,
-                Text(
-                  '${stepCounterState.steps}',
-                  style: const TextStyle(fontSize: 60, height: 1),
-                ),
-                Text(
-                  '${stepCounterState.distanceInKm.toStringAsFixed(2)} km',
-                  style: const TextStyle(fontSize: 20, height: 1),
-                ),
-                16.verticalSpace,
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      if (buttonText == 'START') {
-                        ref.read(paceCounterProvider.notifier).start();
-                        buttonText = 'STOP';
-                      } else {
-                        ref.read(paceCounterProvider.notifier).stop();
-                        buttonText = 'START';
-                      }
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 2),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    margin: const EdgeInsets.only(top: 20),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8,
-                      horizontal: 16,
-                    ),
-                    child: Text(buttonText, style: TextStyle(fontSize: 30),),
+    return PopScope(
+      onPopInvokedWithResult: (bool result, data) {
+        if (result) {
+          ref.read(paceCounterProvider.notifier).dispose();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('pace_counter').tr(),
+          leading: BackImage(context),
+        ),
+        body: SizedBox(
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SingleRotatingBanana(ref.read(paceCounterProvider.notifier).controller),
+              100.verticalSpace,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'step_count',
+                    style: TextStyle(fontSize: 24, height: 1, fontFamily: FontFamily.unkemptBold, fontFamilyFallback: [FontFamily.ssronet]),
+                  ).tr(),
+                  20.verticalSpace,
+                  Text(
+                    '${stepCounterState.steps}',
+                    style: const TextStyle(fontSize: 60, height: 1),
                   ),
-                )
-              ],
-            ),
-          ],
+                  Text(
+                    '${stepCounterState.distanceInKm.toStringAsFixed(2)} km',
+                    style: const TextStyle(fontSize: 20, height: 1),
+                  ),
+                  16.verticalSpace,
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        if (buttonText == 'start') {
+                          ref.read(paceCounterProvider.notifier).start();
+                          buttonText = 'stop';
+                        } else {
+                          ref.read(paceCounterProvider.notifier).stop();
+                          buttonText = 'start';
+                        }
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 2),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      margin: const EdgeInsets.only(top: 20),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 16,
+                      ),
+                      child:
+                          Text(buttonText, style: const TextStyle(fontSize: 30, fontFamily: FontFamily.unkemptBold, fontFamilyFallback: [FontFamily.ssronet]))
+                              .tr(),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

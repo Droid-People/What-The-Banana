@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:what_the_banana/gen/assets.gen.dart';
@@ -12,7 +13,7 @@ class CreatorsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('CREATORS',),
+        title: const Text('creators').tr(),
         backgroundColor: ColorName.yellowBackground,
         elevation: 0,
         scrolledUnderElevation: 0,

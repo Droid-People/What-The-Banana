@@ -14,5 +14,16 @@
   "ads": "広告を表示",
   "qr_maker_title": "QRメーカー",
   "qr_save_fail": "QRコードの保存に失敗しました。",
-  "qr_save_success": "QRコードを保存しました。"
+  "qr_save_success": "QRコードを保存しました。",
+  "creators": "クリエイター",
+  "pace_counter": "歩数計",
+  "step_count": "歩数",
+  "start": "開始",
+  "stop": "停止",
+  "DeviceNotSupportedTitle": "このデバイスでは歩数を測定できません。",
+  "DeviceNotSupportedContent": "歩数を追跡するには、モーションチップが内蔵された端末が必要です。",
+  "PermissionTitle": "権限のリクエスト",
+  "PermissionContent": "このアプリはアクティビティ認識の権限が必要です。設定で許可してください。",
+  "confirm": "確認",
+  "cancel": "キャンセル"
 }

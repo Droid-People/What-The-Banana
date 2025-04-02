@@ -30,7 +30,18 @@ class CodegenLoader extends AssetLoader{
   "ads": "显示广告",
   "qr_maker_title": "QR 生成器",
   "qr_save_fail": "无法保存二维码。",
-  "qr_save_success": "二维码已保存。"
+  "qr_save_success": "二维码已保存。",
+  "creators": "创作者",
+  "pace_counter": "计步器",
+  "step_count": "步数",
+  "start": "开始",
+  "stop": "停止",
+  "DeviceNotSupportedTitle": "此设备无法记录步数。",
+  "DeviceNotSupportedContent": "要跟踪步数，需要配备内置运动芯片的设备。",
+  "PermissionTitle": "权限请求",
+  "PermissionContent": "此应用需要活动识别权限。请在设置中允许。",
+  "confirm": "确认",
+  "cancel": "取消"
 };
 static const Map<String,dynamic> _ja = {
   "app_name": "ワットザバナナ",
@@ -48,7 +59,18 @@ static const Map<String,dynamic> _ja = {
   "ads": "広告を表示",
   "qr_maker_title": "QRメーカー",
   "qr_save_fail": "QRコードの保存に失敗しました。",
-  "qr_save_success": "QRコードを保存しました。"
+  "qr_save_success": "QRコードを保存しました。",
+  "creators": "クリエイター",
+  "pace_counter": "歩数計",
+  "step_count": "歩数",
+  "start": "開始",
+  "stop": "停止",
+  "DeviceNotSupportedTitle": "このデバイスでは歩数を測定できません。",
+  "DeviceNotSupportedContent": "歩数を追跡するには、モーションチップが内蔵された端末が必要です。",
+  "PermissionTitle": "権限のリクエスト",
+  "PermissionContent": "このアプリはアクティビティ認識の権限が必要です。設定で許可してください。",
+  "confirm": "確認",
+  "cancel": "キャンセル"
 };
 static const Map<String,dynamic> _en = {
   "app_name": "What The Banana",
@@ -57,16 +79,27 @@ static const Map<String,dynamic> _en = {
   "feedback_description": "Let us know what features\nyou'd like to see!\nWe'll do our best to add them!",
   "send_feedback": "SEND",
   "feedback_sent_success": "Successfully sent!",
-  "select_languages": "Select Language",
-  "updates": "Updates",
+  "select_languages": "SELECT LANGUAGES",
+  "updates": "UPDATES",
   "introduction": "about APP",
   "appDescription": "This is an app where we can freely create whatever we want.\nYou can choose from various features like pixel art drawing, counter, (roulette, QR code generator, pedometer, ladder game) and more from the home screen!\nIn the future, we may add more features based on your suggestions, so feel free to share your ideas with us anytime!\nAs for why the banana? Well, just because!",
   "not_ready": "This feature is not ready yet.\nPlease wait for the next update!",
   "tap_description": "Tap to enter a name",
   "ads": "Show Ads",
-  "qr_maker_title": "QR Maker",
+  "qr_maker_title": "QR MAKER",
   "qr_save_fail": "Failed to save QR code",
-  "qr_save_success": "QR code saved"
+  "qr_save_success": "QR code saved",
+  "creators": "CREATORS",
+  "pace_counter": "PACE COUNTER",
+  "step_count": "Step Count",
+  "start": "START",
+  "stop": "STOP",
+  "DeviceNotSupportedTitle": "This device cannot track steps.",
+  "DeviceNotSupportedContent": "A device with a built-in motion chip is required to track steps.",
+  "PermissionTitle": "Permission Request",
+  "PermissionContent": "This app requires activity recognition permission. Please allow it in the settings.",
+  "confirm": "Confirm",
+  "cancel": "Cancel"
 };
 static const Map<String,dynamic> _ko = {
   "app_name": "왓더바나나",
@@ -84,7 +117,18 @@ static const Map<String,dynamic> _ko = {
   "ads": "광고 보기",
   "qr_maker_title": "큐알 메이커",
   "qr_save_fail": "QR 코드를 저장하는데 실패했습니다.",
-  "qr_save_success": "QR 코드를 저장했습니다."
+  "qr_save_success": "QR 코드를 저장했습니다.",
+  "creators": "제작자들",
+  "pace_counter": "만보기",
+  "step_count": "걸음 수",
+  "start": "시작",
+  "stop": "정지",
+  "DeviceNotSupportedTitle": "이 기기로 걸음 수를 측정할 수 없습니다.",
+  "DeviceNotSupportedContent": "걸음 수를 추적하려면 모션 칩이 내장된 단말이 필요합니다",
+  "PermissionTitle": "권한 요청",
+  "PermissionContent": "이 앱은 활동 인식 권한이 필요합니다. 설정에서 권한을 허용해주세요.",
+  "confirm": "확인",
+  "cancel": "취소"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"zh": _zh, "ja": _ja, "en": _en, "ko": _ko};
 }

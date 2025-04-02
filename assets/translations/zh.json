@@ -14,5 +14,16 @@
   "ads": "显示广告",
   "qr_maker_title": "QR 生成器",
   "qr_save_fail": "无法保存二维码。",
-  "qr_save_success": "二维码已保存。"
+  "qr_save_success": "二维码已保存。",
+  "creators": "创作者",
+  "pace_counter": "计步器",
+  "step_count": "步数",
+  "start": "开始",
+  "stop": "停止",
+  "DeviceNotSupportedTitle": "此设备无法记录步数。",
+  "DeviceNotSupportedContent": "要跟踪步数，需要配备内置运动芯片的设备。",
+  "PermissionTitle": "权限请求",
+  "PermissionContent": "此应用需要活动识别权限。请在设置中允许。",
+  "confirm": "确认",
+  "cancel": "取消"
 }

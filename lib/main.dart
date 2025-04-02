@@ -74,7 +74,36 @@ class MyApp extends StatelessWidget {
               ),
               backgroundColor: ColorName.homeMainBackground,
             ),
+            textButtonTheme: TextButtonThemeData(
+              style: ButtonStyle(
+                textStyle: WidgetStateProperty.all(
+                  const TextStyle(
+                    fontSize: 20,
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: FontFamily.unkemptBold,
+                    fontFamilyFallback: [FontFamily.ssronet],
+                  ),
+                ),
+              )
+            ),
             scaffoldBackgroundColor: ColorName.homeMainBackground,
+            dialogTheme: const DialogTheme(
+              titleTextStyle: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                fontFamily: FontFamily.unkemptBold,
+                fontFamilyFallback: [FontFamily.ssronet],
+                color: Colors.black,
+              ),
+              contentTextStyle: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.normal,
+                fontFamily: FontFamily.unkemptBold,
+                fontFamilyFallback: [FontFamily.ssronet],
+                color: Colors.black,
+              ),
+            ),
             textTheme: const TextTheme(
               bodyLarge: TextStyle(
                 fontSize: 30,
