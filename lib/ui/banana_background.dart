@@ -5,6 +5,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:what_the_banana/gen/assets.gen.dart';
 import 'package:what_the_banana/ui/rotate_image_painter.dart';
+import 'package:what_the_banana/ui/ui_utils.dart';
 
 class BananaBackground extends StatefulWidget {
   const BananaBackground({super.key});
@@ -26,8 +27,8 @@ class _BananaBackgroundState extends State<BananaBackground>
   @override
   void initState() {
     super.initState();
-    _loadImage();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      _loadImage();
       _initializePositionsAndAngles();
     });
 
@@ -49,18 +50,10 @@ class _BananaBackgroundState extends State<BananaBackground>
   }
 
   Future<void> _loadImage() async {
-    final image = await _loadUiImage(Assets.images.smallBanana.path);
+    final image = await loadUiImage(context, Assets.images.smallBanana.path);
     setState(() {
       _image = image;
     });
-  }
-
-  Future<ui.Image> _loadUiImage(String assetPath) async {
-    final data = await DefaultAssetBundle.of(context).load(assetPath);
-    final bytes = data.buffer.asUint8List();
-    final codec = await ui.instantiateImageCodec(bytes);
-    final frame = await codec.getNextFrame();
-    return frame.image;
   }
 
   Offset _randomPosition() {

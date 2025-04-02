@@ -82,7 +82,7 @@ static const Map<String,dynamic> _ko = {
   "not_ready": "이 기능은 아직 준비되지 않았습니다.\n다음 업데이트를 기다려주세요!",
   "tap_description": "탭하여 이름을 입력하세요",
   "ads": "광고 보기",
-  "qr_maker_title": "QR 메이커",
+  "qr_maker_title": "큐알 메이커",
   "qr_save_fail": "QR 코드를 저장하는데 실패했습니다.",
   "qr_save_success": "QR 코드를 저장했습니다."
 };

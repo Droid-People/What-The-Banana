@@ -179,9 +179,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Align(
                   alignment: Alignment.topRight,
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 23),
-                    child: Assets.images.update.image(),
+                  child: GestureDetector(
+                    onTap: () {
+                      context.go(Routes.updates);
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 23),
+                      child: Assets.images.update.image(),
+                    ),
                   ),
                 ),
               ],

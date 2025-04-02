@@ -4,11 +4,12 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:what_the_banana/contents/pace_counter/pace_counter_provider.dart';
 import 'package:what_the_banana/contents/pace_counter/pace_counter_service.dart';
-import 'package:what_the_banana/gen/assets.gen.dart';
 import 'package:what_the_banana/ui/back_button.dart';
+import 'package:what_the_banana/ui/single_rotating_banana.dart';
 
 class PaceCounterScreen extends ConsumerStatefulWidget {
   const PaceCounterScreen({super.key});
@@ -18,6 +19,8 @@ class PaceCounterScreen extends ConsumerStatefulWidget {
 }
 
 class _PaceCounterScreen extends ConsumerState<PaceCounterScreen> {
+
+  var buttonText = 'START';
 
   @override
   void initState() {
@@ -30,9 +33,9 @@ class _PaceCounterScreen extends ConsumerState<PaceCounterScreen> {
     }
   }
 
-  void _checkStepCountingAvailableInIOS() async {
+  Future<void> _checkStepCountingAvailableInIOS() async {
     if (defaultTargetPlatform == TargetPlatform.iOS) {
-      bool available = await isStepCountingAvailable();
+      final available = await isStepCountingAvailable();
 
       if (available) {
         // IOS의 경우 stepCountStream 사작될 때 권한을 요청함
@@ -44,7 +47,7 @@ class _PaceCounterScreen extends ConsumerState<PaceCounterScreen> {
   }
 
   Future<void> _handlePermissionStatus() async {
-    bool granted = await _checkActivityRecognitionPermission();
+    final granted = await _checkActivityRecognitionPermission();
     if (!granted) {
       _showPermissionDialog();
     } else {
@@ -53,7 +56,7 @@ class _PaceCounterScreen extends ConsumerState<PaceCounterScreen> {
   }
 
   Future<bool> _checkActivityRecognitionPermission() async {
-    bool granted = await Permission.activityRecognition.isGranted;
+    var granted = await Permission.activityRecognition.isGranted;
 
     if (!granted) {
       granted = await Permission.activityRecognition.request() ==
@@ -64,44 +67,42 @@ class _PaceCounterScreen extends ConsumerState<PaceCounterScreen> {
   }
 
   void _showPermissionDialog() {
-    showDialog(
+    showDialog<void>(
       context: context,
-      builder: (context) =>
-          AlertDialog(
-            title: Text("권한 필요"),
-            content: Text("이 앱은 활동 인식 권한이 필요합니다. 설정에서 권한을 허용해주세요."),
-            actions: <Widget>[
-              TextButton(
-                child: Text("확인"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                child: Text("취소"),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ],
+      builder: (context) => AlertDialog(
+        title: const Text('권한 필요'),
+        content: const Text('이 앱은 활동 인식 권한이 필요합니다. 설정에서 권한을 허용해주세요.'),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('확인'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
+          TextButton(
+            child: const Text('취소'),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ],
+      ),
     );
   }
 
   void _showDeviceNotSupportedDialog() {
-    showDialog(
+    showDialog<void>(
       context: context,
-      builder: (context) =>
-          AlertDialog(
-            title: Text("이 기기로 걸음 수를 측정할 수 없습니다."),
-            content: Text("걸음 수를 추적하려면 모션 칩이 내장된 단말이 필요합니다"),
-            actions: <Widget>[
-              TextButton(
-                child: Text("확인"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
+      builder: (context) => AlertDialog(
+        title: const Text('이 기기로 걸음 수를 측정할 수 없습니다.'),
+        content: const Text('걸음 수를 추적하려면 모션 칩이 내장된 단말이 필요합니다'),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('확인'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
+        ],
+      ),
     );
   }
 
@@ -110,36 +111,64 @@ class _PaceCounterScreen extends ConsumerState<PaceCounterScreen> {
     final stepCounterState = ref.watch(paceCounterProvider);
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Pace Counter'),
-          leading: BackImage(context),
-        ),
-        body: SizedBox(
-          width: double.infinity,
-          child: Column(
+      appBar: AppBar(
+        title: const Text('Pace Counter'),
+        leading: BackImage(context),
+      ),
+      body: SizedBox(
+        width: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SingleRotatingBanana(ref.read(paceCounterProvider.notifier).controller),
+            100.verticalSpace,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Assets.images.bigBanana.image(width: 100, height: 100),
-                const SizedBox(height: 40),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Today's Step Count",
-                      style: TextStyle(fontSize: 24),
+                const Text(
+                  'Step Count',
+                  style: TextStyle(fontSize: 24, height: 1),
+                ),
+                20.verticalSpace,
+                Text(
+                  '${stepCounterState.steps}',
+                  style: const TextStyle(fontSize: 60, height: 1),
+                ),
+                Text(
+                  '${stepCounterState.distanceInKm.toStringAsFixed(2)} km',
+                  style: const TextStyle(fontSize: 20, height: 1),
+                ),
+                16.verticalSpace,
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      if (buttonText == 'START') {
+                        ref.read(paceCounterProvider.notifier).start();
+                        buttonText = 'STOP';
+                      } else {
+                        ref.read(paceCounterProvider.notifier).stop();
+                        buttonText = 'START';
+                      }
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 2),
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    const SizedBox(height: 20),
-                    Text(
-                      '${stepCounterState.steps}',
-                      style: TextStyle(fontSize: 60),
+                    margin: const EdgeInsets.only(top: 20),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 16,
                     ),
-                    Text(
-                      '${stepCounterState.distanceInKm.toStringAsFixed(2)} km',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ],
+                    child: Text(buttonText, style: TextStyle(fontSize: 30),),
+                  ),
                 )
-              ]),
+              ],
+            ),
+          ],
         ),
+      ),
     );
   }
 }
