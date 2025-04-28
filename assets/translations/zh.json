@@ -25,5 +25,9 @@
   "PermissionTitle": "权限请求",
   "PermissionContent": "此应用需要活动识别权限。请在设置中允许。",
   "confirm": "确认",
-  "cancel": "取消"
+  "cancel": "取消",
+  "input_participant_number": "输入参与人数",
+  "input_name": "输入姓名",
+  "input_reward": "输入奖励",
+  "result": "查看结果"
 }

@@ -102,12 +102,49 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            17.verticalSpace,
             Stack(
               children: [
                 Align(
+                  alignment: Alignment.topRight,
+                  child: DonationButton(),
+                ),
+                Align(
                   alignment: Alignment.topCenter,
                   child: FirstText(),
+                ),
+              ],
+            ),
+            15.verticalSpace,
+            RouletteButton(),
+            8.verticalSpace,
+            Stack(
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: CreatorsButton(),
+                ),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: SecondText(),
+                ),
+              ],
+            ),
+            GestureDetector(
+              onTap: () {
+                context.go(Routes.qrMaker);
+              },
+              child: Assets.images.qrMaker.image(),
+            ),
+            18.verticalSpace,
+            Stack(
+              children: [
+                Center(
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                      top: 18,
+                    ),
+                    child: SmallText('DOWN, DOWN'),
+                  ),
                 ),
                 Align(
                   alignment: Alignment.topRight,
@@ -116,157 +153,65 @@ class _HomeScreenState extends State<HomeScreen> {
                       context.go(Routes.feedback);
                     },
                     child: Container(
-                      margin: const EdgeInsets.only(right: 28, top: 4),
+                      margin: const EdgeInsets.only(right: 28),
                       child: Assets.images.feedback.image(),
                     ),
                   ),
                 ),
               ],
             ),
-            28.verticalSpace,
-            CounterButton(),
-            13.verticalSpace,
-            Stack(
-              children: [
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                      top: 37,
-                    ),
-                    child: SmallText(
-                      'Click on\nthe function you want',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 43),
-                    child: Assets.images.bananaForth.image(),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: CreatorsButton(),
-                ),
-              ],
-            ),
-            23.verticalSpace,
-            QrMakerButton(),
-            33.verticalSpace,
-            Stack(
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    margin: const EdgeInsets.only(left: 42),
-                    child: Assets.images.bananaFirst.image(),
-                  ),
-                ),
-                Center(
-                  child: Column(
-                    children: [
-                      SmallText('DOWN, DOWN'),
-                      15.verticalSpace,
-                      SmallText(
-                        "DON'T STOP\nCHEER UP",
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: GestureDetector(
-                    onTap: () {
-                      context.go(Routes.updates);
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 23),
-                      child: Assets.images.update.image(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            12.verticalSpace,
+            7.verticalSpace,
             GestureDetector(
               onTap: () {
                 context.go(Routes.paceCounter);
               },
               child: Assets.images.paceCounters.image(),
             ),
-            14.verticalSpace,
+            18.verticalSpace,
             Stack(
               children: [
                 Center(
                   child: Container(
-                    margin: const EdgeInsets.only(top: 30),
-                    child: SmallText('HAVE A NICE DAY.'),
+                    margin: const EdgeInsets.only(top: 12),
+                    child: SmallText(
+                      "DON'T STOP\nCHEER UP",
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
                 Align(
-                  alignment: Alignment.topRight,
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                      top: 14,
-                      right: 41,
+                  alignment: Alignment.topLeft,
+                  child: GestureDetector(
+                    onTap: () {
+                      context.go(Routes.updates);
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 31),
+                      child: Assets.images.update.image(),
                     ),
-                    child: Assets.images.bananaSecond.image(),
                   ),
                 ),
               ],
             ),
-            23.verticalSpace,
+            GestureDetector(
+              onTap: () {
+                context.go(Routes.ghostLeg);
+              },
+              child: Assets.images.ghostLeg.image(),
+            ),
+            38.verticalSpace,
+            SmallText('HAVE A NICE DAY.'),
+            38.verticalSpace,
+            CounterButton(),
+            38.verticalSpace,
+            SmallText('GOOD LUCK'),
+            38.verticalSpace,
             AdsButton(),
-            23.verticalSpace,
-            Stack(
-              children: [
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 19),
-                    child: Column(
-                      children: [
-                        SmallText('GOOD LUCK'),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 18),
-                          child: SmallText(
-                            'GOOD BANANA',
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SmallText('More bananas are coming soon..'),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left: 42),
-                  child: Assets.images.bananaThird.image(),
-                ),
-              ],
-            ),
-            29.verticalSpace,
-            Stack(
-              alignment: Alignment.topCenter,
-              children: [
-                Container(
-                  width: 1,
-                  height: 46,
-                  color: Colors.black,
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 33),
-                  child: ScrollToTopButton(),
-                ),
-              ],
-            ),
-            41.verticalSpace,
-            BottomAdView(),
-            50.verticalSpace,
+            66.verticalSpace,
+            SmallText('GOOD BANANA'),
+            45.verticalSpace,
+            ScrollToTopButton(),
+            87.verticalSpace,
           ],
         ),
       ),
@@ -339,6 +284,17 @@ class _HomeScreenState extends State<HomeScreen> {
           8.verticalSpace,
           Assets.images.wtbRoundText.image(),
         ],
+      ),
+    );
+  }
+
+  Container SecondText() {
+    return Container(
+      margin: const EdgeInsets.only(top: 17),
+      child: Text(
+        'Click on\nthe function you want',
+        style: Theme.of(context).textTheme.labelSmall,
+        textAlign: TextAlign.center,
       ),
     );
   }

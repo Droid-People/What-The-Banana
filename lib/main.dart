@@ -63,6 +63,7 @@ class MyApp extends StatelessWidget {
             textSelectionTheme: const TextSelectionThemeData(
               selectionColor: ColorName.lightGrey,
               selectionHandleColor: Colors.white,
+              cursorColor: Colors.black
             ),
             appBarTheme: const AppBarTheme(
               titleTextStyle: TextStyle(
@@ -85,7 +86,7 @@ class MyApp extends StatelessWidget {
                     fontFamilyFallback: [FontFamily.ssronet],
                   ),
                 ),
-              )
+              ),
             ),
             scaffoldBackgroundColor: ColorName.homeMainBackground,
             dialogTheme: const DialogTheme(
@@ -131,7 +132,6 @@ class MyApp extends StatelessWidget {
               primaryColor: Colors.black,
               brightness: Brightness.dark,
             ),
-
           ),
           routerConfig: Routes.getRouter,
         ),

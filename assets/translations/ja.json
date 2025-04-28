@@ -25,5 +25,9 @@
   "PermissionTitle": "権限のリクエスト",
   "PermissionContent": "このアプリはアクティビティ認識の権限が必要です。設定で許可してください。",
   "confirm": "確認",
-  "cancel": "キャンセル"
+  "cancel": "キャンセル",
+  "input_participant_number": "参加人数を入力",
+  "input_name": "名前を入力",
+  "input_reward": "何が当たる？",
+  "result": "誰が当たった？"
 }
