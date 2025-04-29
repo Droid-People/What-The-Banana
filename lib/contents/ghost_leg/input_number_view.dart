@@ -1,71 +1,111 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:what_the_banana/contents/ghost_leg/ghost_leg_state_provider.dart';
+import 'package:what_the_banana/contents/ghost_leg/ghost_leg_text_styles.dart';
 import 'package:what_the_banana/contents/ghost_leg/ghost_leg_utils.dart';
+import 'package:what_the_banana/gen/assets.gen.dart';
 import 'package:what_the_banana/gen/fonts.gen.dart';
 
-class InputNumberView extends StatefulWidget {
-  const InputNumberView(this.focusNode, {required this.callback, super.key});
+class InputNumberView extends ConsumerStatefulWidget {
+  const InputNumberView({required this.goNext, super.key});
 
-  final void Function(int) callback;
-
-  final FocusNode focusNode;
+  final void Function(int) goNext;
 
   @override
-  State<InputNumberView> createState() => _InputNumberViewState();
+  ConsumerState<InputNumberView> createState() => _InputNumberViewState();
 }
 
-class _InputNumberViewState extends State<InputNumberView> {
+class _InputNumberViewState extends ConsumerState<InputNumberView> {
   final TextEditingController inputNumberController = TextEditingController();
+  final FocusNode focusNode = FocusNode();
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).requestFocus(focusNode);
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    inputNumberController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        30.verticalSpace,
-        const Text('input_participant_number', style: TextStyle(fontSize: 22),).tr(),
-        const Text('(2~7)', style: TextStyle(fontSize: 22)),
-        70.verticalSpace,
-        SizedBox(
-          width: 100,
-          child: TextField(
-            controller: inputNumberController,
-            keyboardType: TextInputType.number,
-            focusNode: widget.focusNode,
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-              NumberRangeFormatter(min: 2, max: 7),
-            ],
-            decoration: const InputDecoration(
-              focusedBorder: UnderlineInputBorder(
-                borderSide:  BorderSide(
-                  width: 3,
+    return GestureDetector(
+      onTap: focusNode.unfocus,
+      child: ColoredBox(
+        color: Colors.transparent,
+        child: Column(
+          children: [
+            30.verticalSpace,
+            const Text(
+              'input_participant_number',
+              style: ghostLegTitleTextStyle,
+            ).tr(),
+            const Text(
+              '(2~7)',
+              style: ghostLegTitleTextStyle,
+            ),
+            70.verticalSpace,
+            SizedBox(
+              width: 100,
+              child: TextField(
+                controller: inputNumberController,
+                keyboardType: TextInputType.number,
+                focusNode: focusNode,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  NumberRangeFormatter(min: 2, max: 7),
+                ],
+                decoration: const InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 3,
+                    ),
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 3,
+                    ),
+                  ),
                 ),
-              ),
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                  width: 3,
+                onSubmitted: (text) {
+                  goNext();
+                },
+                textInputAction: TextInputAction.next,
+                style: const TextStyle(
+                  fontSize: 96,
+                  fontFamily: FontFamily.ssronet,
+                  fontFamilyFallback: [FontFamily.unkemptBold, FontFamily.inter],
+                  height: 1,
                 ),
+                textAlign: TextAlign.center,
+                cursorColor: const Color(0x77000000),
               ),
             ),
-            onSubmitted: (text) {
-              if (inputNumberController.text.isNotEmpty) {
-                widget.focusNode.unfocus();
-                widget.callback(int.parse(inputNumberController.text));
-              }
-            },
-            style: const TextStyle(
-              fontSize: 96,
-              fontFamily: FontFamily.ssronet,
-              fontFamilyFallback: [FontFamily.unkemptBold, FontFamily.inter],
-              height: 1,
+            40.verticalSpace,
+            GestureDetector(
+              onTap: goNext,
+              child: SvgPicture.asset(Assets.images.next, width: 50),
             ),
-            textAlign: TextAlign.center,
-            cursorColor: const Color(0x77000000),
-          ),
+          ],
         ),
-      ],
+      ),
     );
+  }
+
+  void goNext() {
+    if (inputNumberController.text.isNotEmpty) {
+      ref.read(ghostLegStateProvider.notifier).setNumber(int.parse(inputNumberController.text));
+      widget.goNext(int.parse(inputNumberController.text));
+    }
   }
 }

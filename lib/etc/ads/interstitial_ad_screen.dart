@@ -77,6 +77,7 @@ class _InterstitialAdScreenState extends State<InterstitialAdScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {

@@ -42,6 +42,7 @@ class CodegenLoader extends AssetLoader{
   "PermissionContent": "此应用需要活动识别权限。请在设置中允许。",
   "confirm": "确认",
   "cancel": "取消",
+  "ghost_leg_title": "梯子游戏",
   "input_participant_number": "输入参与人数",
   "input_name": "输入姓名",
   "input_reward": "输入奖励",
@@ -75,6 +76,7 @@ static const Map<String,dynamic> _ja = {
   "PermissionContent": "このアプリはアクティビティ認識の権限が必要です。設定で許可してください。",
   "confirm": "確認",
   "cancel": "キャンセル",
+  "ghost_leg_title": "はしごゲーム",
   "input_participant_number": "参加人数を入力",
   "input_name": "名前を入力",
   "input_reward": "何が当たる？",
@@ -108,6 +110,7 @@ static const Map<String,dynamic> _en = {
   "PermissionContent": "This app requires activity recognition permission. Please allow it in the settings.",
   "confirm": "Confirm",
   "cancel": "Cancel",
+  "ghost_leg_title": "GHOST LEG",
   "input_participant_number": "Enter Number of Participants",
   "input_name": "Enter Names",
   "input_reward": "Enter Rewards",
@@ -141,9 +144,10 @@ static const Map<String,dynamic> _ko = {
   "PermissionContent": "이 앱은 활동 인식 권한이 필요합니다. 설정에서 권한을 허용해주세요.",
   "confirm": "확인",
   "cancel": "취소",
+  "ghost_leg_title": "사다리 타기",
   "input_participant_number": "참여 인원 수 입력",
-  "input_name": "이름 입력",
-  "input_reward": "당첨 입력",
+  "input_name": "이름",
+  "input_reward": "당첨",
   "result": "결과 확인"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"zh": _zh, "ja": _ja, "en": _en, "ko": _ko};

@@ -17,6 +17,7 @@ class SelectLanguageScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
           'select_languages',
         ).tr(),

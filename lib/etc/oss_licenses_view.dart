@@ -13,6 +13,7 @@ class OssLicensesView extends StatelessWidget {
     return Scaffold(
       backgroundColor: ColorName.homeMainBackground,
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
           'Open Source Licenses',
           style: TextStyle(fontSize: 24),
@@ -68,6 +69,7 @@ class MiscOssLicenseSingle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Padding(

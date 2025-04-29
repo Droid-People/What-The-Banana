@@ -43,6 +43,7 @@ class _CounterScreenState extends State<CounterScreen> {
   Scaffold HorizontalView(BuildContext context, int maxLines) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text('DUAL COUNTER', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.black,
         leading: BackImage(context, color: Colors.white),
@@ -71,6 +72,7 @@ class _CounterScreenState extends State<CounterScreen> {
   Widget VerticalView(BuildContext context, int maxLines) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text('DUAL COUNTER'),
         leading: BackImage(context),
       ),

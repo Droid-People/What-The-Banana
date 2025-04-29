@@ -118,6 +118,7 @@ class _PaceCounterScreen extends ConsumerState<PaceCounterScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: const Text('pace_counter').tr(),
           leading: BackImage(context),
         ),

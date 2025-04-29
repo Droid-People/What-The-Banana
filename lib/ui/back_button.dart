@@ -3,10 +3,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:what_the_banana/gen/assets.gen.dart';
 
-Widget BackImage(BuildContext context, {Color? color = Colors.black}) {
+Widget BackImage(BuildContext context, {Color? color = Colors.black, void Function()? onTap}) {
   return GestureDetector(
     onTap: () {
-      context.pop();
+      if (onTap != null) {
+        onTap();
+      } else {
+        context.pop();
+      }
     },
     child: Padding(
       padding: const EdgeInsets.all(16),

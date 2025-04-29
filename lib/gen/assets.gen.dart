@@ -123,6 +123,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/korean.webp
   AssetGenImage get korean => const AssetGenImage('assets/images/korean.webp');
 
+  /// File path: assets/images/next.svg
+  String get next => 'assets/images/next.svg';
+
   /// File path: assets/images/pace_counters.webp
   AssetGenImage get paceCounters =>
       const AssetGenImage('assets/images/pace_counters.webp');
@@ -180,50 +183,51 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<dynamic> get values => [
-        adButton,
-        backButton,
-        banana,
-        bananaFirst,
-        bananaForth,
-        bananaOnPlate,
-        bananaSecond,
-        bananaThird,
-        bigBanana,
-        bigEarth,
-        checked,
-        chinese,
-        creators,
-        creatorsImage,
-        donation,
-        dualCounter,
-        earthIcon,
-        english,
-        feedback,
-        finalBanana,
-        firstBanana,
-        forthBanana,
-        ghostLeg,
-        hanna,
-        homeTopBanana,
-        hyegyeongProfile,
-        introduction,
-        japanese,
-        korean,
-        paceCounters,
-        pixelArt,
-        qrMaker,
-        roulette,
-        saltBread,
-        smallBanana,
-        smallBananaOnPlate,
-        smellyBanana,
-        snowbun,
-        starButterfly,
-        thirdBanana,
-        update,
-        wtbRoundText,
-        yewonProfile
-      ];
+    adButton,
+    backButton,
+    banana,
+    bananaFirst,
+    bananaForth,
+    bananaOnPlate,
+    bananaSecond,
+    bananaThird,
+    bigBanana,
+    bigEarth,
+    checked,
+    chinese,
+    creators,
+    creatorsImage,
+    donation,
+    dualCounter,
+    earthIcon,
+    english,
+    feedback,
+    finalBanana,
+    firstBanana,
+    forthBanana,
+    ghostLeg,
+    hanna,
+    homeTopBanana,
+    hyegyeongProfile,
+    introduction,
+    japanese,
+    korean,
+    next,
+    paceCounters,
+    pixelArt,
+    qrMaker,
+    roulette,
+    saltBread,
+    smallBanana,
+    smallBananaOnPlate,
+    smellyBanana,
+    snowbun,
+    starButterfly,
+    thirdBanana,
+    update,
+    wtbRoundText,
+    yewonProfile,
+  ];
 }
 
 class $AssetsTranslationsGen {
@@ -266,22 +270,35 @@ class $AssetsUpdateNotesGen {
   /// File path: assets/update_notes/v1.0.6.json
   String get v106 => 'assets/update_notes/v1.0.6.json';
 
+  /// File path: assets/update_notes/v1.0.7.json
+  String get v107 => 'assets/update_notes/v1.0.7.json';
+
+  /// File path: assets/update_notes/v1.0.8.json
+  String get v108 => 'assets/update_notes/v1.0.8.json';
+
   /// List of all assets
-  List<String> get values => [v100, v102, v103, v104, v105, v106];
+  List<String> get values => [v100, v102, v103, v104, v105, v106, v107, v108];
 }
 
 class Assets {
-  Assets._();
+  const Assets._();
 
+  static const String aEnv = '.env';
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
   static const $AssetsUpdateNotesGen updateNotes = $AssetsUpdateNotesGen();
+
+  /// List of all assets
+  static List<String> get values => [aEnv];
 }
 
 class AssetGenImage {
-  const AssetGenImage(this._assetName);
+  const AssetGenImage(this._assetName, {this.size, this.flavors = const {}});
 
   final String _assetName;
+
+  final Size? size;
+  final Set<String> flavors;
 
   Image image({
     Key? key,
@@ -301,10 +318,10 @@ class AssetGenImage {
     ImageRepeat repeat = ImageRepeat.noRepeat,
     Rect? centerSlice,
     bool matchTextDirection = false,
-    bool gaplessPlayback = false,
+    bool gaplessPlayback = true,
     bool isAntiAlias = false,
     String? package,
-    FilterQuality filterQuality = FilterQuality.low,
+    FilterQuality filterQuality = FilterQuality.medium,
     int? cacheWidth,
     int? cacheHeight,
   }) {
@@ -336,15 +353,8 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider({
-    AssetBundle? bundle,
-    String? package,
-  }) {
-    return AssetImage(
-      _assetName,
-      bundle: bundle,
-      package: package,
-    );
+  ImageProvider provider({AssetBundle? bundle, String? package}) {
+    return AssetImage(_assetName, bundle: bundle, package: package);
   }
 
   String get path => _assetName;

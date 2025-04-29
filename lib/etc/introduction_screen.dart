@@ -17,6 +17,7 @@ class IntroductionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         leading: BackImage(context),
         title: const Text('introduction').tr(),
         backgroundColor: ColorName.homeMainBackground,

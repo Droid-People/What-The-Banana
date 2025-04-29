@@ -31,6 +31,7 @@ class _CropScreenState extends ConsumerState<CropScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.black,
         leading: BackImage(context),
       ),

@@ -31,6 +31,7 @@ class QrMakerScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text('qr_maker_title').tr(),
         leading: BackImage(context),
       ),

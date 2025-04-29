@@ -14,6 +14,7 @@ class AdsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
           'ads',
         ).tr(),

@@ -43,6 +43,7 @@ class _OpenAppAdScreenState extends State<OpenAppAdScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: ColorName.yellowBackground,
         scrolledUnderElevation: 0,
         leading: IconButton(

@@ -19,6 +19,7 @@ class _NativeAdScreenState extends State<NativeAdScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: ColorName.yellowBackground,
           scrolledUnderElevation: 0,
           leading: IconButton(

@@ -27,6 +27,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: ColorName.yellowBackground,
           leading: BackImage(context),
         ),

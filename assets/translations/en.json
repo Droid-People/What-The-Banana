@@ -26,6 +26,7 @@
   "PermissionContent": "This app requires activity recognition permission. Please allow it in the settings.",
   "confirm": "Confirm",
   "cancel": "Cancel",
+  "ghost_leg_title": "GHOST LEG",
   "input_participant_number": "Enter Number of Participants",
   "input_name": "Enter Names",
   "input_reward": "Enter Rewards",
