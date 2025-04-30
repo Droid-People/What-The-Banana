@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:what_the_banana/contents/ghost_leg/ghost_leg_result_view.dart';
 import 'package:what_the_banana/contents/ghost_leg/ghost_leg_state_provider.dart';
 import 'package:what_the_banana/contents/ghost_leg/input_number_view.dart';
-import 'package:what_the_banana/contents/ghost_leg/input_text_views.dart';
+import 'package:what_the_banana/contents/ghost_leg/input_text_view.dart';
 import 'package:what_the_banana/gen/assets.gen.dart';
 import 'package:what_the_banana/ui/back_button.dart';
 
@@ -22,12 +23,6 @@ class _GhostLegScreenState extends ConsumerState<GhostLegScreen> {
   List<String> rewardList = [];
 
   @override
-  void dispose() {
-    ref.read(ghostLegStateProvider.notifier).disposeController();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final state = ref.watch(ghostLegStateProvider);
     final screenHeight = MediaQuery.of(context).size.height;
@@ -41,11 +36,7 @@ class _GhostLegScreenState extends ConsumerState<GhostLegScreen> {
         leading: BackImage(
           context,
           onTap: () {
-            if (state.pageController.page == 0) {
-              Navigator.pop(context);
-            } else {
-              _previousPage(state);
-            }
+            onBackPressed(state, context);
           },
         ),
       ),
@@ -55,7 +46,7 @@ class _GhostLegScreenState extends ConsumerState<GhostLegScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              height: screenHeight * 0.7,
+              height: screenHeight * 0.75,
               child: PageView(
                 controller: state.pageController,
                 physics: const NeverScrollableScrollPhysics(),
@@ -66,7 +57,7 @@ class _GhostLegScreenState extends ConsumerState<GhostLegScreen> {
                       _nextPage(state);
                     },
                   ),
-                  InputTextViews(
+                  InputTextView(
                     'input_name',
                     number,
                     goPrevious: () => _previousPage(state),
@@ -75,7 +66,7 @@ class _GhostLegScreenState extends ConsumerState<GhostLegScreen> {
                       _nextPage(state);
                     },
                   ),
-                  InputTextViews(
+                  InputTextView(
                     'input_reward',
                     number,
                     goPrevious: () => _previousPage(state),
@@ -84,7 +75,7 @@ class _GhostLegScreenState extends ConsumerState<GhostLegScreen> {
                       _nextPage(state);
                     },
                   ),
-                  ShowResults(),
+                  GhostLegResultView(screenHeight: screenHeight),
                 ],
                 onPageChanged: (index) {
                   setState(() {
@@ -103,16 +94,12 @@ class _GhostLegScreenState extends ConsumerState<GhostLegScreen> {
     );
   }
 
-  Widget ShowResults() {
-    return ColoredBox(
-      color: Colors.yellow,
-      child: Center(
-        child: Text(
-          '화면 4',
-          style: TextStyle(color: Colors.white, fontSize: 24),
-        ),
-      ),
-    );
+  void onBackPressed(GhostLegState state, BuildContext context) {
+    if (state.pageController.page == 0) {
+      Navigator.pop(context);
+    } else {
+      _previousPage(state);
+    }
   }
 
   // 다음 페이지로 이동

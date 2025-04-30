@@ -19,7 +19,7 @@ class InputNumberView extends ConsumerStatefulWidget {
   ConsumerState<InputNumberView> createState() => _InputNumberViewState();
 }
 
-class _InputNumberViewState extends ConsumerState<InputNumberView> {
+class _InputNumberViewState extends ConsumerState<InputNumberView> with WidgetsBindingObserver {
   final TextEditingController inputNumberController = TextEditingController();
   final FocusNode focusNode = FocusNode();
 
@@ -27,6 +27,9 @@ class _InputNumberViewState extends ConsumerState<InputNumberView> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(focusNode);
+      final number = ref.read(ghostLegStateProvider).number;
+      if (number == 0) return;
+      inputNumberController.text = number.toString();
     });
     super.initState();
   }

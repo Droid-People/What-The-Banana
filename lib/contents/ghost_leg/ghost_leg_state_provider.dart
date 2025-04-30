@@ -9,7 +9,7 @@ class GhostLegStateNotifier extends StateNotifier<GhostLegState> {
   GhostLegStateNotifier() : super(GhostLegState.initial());
 
   void setNumber(int number) {
-    state = state.copyWith(number: number);
+    state = state.copyWith(number: number, names: List.generate(number, (index) => ''), rewards: List.generate(number, (index) => ''));
   }
 
   void setNames(List<String> names) {

@@ -1,12 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:what_the_banana/contents/ghost_leg/ghost_leg_state_provider.dart';
 import 'package:what_the_banana/contents/ghost_leg/ghost_leg_text_styles.dart';
+import 'package:what_the_banana/gen/assets.gen.dart';
 
-class InputTextViews extends StatefulWidget {
-  const InputTextViews(
-      this.title,
+class InputTextView extends ConsumerStatefulWidget {
+  const InputTextView(
+    this.title,
     this.count, {
     required this.goPrevious,
     required this.goNext,
@@ -19,22 +23,27 @@ class InputTextViews extends StatefulWidget {
   final void Function(List<String>) goNext;
 
   @override
-  State<InputTextViews> createState() => _InputTextViewsState();
+  ConsumerState<InputTextView> createState() => _InputTextViewsState();
 }
 
-class _InputTextViewsState extends State<InputTextViews> {
+class _InputTextViewsState extends ConsumerState<InputTextView> with WidgetsBindingObserver {
   late List<TextEditingController> textEditingControllers;
   late List<FocusNode> focusNodes;
-  late List<String> textList;
 
   @override
   void initState() {
     textEditingControllers = List.generate(widget.count, (index) => TextEditingController());
     focusNodes = List.generate(widget.count, (index) => FocusNode());
-    textList = List.generate(widget.count, (index) => '');
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(focusNodes[0]);
+      for (var i = 0; i < widget.count; i++) {
+        if (widget.title == 'input_name') {
+          textEditingControllers[i].text = ref.read(ghostLegStateProvider).names[i];
+        } else if (widget.title == 'input_reward') {
+          textEditingControllers[i].text = ref.read(ghostLegStateProvider).rewards[i];
+        }
+      }
     });
   }
 
@@ -79,13 +88,7 @@ class _InputTextViewsState extends State<InputTextViews> {
                               LengthLimitingTextInputFormatter(10),
                             ],
                             onSubmitted: (value) {
-                              if (index == widget.count - 1) {
-                                widget.goNext(
-                                  textEditingControllers.map((controller) => controller.text).toList(),
-                                );
-                              } else {
-                                focusNodes[index + 1].requestFocus();
-                              }
+                              goNext(index);
                             },
                             decoration: const InputDecoration(
                               focusedBorder: UnderlineInputBorder(
@@ -101,6 +104,19 @@ class _InputTextViewsState extends State<InputTextViews> {
                       ],
                     ),
                   ),
+                )..addAll(
+                  [
+                    40.verticalSpace,
+                    GestureDetector(
+                      onTap: () {
+                        if (textEditingControllers.any((controller) => controller.text.isEmpty)) {
+                          return;
+                        }
+                        goNext(widget.count - 1);
+                      },
+                      child: SvgPicture.asset(Assets.images.next, width: 50),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -108,5 +124,19 @@ class _InputTextViewsState extends State<InputTextViews> {
         ),
       ),
     );
+  }
+
+  void goNext(int index) {
+    if (index == widget.count - 1) {
+      final textList = textEditingControllers.map((controller) => controller.text).toList();
+      if (widget.title == 'input_name') {
+        ref.read(ghostLegStateProvider.notifier).setNames(textList);
+      } else {
+        ref.read(ghostLegStateProvider.notifier).setRewards(textList);
+      }
+      widget.goNext(textList);
+    } else {
+      focusNodes[index + 1].requestFocus();
+    }
   }
 }
