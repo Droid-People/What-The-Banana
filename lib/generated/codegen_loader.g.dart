@@ -148,7 +148,7 @@ static const Map<String,dynamic> _ko = {
   "input_participant_number": "참여 인원 수 입력",
   "input_name": "이름",
   "input_reward": "당첨",
-  "result": "결과 확인"
+  "result": "결과"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"zh": _zh, "ja": _ja, "en": _en, "ko": _ko};
 }
