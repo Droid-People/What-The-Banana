@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:what_the_banana/common/logger.dart';
 
 void main() {
   runApp(const LadderGameApp());
@@ -42,8 +43,8 @@ class _LadderGameScreenState extends State<LadderGameScreen> with SingleTickerPr
       duration: const Duration(seconds: 2),
       vsync: this,
     )..addListener(() {
-        setState(() {});
-      });
+      setState(() {});
+    });
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller!);
     generateLadder();
   }
@@ -58,7 +59,7 @@ class _LadderGameScreenState extends State<LadderGameScreen> with SingleTickerPr
 
   void generateLadder() {
     final colCount = numberOfLines - 1;
-    ladder = List.generate(ladderRowCount, (row) => List.generate(colCount, (_) => 0));
+    ladder = List.generate(ladderRowCount, (row) => List.generate(numberOfLines, (_) => 0));
 
     for (var y = 0; y < ladderRowCount; y++) {
       for (var x = 0; x < colCount; x++) {
@@ -69,10 +70,12 @@ class _LadderGameScreenState extends State<LadderGameScreen> with SingleTickerPr
           } else if (ladder[y - 1][0] != 3) {
             randoms.addAll([0, 1]);
             if (ladder[y - 1][0] != 1 && ladder[y - 1][1] == 0) {
-              randoms.add(2);
+              if (y != 1) {
+                randoms.add(2);
+              }
             }
           }
-        } else if (x < colCount - 1) {
+        } else if (x < colCount) {
           if (y == 0) {
             randoms.add(0);
           } else if (y == 1) {
@@ -90,11 +93,19 @@ class _LadderGameScreenState extends State<LadderGameScreen> with SingleTickerPr
               randoms.add(0);
               continue;
             }
-            if (ladder[y - 1][x] != 1 && ladder[y - 1][x] != 3 && ladder[y - 2][x] != 3 && ladder[y - 1][x + 1] == 0) {
-              randoms.addAll([0, 2]);
+            if (ladder[y - 1][x] != 1 && ladder[y - 1][x] != 3 && ladder[y - 2][x] != 3) {
+              if (x == colCount - 1) {
+                randoms.add(0);
+              } else if (ladder[y - 1][x + 1] == 0) {
+                randoms.add(2);
+              }
             }
             if (ladder[y - 1][x] != 3) {
-              randoms.addAll([0, 1, 3]);
+              if (y < ladderRowCount - 1) {
+                randoms.addAll([1, 3]);
+              } else {
+                randoms.add(1);
+              }
             } else {
               randoms.add(0);
             }
@@ -109,6 +120,10 @@ class _LadderGameScreenState extends State<LadderGameScreen> with SingleTickerPr
         }
       }
     }
+    // print ladder
+    for (var row in ladder) {
+      Log.i(row);
+    }
 
     setState(() {
       showResult = false;
@@ -120,25 +135,61 @@ class _LadderGameScreenState extends State<LadderGameScreen> with SingleTickerPr
 
   void calculatePath(int start) {
     pathPoints = [];
-    var current = [start, 0];
-    pathPoints.add(current);
-
+    final current = [start, 0];
+    pathPoints.add([start, 0]);
+    Log.i('first: ${pathPoints}');
     // Main ladder
+    var hasLeft = false;
     while (current[1] != ladderRowCount) {
+      // 연결된 선이 없으면 아래로 내려간다.
+      // 아래로 내려가면서 연결된 선이 있는지 확인한다.
+      // 연결된 선이 있으면 그 선을 따라 이동한다.
       final x = current[0];
       final y = current[1];
-      if (ladder[y][x] == 0) {
+
+      final temp = ladder[y][x];
+
+      if (temp == 0 || hasLeft) {
+        hasLeft = false;
         current[1]++;
-      } else if (ladder[y][x] == 1) {
+        pathPoints.add([current[0], current[1]]);
+
+        final movedY = current[1];
+        if (0 < x && movedY < ladderRowCount) {
+          if (ladder[movedY][x - 1] == 1) {
+            current[0]--;
+            pathPoints.add([current[0], current[1]]);
+            hasLeft = true;
+          }
+          if (movedY < ladderRowCount - 1) {
+            if (ladder[movedY + 1][x - 1] == 2) {
+              current[0]--;
+              current[1]++;
+              pathPoints.add([current[0], current[1]]);
+              hasLeft = true;
+            }
+          }
+          if (movedY > 0) {
+            if (ladder[movedY - 1][x - 1] == 3) {
+              current[0]--;
+              current[1]--;
+              pathPoints.add([current[0], current[1]]);
+              hasLeft = true;
+            }
+          }
+        }
+      } else if (temp == 1) {
         current[0]++;
-      } else if (ladder[y][x] == 2) {
+        pathPoints.add([current[0], current[1]]);
+      } else if (temp == 2) {
         current[0]++;
         current[1]--;
-      } else if (ladder[y][x] == 3) {
+        pathPoints.add([current[0], current[1]]);
+      } else if (temp == 3) {
         current[0]++;
         current[1]++;
+        pathPoints.add([current[0], current[1]]);
       }
-      pathPoints.add([current[0], current[1]]);
     }
 
     setState(() {
@@ -167,7 +218,7 @@ class _LadderGameScreenState extends State<LadderGameScreen> with SingleTickerPr
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: List.generate(
                     numberOfLines,
-                    (index) => Padding(
+                        (index) => Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: ElevatedButton(
                         onPressed: () {
@@ -194,7 +245,7 @@ class _LadderGameScreenState extends State<LadderGameScreen> with SingleTickerPr
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: List.generate(
                     numberOfLines,
-                    (index) => Padding(
+                        (index) => Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: SizedBox(
                         width: 50,
@@ -247,7 +298,7 @@ class _LadderGameScreenState extends State<LadderGameScreen> with SingleTickerPr
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: List.generate(
                     numberOfLines,
-                    (index) => Padding(
+                        (index) => Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: SizedBox(
                         width: 50,
@@ -273,6 +324,17 @@ class _LadderGameScreenState extends State<LadderGameScreen> with SingleTickerPr
                     child: const Text('리셋'),
                   ),
                   ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        showResult = false;
+                        // selectedStart = null;
+                        pathPoints = [];
+                        _controller?.reset();
+                      });
+                    },
+                    child: const Text('경로 지우기'),
+                  ),
+                  ElevatedButton(
                     onPressed: selectedStart != null ? () => calculatePath(selectedStart!) : null,
                     child: const Text('시작'),
                   ),
@@ -288,13 +350,13 @@ class _LadderGameScreenState extends State<LadderGameScreen> with SingleTickerPr
 
 class LadderPainter extends CustomPainter {
   LadderPainter(
-    this.ladder,
-    this.numberOfLines,
-    this.showResult,
-    this.pathPoints,
-    this.selectedStart,
-    this.animationValue,
-  );
+      this.ladder,
+      this.numberOfLines,
+      this.showResult,
+      this.pathPoints,
+      this.selectedStart,
+      this.animationValue,
+      );
 
   final List<List<int>> ladder;
   final int numberOfLines;
