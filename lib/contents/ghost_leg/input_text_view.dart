@@ -50,22 +50,21 @@ class _InputTextViewsState extends ConsumerState<InputTextView> with WidgetsBind
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    return GestureDetector(
-      onTap: () {
-        for (final focusNode in focusNodes) {
-          focusNode.unfocus();
-        }
-      },
-      child: ColoredBox(
-        color: Colors.transparent,
-        child: Column(
-          children: [
-            30.verticalSpace,
-            Text(widget.title, style: ghostLegTitleTextStyle).tr(),
-            100.verticalSpace,
-            FocusTraversalGroup(
-              policy: OrderedTraversalPolicy(),
-              child: Column(
+    return SingleChildScrollView(
+      child: GestureDetector(
+        onTap: () {
+          for (final focusNode in focusNodes) {
+            focusNode.unfocus();
+          }
+        },
+        child: ColoredBox(
+          color: Colors.transparent,
+          child: Column(
+            children: [
+              30.verticalSpace,
+              Text(widget.title, style: ghostLegTitleTextStyle).tr(),
+              40.verticalSpace,
+              Column(
                 children: List.generate(
                   widget.count,
                   (index) => Padding(
@@ -119,8 +118,9 @@ class _InputTextViewsState extends ConsumerState<InputTextView> with WidgetsBind
                   ],
                 ),
               ),
-            ),
-          ],
+              30.verticalSpace,
+            ],
+          ),
         ),
       ),
     );

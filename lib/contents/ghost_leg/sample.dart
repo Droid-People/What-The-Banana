@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:what_the_banana/common/logger.dart';
+import 'package:what_the_banana/contents/ghost_leg/ladder_painter.dart';
 
 void main() {
   runApp(const LadderGameApp());
@@ -46,7 +47,7 @@ class _LadderGameScreenState extends State<LadderGameScreen> with SingleTickerPr
       setState(() {});
     });
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller!);
-    generateLadder();
+    generateLadder(numberOfLines);
   }
 
   @override
@@ -57,7 +58,7 @@ class _LadderGameScreenState extends State<LadderGameScreen> with SingleTickerPr
 
   static const ladderRowCount = 12;
 
-  void generateLadder() {
+  void generateLadder(int numberOfLines) {
     final colCount = numberOfLines - 1;
     ladder = List.generate(ladderRowCount, (row) => List.generate(numberOfLines, (_) => 0));
 
@@ -137,13 +138,9 @@ class _LadderGameScreenState extends State<LadderGameScreen> with SingleTickerPr
     pathPoints = [];
     final current = [start, 0];
     pathPoints.add([start, 0]);
-    Log.i('first: ${pathPoints}');
-    // Main ladder
+
     var hasLeft = false;
     while (current[1] != ladderRowCount) {
-      // 연결된 선이 없으면 아래로 내려간다.
-      // 아래로 내려가면서 연결된 선이 있는지 확인한다.
-      // 연결된 선이 있으면 그 선을 따라 이동한다.
       final x = current[0];
       final y = current[1];
 
@@ -320,7 +317,7 @@ class _LadderGameScreenState extends State<LadderGameScreen> with SingleTickerPr
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    onPressed: generateLadder,
+                    onPressed: () => generateLadder(numberOfLines),
                     child: const Text('리셋'),
                   ),
                   ElevatedButton(
@@ -346,90 +343,4 @@ class _LadderGameScreenState extends State<LadderGameScreen> with SingleTickerPr
       ),
     );
   }
-}
-
-class LadderPainter extends CustomPainter {
-  LadderPainter(
-      this.ladder,
-      this.numberOfLines,
-      this.showResult,
-      this.pathPoints,
-      this.selectedStart,
-      this.animationValue,
-      );
-
-  final List<List<int>> ladder;
-  final int numberOfLines;
-  final bool showResult;
-  final List<List<int>> pathPoints;
-  final int? selectedStart;
-  final double animationValue;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.black
-      ..strokeWidth = 2.0;
-
-    final pathPaint = Paint()
-      ..color = Colors.red
-      ..strokeWidth = 3.0
-      ..style = PaintingStyle.stroke;
-
-    final width = size.width;
-    final height = size.height;
-    final lineSpacing = width / (numberOfLines - 1);
-    final rowHeight = height / 12;
-
-    // Draw vertical lines
-    for (var i = 0; i < numberOfLines; i++) {
-      canvas.drawLine(
-        Offset(i * lineSpacing, 0),
-        Offset(i * lineSpacing, height),
-        paint,
-      );
-    }
-
-    for (var row = 0; row < ladder.length; row++) {
-      for (var col = 0; col < ladder[row].length; col++) {
-        final y = row * rowHeight;
-        if (ladder[row][col] == 1) {
-          canvas.drawLine(
-            Offset(col * lineSpacing, y),
-            Offset((col + 1) * lineSpacing, y),
-            paint,
-          );
-        } else if (ladder[row][col] == 2 && col < numberOfLines - 1) {
-          canvas.drawLine(
-            Offset(col * lineSpacing, y),
-            Offset((col + 1) * lineSpacing, y - rowHeight),
-            paint,
-          );
-        } else if (ladder[row][col] == 3 && col < numberOfLines - 1) {
-          canvas.drawLine(
-            Offset(col * lineSpacing, y),
-            Offset((col + 1) * lineSpacing, y + rowHeight),
-            paint,
-          );
-        }
-      }
-    }
-
-    // Draw animated path
-    if (showResult && selectedStart != null && pathPoints.isNotEmpty) {
-      final path = Path();
-      final maxSteps = pathPoints.length.toDouble();
-      final steps = (maxSteps * animationValue).ceil();
-      if (steps > 0) {
-        path.moveTo(pathPoints[0][0] * lineSpacing, pathPoints[0][1] * rowHeight);
-        for (var i = 1; i < steps && i < pathPoints.length; i++) {
-          path.lineTo(pathPoints[i][0] * lineSpacing, pathPoints[i][1] * rowHeight);
-        }
-        canvas.drawPath(path, pathPaint);
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
