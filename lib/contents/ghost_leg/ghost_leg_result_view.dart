@@ -21,6 +21,22 @@ class GhostLegResultView extends ConsumerStatefulWidget {
 class _GhostLegResultViewState extends ConsumerState<GhostLegResultView> with SingleTickerProviderStateMixin {
   List<List<int>> ladder = [];
   static const ladderRowCount = 12;
+  static const firstColor = Color(0xFFFF0000);
+  static const secondColor = Color(0xFFFF7700);
+  static const thirdColor = Color(0xFFF4CE23);
+  static const fourthColor = Color(0xFF6CBA4F);
+  static const fifthColor = Color(0xFF1363E3);
+  static const sixthColor = Color(0xFF9000FF);
+  static const seventhColor = Color(0xFF000000);
+  final colors = [
+    firstColor,
+    secondColor,
+    thirdColor,
+    fourthColor,
+    fifthColor,
+    sixthColor,
+    seventhColor,
+  ];
 
   @override
   Widget build(BuildContext context) {

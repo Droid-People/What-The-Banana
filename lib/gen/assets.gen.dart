@@ -123,6 +123,34 @@ class $AssetsImagesGen {
   /// File path: assets/images/korean.webp
   AssetGenImage get korean => const AssetGenImage('assets/images/korean.webp');
 
+  /// File path: assets/images/ladder_result_icon_1.png
+  AssetGenImage get ladderResultIcon1 =>
+      const AssetGenImage('assets/images/ladder_result_icon_1.png');
+
+  /// File path: assets/images/ladder_result_icon_2.png
+  AssetGenImage get ladderResultIcon2 =>
+      const AssetGenImage('assets/images/ladder_result_icon_2.png');
+
+  /// File path: assets/images/ladder_result_icon_3.png
+  AssetGenImage get ladderResultIcon3 =>
+      const AssetGenImage('assets/images/ladder_result_icon_3.png');
+
+  /// File path: assets/images/ladder_result_icon_4.png
+  AssetGenImage get ladderResultIcon4 =>
+      const AssetGenImage('assets/images/ladder_result_icon_4.png');
+
+  /// File path: assets/images/ladder_result_icon_5.png
+  AssetGenImage get ladderResultIcon5 =>
+      const AssetGenImage('assets/images/ladder_result_icon_5.png');
+
+  /// File path: assets/images/ladder_result_icon_6.png
+  AssetGenImage get ladderResultIcon6 =>
+      const AssetGenImage('assets/images/ladder_result_icon_6.png');
+
+  /// File path: assets/images/ladder_result_icon_7.png
+  AssetGenImage get ladderResultIcon7 =>
+      const AssetGenImage('assets/images/ladder_result_icon_7.png');
+
   /// File path: assets/images/next.svg
   String get next => 'assets/images/next.svg';
 
@@ -212,6 +240,13 @@ class $AssetsImagesGen {
     introduction,
     japanese,
     korean,
+    ladderResultIcon1,
+    ladderResultIcon2,
+    ladderResultIcon3,
+    ladderResultIcon4,
+    ladderResultIcon5,
+    ladderResultIcon6,
+    ladderResultIcon7,
     next,
     paceCounters,
     pixelArt,
