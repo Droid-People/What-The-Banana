@@ -51,16 +51,16 @@ class LadderPainter extends CustomPainter {
       ..strokeWidth = 3.0
       ..style = PaintingStyle.stroke;
 
-    final width = size.width;
-    final height = size.height - 50; // 상하 여백을 고려하여 높이 조정
+    final width = size.width - 22;
+    final height = size.height; // 상하 여백을 고려하여 높이 조정
     final lineSpacing = width / (numberOfLines - 1);
     final rowHeight = height / 12;
 
     // Draw vertical lines
     for (var i = 0; i < numberOfLines; i++) {
       canvas.drawLine(
-        Offset(i * lineSpacing, topMargin),
-        Offset(i * lineSpacing, height + topMargin),
+        Offset(i * lineSpacing + 11, topMargin),
+        Offset(i * lineSpacing + 11, height + topMargin),
         paint,
       );
     }
@@ -70,20 +70,20 @@ class LadderPainter extends CustomPainter {
         final y = row * rowHeight + topMargin;
         if (ladder[row][col] == 1) {
           canvas.drawLine(
-            Offset(col * lineSpacing, y),
-            Offset((col + 1) * lineSpacing, y),
+            Offset(col * lineSpacing + 11, y),
+            Offset((col + 1) * lineSpacing + 11, y),
             paint,
           );
         } else if (ladder[row][col] == 2 && col < numberOfLines - 1) {
           canvas.drawLine(
-            Offset(col * lineSpacing, y),
-            Offset((col + 1) * lineSpacing, y - rowHeight),
+            Offset(col * lineSpacing + 11, y),
+            Offset((col + 1) * lineSpacing + 11, y - rowHeight),
             paint,
           );
         } else if (ladder[row][col] == 3 && col < numberOfLines - 1) {
           canvas.drawLine(
-            Offset(col * lineSpacing, y),
-            Offset((col + 1) * lineSpacing, y + rowHeight),
+            Offset(col * lineSpacing + 11, y),
+            Offset((col + 1) * lineSpacing + 11, y + rowHeight),
             paint,
           );
         }
@@ -93,7 +93,7 @@ class LadderPainter extends CustomPainter {
 
     for (var i = 0; i < numberOfLines; i++) {
       final imageOffset = Offset(i * lineSpacing - 15, topMargin - 20); // 이미지 위치 조정
-      final imageSize = Size(20, 20); // 이미지 크기 조정
+      final imageSize = Size(22, 22); // 이미지 크기 조정
       // flySvg.buffer.asUint8List() 로 ui.Image로 변환
 
     }
@@ -109,14 +109,14 @@ class LadderPainter extends CustomPainter {
 
       // 시작점
       path.moveTo(
-        pathPoints[0][0] * lineSpacing,
+        pathPoints[0][0] * lineSpacing + 11,
         pathPoints[0][1] * rowHeight + topMargin,
       );
 
       // 현재까지의 경로 그리기
       for (var i = 1; i <= currentIndex; i++) {
         path.lineTo(
-          pathPoints[i][0] * lineSpacing,
+          pathPoints[i][0] * lineSpacing + 11,
           pathPoints[i][1] * rowHeight + topMargin,
         );
       }
@@ -125,7 +125,7 @@ class LadderPainter extends CustomPainter {
       if (currentIndex < pathPoints.length - 1) {
         final current = pathPoints[currentIndex];
         final next = pathPoints[currentIndex + 1];
-        final interpolatedX = ui.lerpDouble(current[0] * lineSpacing, next[0] * lineSpacing, t)!;
+        final interpolatedX = ui.lerpDouble(current[0] * lineSpacing + 11, next[0] * lineSpacing + 11, t)!;
         final interpolatedY = ui.lerpDouble(current[1] * rowHeight, next[1] * rowHeight, t)! + topMargin;
 
         path.lineTo(interpolatedX, interpolatedY);

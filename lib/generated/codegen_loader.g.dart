@@ -44,6 +44,7 @@ class CodegenLoader extends AssetLoader{
   "cancel": "取消",
   "ghost_leg_title": "梯子游戏",
   "input_participant_number": "输入参与人数",
+  "input_reward_number": "输入项目数量",
   "input_name": "输入姓名",
   "input_reward": "输入奖励",
   "result": "查看结果"
@@ -78,6 +79,7 @@ static const Map<String,dynamic> _ja = {
   "cancel": "キャンセル",
   "ghost_leg_title": "はしごゲーム",
   "input_participant_number": "参加人数を入力",
+  "input_reward_number": "項目数を入力",
   "input_name": "名前を入力",
   "input_reward": "何が当たる？",
   "result": "誰が当たった？"
@@ -112,6 +114,7 @@ static const Map<String,dynamic> _en = {
   "cancel": "Cancel",
   "ghost_leg_title": "GHOST LEG",
   "input_participant_number": "Enter Number of Participants",
+  "input_reward_number": "Enter number of items",
   "input_name": "Enter Names",
   "input_reward": "Enter Rewards",
   "result": "Check Results"
@@ -146,6 +149,7 @@ static const Map<String,dynamic> _ko = {
   "cancel": "취소",
   "ghost_leg_title": "사다리 타기",
   "input_participant_number": "참여 인원 수 입력",
+  "input_reward_number": "항목 갯수 입력",
   "input_name": "이름",
   "input_reward": "당첨",
   "result": "결과"

@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:what_the_banana/contents/ghost_leg/ghost_leg_state_provider.dart';
 import 'package:what_the_banana/contents/ghost_leg/ghost_leg_text_styles.dart';
 import 'package:what_the_banana/contents/ghost_leg/ladder_painter.dart';
+import 'package:what_the_banana/gen/assets.gen.dart';
 import 'package:what_the_banana/gen/fonts.gen.dart';
 
 class GhostLegResultView extends ConsumerStatefulWidget {
@@ -43,93 +44,112 @@ class _GhostLegResultViewState extends ConsumerState<GhostLegResultView> with Si
     final state = ref.watch(ghostLegStateProvider);
     final number = state.number;
     final names = state.names;
+    final rewardImages = [
+      Assets.images.ladderResultIcon1,
+      Assets.images.ladderResultIcon2,
+      Assets.images.ladderResultIcon3,
+      Assets.images.ladderResultIcon4,
+      Assets.images.ladderResultIcon5,
+      Assets.images.ladderResultIcon6,
+      Assets.images.ladderResultIcon7,
+    ];
     final rewards = state.rewards;
     final width = number * 70;
 
-    return Column(
-      children: [
-        30.verticalSpace,
-        const Text('result', style: ghostLegTitleTextStyle).tr(),
-        30.verticalSpace,
-        AnimatedOpacity(
-          opacity: showLadder ? 1.0 : 0.0,
-          duration: const Duration(milliseconds: 1000),
-          curve: Curves.easeIn,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Column(
-              children: [
-                Row(
-                  children: List.generate(number, (index) {
-                    return GestureDetector(
-                      onTap: () {
-                        _controller?.reset();
-                        selectedStart = index;
-                        calculatePath(index);
-                      },
-                      child: Container(
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          30.verticalSpace,
+          const Text('result', style: ghostLegTitleTextStyle).tr(),
+          30.verticalSpace,
+          AnimatedOpacity(
+            opacity: showLadder ? 1.0 : 0.0,
+            duration: const Duration(milliseconds: 1000),
+            curve: Curves.easeIn,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Column(
+                children: [
+                  Row(
+                    children: List.generate(number, (index) {
+                      return GestureDetector(
+                        onTap: () {
+                          _controller?.reset();
+                          selectedStart = index;
+                          calculatePath(index);
+                        },
+                        child: Container(
+                          width: (width - 40) / (number - 1),
+                          alignment: Alignment.center,
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 8),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                child: Text(
+                                  names[index],
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontFamily: FontFamily.ssronet,
+                                    fontFamilyFallback: [FontFamily.unkemptBold],
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                  SizedBox(
+                    width: width - 40 + 22,
+                    height: widget.screenHeight / 2 - 50,
+                    child: CustomPaint(
+                      painter: LadderPainter(
+                        ladder,
+                        number,
+                        showAnimation,
+                        pathPoints,
+                        selectedStart,
+                        _animation?.value ?? 0.0,
+                      ),
+                      size: Size(width - 40, widget.screenHeight / 2),
+                    ),
+                  ),
+                  20.verticalSpace,
+                  Row(
+                    children: List.generate(number, (index) {
+                      return Container(
                         width: (width - 40) / (number - 1),
                         alignment: Alignment.center,
                         child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                              child: Text(
-                                names[index],
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 13),
+                                child: rewardImages[index].image(),
+                              ),
+                              Text(
+                                rewards[index],
                                 style: const TextStyle(
                                   fontSize: 20,
                                   fontFamily: FontFamily.ssronet,
                                   fontFamilyFallback: [FontFamily.unkemptBold],
                                 ),
-                                textAlign: TextAlign.center,
                               ),
-                            ),
+                            ],
                           ),
                         ),
-                      ),
-                    );
-                  }),
-                ),
-                SizedBox(
-                  width: width - 40,
-                  height: widget.screenHeight / 2,
-                  child: CustomPaint(
-                    painter: LadderPainter(
-                      ladder,
-                      number,
-                      showAnimation,
-                      pathPoints,
-                      selectedStart,
-                      _animation?.value ?? 0.0,
-                    ),
-                    size: Size(width - 40, widget.screenHeight / 2),
+                      );
+                    }),
                   ),
-                ),
-                8.verticalSpace,
-                Row(
-                  children: List.generate(number, (index) {
-                    return Container(
-                      width: (width - 40) / (number - 1),
-                      alignment: Alignment.center,
-                      child: Center(
-                        child: Text(
-                          rewards[index],
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontFamily: FontFamily.ssronet,
-                            fontFamilyFallback: [FontFamily.unkemptBold],
-                          ),
-                        ),
-                      ),
-                    );
-                  }),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -153,7 +173,7 @@ class _GhostLegResultViewState extends ConsumerState<GhostLegResultView> with Si
 
   void initializeAnimation() {
     _controller = AnimationController(
-      duration: const Duration(seconds: 8),
+      duration: const Duration(seconds: 6),
       vsync: this,
     )..addListener(() {
         setState(() {});

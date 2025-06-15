@@ -84,10 +84,7 @@ class _GhostLegScreenState extends ConsumerState<GhostLegScreen> {
                 },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 31),
-              child: Assets.images.bananaOnPlate.image(width: 51),
-            ),
+            Assets.images.bananaOnPlate.image(width: 51),
           ],
         ),
       ),

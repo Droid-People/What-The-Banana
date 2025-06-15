@@ -93,6 +93,9 @@ class $AssetsImagesGen {
   AssetGenImage get firstBanana =>
       const AssetGenImage('assets/images/first_banana.webp');
 
+  /// File path: assets/images/fly.svg
+  String get fly => 'assets/images/fly.svg';
+
   /// File path: assets/images/forth_banana.webp
   AssetGenImage get forthBanana =>
       const AssetGenImage('assets/images/forth_banana.webp');
@@ -211,58 +214,59 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<dynamic> get values => [
-    adButton,
-    backButton,
-    banana,
-    bananaFirst,
-    bananaForth,
-    bananaOnPlate,
-    bananaSecond,
-    bananaThird,
-    bigBanana,
-    bigEarth,
-    checked,
-    chinese,
-    creators,
-    creatorsImage,
-    donation,
-    dualCounter,
-    earthIcon,
-    english,
-    feedback,
-    finalBanana,
-    firstBanana,
-    forthBanana,
-    ghostLeg,
-    hanna,
-    homeTopBanana,
-    hyegyeongProfile,
-    introduction,
-    japanese,
-    korean,
-    ladderResultIcon1,
-    ladderResultIcon2,
-    ladderResultIcon3,
-    ladderResultIcon4,
-    ladderResultIcon5,
-    ladderResultIcon6,
-    ladderResultIcon7,
-    next,
-    paceCounters,
-    pixelArt,
-    qrMaker,
-    roulette,
-    saltBread,
-    smallBanana,
-    smallBananaOnPlate,
-    smellyBanana,
-    snowbun,
-    starButterfly,
-    thirdBanana,
-    update,
-    wtbRoundText,
-    yewonProfile,
-  ];
+        adButton,
+        backButton,
+        banana,
+        bananaFirst,
+        bananaForth,
+        bananaOnPlate,
+        bananaSecond,
+        bananaThird,
+        bigBanana,
+        bigEarth,
+        checked,
+        chinese,
+        creators,
+        creatorsImage,
+        donation,
+        dualCounter,
+        earthIcon,
+        english,
+        feedback,
+        finalBanana,
+        firstBanana,
+        fly,
+        forthBanana,
+        ghostLeg,
+        hanna,
+        homeTopBanana,
+        hyegyeongProfile,
+        introduction,
+        japanese,
+        korean,
+        ladderResultIcon1,
+        ladderResultIcon2,
+        ladderResultIcon3,
+        ladderResultIcon4,
+        ladderResultIcon5,
+        ladderResultIcon6,
+        ladderResultIcon7,
+        next,
+        paceCounters,
+        pixelArt,
+        qrMaker,
+        roulette,
+        saltBread,
+        smallBanana,
+        smallBananaOnPlate,
+        smellyBanana,
+        snowbun,
+        starButterfly,
+        thirdBanana,
+        update,
+        wtbRoundText,
+        yewonProfile
+      ];
 }
 
 class $AssetsTranslationsGen {
@@ -316,24 +320,17 @@ class $AssetsUpdateNotesGen {
 }
 
 class Assets {
-  const Assets._();
+  Assets._();
 
-  static const String aEnv = '.env';
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
   static const $AssetsUpdateNotesGen updateNotes = $AssetsUpdateNotesGen();
-
-  /// List of all assets
-  static List<String> get values => [aEnv];
 }
 
 class AssetGenImage {
-  const AssetGenImage(this._assetName, {this.size, this.flavors = const {}});
+  const AssetGenImage(this._assetName);
 
   final String _assetName;
-
-  final Size? size;
-  final Set<String> flavors;
 
   Image image({
     Key? key,
@@ -353,10 +350,10 @@ class AssetGenImage {
     ImageRepeat repeat = ImageRepeat.noRepeat,
     Rect? centerSlice,
     bool matchTextDirection = false,
-    bool gaplessPlayback = true,
+    bool gaplessPlayback = false,
     bool isAntiAlias = false,
     String? package,
-    FilterQuality filterQuality = FilterQuality.medium,
+    FilterQuality filterQuality = FilterQuality.low,
     int? cacheWidth,
     int? cacheHeight,
   }) {
@@ -388,8 +385,15 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider({AssetBundle? bundle, String? package}) {
-    return AssetImage(_assetName, bundle: bundle, package: package);
+  ImageProvider provider({
+    AssetBundle? bundle,
+    String? package,
+  }) {
+    return AssetImage(
+      _assetName,
+      bundle: bundle,
+      package: package,
+    );
   }
 
   String get path => _assetName;
