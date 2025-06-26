@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -11,6 +10,7 @@ class LadderPainter extends CustomPainter {
     this.pathPoints,
     this.selectedStart,
     this.animationValue,
+    this.flyImages,
   );
 
   final List<List<int>> ladder;
@@ -19,6 +19,7 @@ class LadderPainter extends CustomPainter {
   final List<List<int>> pathPoints;
   final int? selectedStart;
   final double animationValue;
+  final List<ui.Image> flyImages;
   static const double topMargin = 25;
 
   Color getLineColor(int value) {
@@ -90,14 +91,6 @@ class LadderPainter extends CustomPainter {
       }
     }
 
-
-    for (var i = 0; i < numberOfLines; i++) {
-      final imageOffset = Offset(i * lineSpacing - 15, topMargin - 20); // 이미지 위치 조정
-      final imageSize = Size(22, 22); // 이미지 크기 조정
-      // flySvg.buffer.asUint8List() 로 ui.Image로 변환
-
-    }
-
     // Draw animated path
     if (showResult && selectedStart != null && pathPoints.isNotEmpty) {
       final path = Path();
@@ -133,6 +126,51 @@ class LadderPainter extends CustomPainter {
 
       canvas.drawPath(path, pathPaint);
     }
+
+    // 고정된 파리들과 움직이는 파리 그리기
+    if (flyImages.isNotEmpty) {
+      for (var i = 0; i < numberOfLines; i++) {
+        // 선택된 출발점이 아니거나 애니메이션이 시작되지 않았을 때만 고정 파리 표시
+        if (selectedStart != i || !showResult || animationValue == 0.0) {
+          final imageOffset = Offset(i * lineSpacing + 11 - 11, topMargin - 20);
+          canvas.drawImage(flyImages[i], imageOffset, Paint());
+        }
+      }
+
+      // 애니메이션 중인 파리 그리기
+      final flyPosition = getCurrentFlyPosition(lineSpacing, rowHeight);
+      if (flyPosition != null) {
+        final animatedFlyOffset = Offset(flyPosition.dx - 11, flyPosition.dy - 11);
+        canvas.drawImage(flyImages[selectedStart!], animatedFlyOffset, Paint());
+      }
+    }
+  }
+
+  Offset? getCurrentFlyPosition(double lineSpacing, double rowHeight) {
+    if (!showResult || selectedStart == null || pathPoints.isEmpty || flyImages.isEmpty) {
+      return null;
+    }
+
+    final progress = animationValue.clamp(0.0, 1.0);
+    final currentIndex = (progress * (pathPoints.length - 1)).floor();
+    final t = (progress * (pathPoints.length - 1)) - currentIndex;
+
+    if (currentIndex >= pathPoints.length - 1) {
+      // 애니메이션 완료 시 마지막 위치
+      final lastPoint = pathPoints.last;
+      return Offset(
+        lastPoint[0] * lineSpacing + 11,
+        lastPoint[1] * rowHeight + topMargin,
+      );
+    }
+
+    // 현재 위치와 다음 위치 사이를 보간
+    final current = pathPoints[currentIndex];
+    final next = pathPoints[currentIndex + 1];
+    final interpolatedX = ui.lerpDouble(current[0] * lineSpacing + 11, next[0] * lineSpacing + 11, t)!;
+    final interpolatedY = ui.lerpDouble(current[1] * rowHeight, next[1] * rowHeight, t)! + topMargin;
+
+    return Offset(interpolatedX, interpolatedY);
   }
 
   @override

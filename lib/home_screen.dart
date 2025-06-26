@@ -131,9 +131,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             GestureDetector(
               onTap: () {
-                context.go(Routes.qrMaker);
+                context.go(Routes.ghostLeg);
               },
-              child: Assets.images.qrMaker.image(),
+              child: Assets.images.ghostLeg.image(),
             ),
             18.verticalSpace,
             Stack(
@@ -195,9 +195,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             GestureDetector(
               onTap: () {
-                context.go(Routes.ghostLeg);
+                context.go(Routes.qrMaker);
               },
-              child: Assets.images.ghostLeg.image(),
+              child: Assets.images.qrMaker.image(),
             ),
             38.verticalSpace,
             SmallText('HAVE A NICE DAY.'),

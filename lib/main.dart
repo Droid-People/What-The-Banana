@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
             textSelectionTheme: const TextSelectionThemeData(
               selectionColor: ColorName.lightGrey,
               selectionHandleColor: Colors.white,
-              cursorColor: Colors.black
+              cursorColor: Colors.black,
             ),
             appBarTheme: const AppBarTheme(
               titleTextStyle: TextStyle(
@@ -89,7 +89,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
             scaffoldBackgroundColor: ColorName.homeMainBackground,
-            dialogTheme: const DialogTheme(
+            dialogTheme: const DialogThemeData(
               titleTextStyle: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,

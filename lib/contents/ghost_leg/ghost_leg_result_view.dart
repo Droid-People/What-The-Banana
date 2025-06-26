@@ -1,11 +1,12 @@
 import 'dart:math';
+import 'dart:ui' as ui;
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:what_the_banana/contents/ghost_leg/ghost_leg_state_provider.dart';
-import 'package:what_the_banana/contents/ghost_leg/ghost_leg_text_styles.dart';
 import 'package:what_the_banana/contents/ghost_leg/ladder_painter.dart';
 import 'package:what_the_banana/gen/assets.gen.dart';
 import 'package:what_the_banana/gen/fonts.gen.dart';
@@ -22,22 +23,6 @@ class GhostLegResultView extends ConsumerStatefulWidget {
 class _GhostLegResultViewState extends ConsumerState<GhostLegResultView> with SingleTickerProviderStateMixin {
   List<List<int>> ladder = [];
   static const ladderRowCount = 12;
-  static const firstColor = Color(0xFFFF0000);
-  static const secondColor = Color(0xFFFF7700);
-  static const thirdColor = Color(0xFFF4CE23);
-  static const fourthColor = Color(0xFF6CBA4F);
-  static const fifthColor = Color(0xFF1363E3);
-  static const sixthColor = Color(0xFF9000FF);
-  static const seventhColor = Color(0xFF000000);
-  final colors = [
-    firstColor,
-    secondColor,
-    thirdColor,
-    fourthColor,
-    fifthColor,
-    sixthColor,
-    seventhColor,
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -54,13 +39,11 @@ class _GhostLegResultViewState extends ConsumerState<GhostLegResultView> with Si
       Assets.images.ladderResultIcon7,
     ];
     final rewards = state.rewards;
-    final width = number * 70;
+    final longSide = MediaQuery.of(context).size.width;
 
     return SingleChildScrollView(
       child: Column(
         children: [
-          30.verticalSpace,
-          const Text('result', style: ghostLegTitleTextStyle).tr(),
           30.verticalSpace,
           AnimatedOpacity(
             opacity: showLadder ? 1.0 : 0.0,
@@ -72,28 +55,39 @@ class _GhostLegResultViewState extends ConsumerState<GhostLegResultView> with Si
                 children: [
                   Row(
                     children: List.generate(number, (index) {
-                      return GestureDetector(
-                        onTap: () {
-                          _controller?.reset();
-                          selectedStart = index;
-                          calculatePath(index);
-                        },
-                        child: Container(
-                          width: (width - 40) / (number - 1),
-                          alignment: Alignment.center,
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                child: Text(
-                                  names[index],
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontFamily: FontFamily.ssronet,
-                                    fontFamilyFallback: [FontFamily.unkemptBold],
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            padding: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              side: BorderSide(color: colors[index % colors.length], width: 2),
+                            ),
+                          ),
+                          onPressed: () {
+                            _controller?.reset();
+                            selectedStart = index;
+                            calculatePath(index);
+                          },
+                          child: Container(
+                            width: (longSide - 40) / (number - 1) - 8,
+                            alignment: Alignment.center,
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  child: Text(
+                                    names[index],
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: FontFamily.ssronet,
+                                      fontFamilyFallback: [FontFamily.unkemptBold],
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  textAlign: TextAlign.center,
                                 ),
                               ),
                             ),
@@ -103,7 +97,7 @@ class _GhostLegResultViewState extends ConsumerState<GhostLegResultView> with Si
                     }),
                   ),
                   SizedBox(
-                    width: width - 40 + 22,
+                    width: longSide - 40 + 22,
                     height: widget.screenHeight / 2 - 50,
                     child: CustomPaint(
                       painter: LadderPainter(
@@ -113,29 +107,36 @@ class _GhostLegResultViewState extends ConsumerState<GhostLegResultView> with Si
                         pathPoints,
                         selectedStart,
                         _animation?.value ?? 0.0,
+                        flyImages,
                       ),
-                      size: Size(width - 40, widget.screenHeight / 2),
+                      size: Size(longSide - 40, widget.screenHeight / 2),
                     ),
                   ),
                   20.verticalSpace,
                   Row(
                     children: List.generate(number, (index) {
                       return Container(
-                        width: (width - 40) / (number - 1),
+                        width: (longSide - 40) / (number - 1),
                         alignment: Alignment.center,
                         child: Center(
                           child: Column(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 13),
+                                padding: EdgeInsets.zero,
                                 child: rewardImages[index].image(),
                               ),
-                              Text(
-                                rewards[index],
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontFamily: FontFamily.ssronet,
-                                  fontFamilyFallback: [FontFamily.unkemptBold],
+                              SizedBox(
+                                height: 50,
+                                child: Text(
+                                  rewards[index],
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontFamily: FontFamily.ssronet,
+                                    fontFamilyFallback: [FontFamily.unkemptBold],
+                                    height: 1,
+                                  ),
+                                  // maxLines: 1,
+                                  // overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],
@@ -164,7 +165,7 @@ class _GhostLegResultViewState extends ConsumerState<GhostLegResultView> with Si
   void initState() {
     super.initState();
     initializeAnimation();
-
+    loadFlyImages();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final state = ref.read(ghostLegStateProvider);
       generateLadder(state.number);
@@ -179,6 +180,24 @@ class _GhostLegResultViewState extends ConsumerState<GhostLegResultView> with Si
         setState(() {});
       });
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller!);
+  }
+
+  List<ui.Image> flyImages = [];
+
+  Future<void> loadFlyImages() async {
+    Future<ui.Image> makeImage(Color c, int index) async {
+      final flyLoader = SvgAssetLoader('assets/images/fly.svg', colorMapper: ColorMapperBase(index));
+      final info = await vg.loadPicture(flyLoader, null);
+      final img = await info.picture.toImage(22, 22);
+      info.picture.dispose();
+      return img;
+    }
+
+    // 여러 색을 병렬로 한꺼번에 로드
+    final futures = List.generate(colors.length, (index) => makeImage(colors[index], index));
+    flyImages = await Future.wait(futures);
+
+    setState(() {});
   }
 
   @override
@@ -319,5 +338,34 @@ class _GhostLegResultViewState extends ConsumerState<GhostLegResultView> with Si
       showAnimation = true;
       _controller?.forward();
     });
+  }
+}
+
+const firstColor = Color(0xFFFF0000);
+const secondColor = Color(0xFFFF7700);
+const thirdColor = Color(0xFFF4CE23);
+const fourthColor = Color(0xFF6CBA4F);
+const fifthColor = Color(0xFF1363E3);
+const sixthColor = Color(0xFF9000FF);
+const seventhColor = Color(0xFF000000);
+
+final colors = [
+  firstColor,
+  secondColor,
+  thirdColor,
+  fourthColor,
+  fifthColor,
+  sixthColor,
+  seventhColor,
+];
+
+class ColorMapperBase extends ColorMapper {
+  const ColorMapperBase(this.index);
+
+  final int index;
+
+  @override
+  ui.Color substitute(String? id, String elementName, String attributeName, ui.Color color) {
+    return colors[index];
   }
 }

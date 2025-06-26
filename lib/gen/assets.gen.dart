@@ -50,6 +50,10 @@ class $AssetsImagesGen {
   AssetGenImage get bigEarth =>
       const AssetGenImage('assets/images/big_earth.webp');
 
+  /// File path: assets/images/boring_km.png
+  AssetGenImage get boringKm =>
+      const AssetGenImage('assets/images/boring_km.png');
+
   /// File path: assets/images/checked.webp
   AssetGenImage get checked =>
       const AssetGenImage('assets/images/checked.webp');
@@ -61,10 +65,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/creators.webp
   AssetGenImage get creators =>
       const AssetGenImage('assets/images/creators.webp');
-
-  /// File path: assets/images/creators_image.webp
-  AssetGenImage get creatorsImage =>
-      const AssetGenImage('assets/images/creators_image.webp');
 
   /// File path: assets/images/donation.svg
   String get donation => 'assets/images/donation.svg';
@@ -93,8 +93,11 @@ class $AssetsImagesGen {
   AssetGenImage get firstBanana =>
       const AssetGenImage('assets/images/first_banana.webp');
 
+  /// File path: assets/images/fly.png
+  AssetGenImage get flyPng => const AssetGenImage('assets/images/fly.png');
+
   /// File path: assets/images/fly.svg
-  String get fly => 'assets/images/fly.svg';
+  String get flySvg => 'assets/images/fly.svg';
 
   /// File path: assets/images/forth_banana.webp
   AssetGenImage get forthBanana =>
@@ -106,6 +109,10 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/hanna.webp
   AssetGenImage get hanna => const AssetGenImage('assets/images/hanna.webp');
+
+  /// File path: assets/images/hanna_profile.png
+  AssetGenImage get hannaProfile =>
+      const AssetGenImage('assets/images/hanna_profile.png');
 
   /// File path: assets/images/home_top_banana.webp
   AssetGenImage get homeTopBanana =>
@@ -224,10 +231,10 @@ class $AssetsImagesGen {
         bananaThird,
         bigBanana,
         bigEarth,
+        boringKm,
         checked,
         chinese,
         creators,
-        creatorsImage,
         donation,
         dualCounter,
         earthIcon,
@@ -235,10 +242,12 @@ class $AssetsImagesGen {
         feedback,
         finalBanana,
         firstBanana,
-        fly,
+        flyPng,
+        flySvg,
         forthBanana,
         ghostLeg,
         hanna,
+        hannaProfile,
         homeTopBanana,
         hyegyeongProfile,
         introduction,
