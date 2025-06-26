@@ -212,6 +212,8 @@ class _HomeScreenState extends State<HomeScreen> {
             45.verticalSpace,
             ScrollToTopButton(),
             87.verticalSpace,
+            BottomAdView(),
+            24.verticalSpace,
           ],
         ),
       ),
