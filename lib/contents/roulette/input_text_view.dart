@@ -126,6 +126,9 @@ class _InputTextViewsState extends ConsumerState<InputTextView> with WidgetsBind
     if (index == widget.count - 1) {
       final textList = textEditingControllers.map((controller) => controller.text).toList();
       ref.read(rouletteProvider.notifier).setRewards(textList);
+      for (final focusNode in focusNodes) {
+        focusNode.unfocus();
+      }
       widget.goNext(textList);
     } else {
       focusNodes[index + 1].requestFocus();

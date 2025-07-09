@@ -134,6 +134,9 @@ class _InputTextViewsState extends ConsumerState<InputTextView> with WidgetsBind
       } else {
         ref.read(ghostLegStateProvider.notifier).setRewards(textList);
       }
+      for (final focusNode in focusNodes) {
+        focusNode.unfocus();
+      }
       widget.goNext(textList);
     } else {
       focusNodes[index + 1].requestFocus();

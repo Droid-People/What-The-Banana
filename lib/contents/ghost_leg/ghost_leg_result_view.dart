@@ -39,7 +39,7 @@ class _GhostLegResultViewState extends ConsumerState<GhostLegResultView> with Si
       Assets.images.ladderResultIcon7,
     ];
     final rewards = state.rewards;
-    final longSide = MediaQuery.of(context).size.width * 0.6;
+    final longSide = MediaQuery.of(context).size.width * 0.7;
 
     return SingleChildScrollView(
       child: Column(
