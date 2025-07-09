@@ -54,35 +54,6 @@ android {
         }
     }
 
-    applicationVariants.configureEach {
-        outputs.all { variant ->
-            if (variant.outputFile.name.contains("release")) {
-                val taskSuffix =
-                    name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-                val assembleTaskName = "bundle$taskSuffix"
-                val task = tasks.findByName(assembleTaskName)
-                if (task != null) {
-                    val copyTask = tasks.create("archive${taskSuffix}Copy", Copy::class) {
-                        description = "앱번들 복사하기"
-                        println(description)
-                        from("build/outputs/bundle/release/app-release.aab")
-                        into(copyDir.absolutePath)
-                        include("*.aab")
-                        includeEmptyDirs = false
-                        rename { fileName ->
-                            fileName.replace(
-                                "app-release.aab",
-                                "Untitled_${versionName}.aab"
-                            )
-                        }
-                    }
-                    tasks.getByName(assembleTaskName).finalizedBy(copyTask)
-                }
-            }
-            return@all true
-        }
-    }
-
     buildTypes {
         getByName("release") {
             proguardFiles(

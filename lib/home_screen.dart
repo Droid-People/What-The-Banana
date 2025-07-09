@@ -102,50 +102,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
+            17.verticalSpace,
             Stack(
               children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: DonationButton(),
-                ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: FirstText(),
-                ),
-              ],
-            ),
-            15.verticalSpace,
-            RouletteButton(),
-            8.verticalSpace,
-            Stack(
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: CreatorsButton(),
-                ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: SecondText(),
-                ),
-              ],
-            ),
-            GestureDetector(
-              onTap: () {
-                context.go(Routes.ghostLeg);
-              },
-              child: Assets.images.ghostLeg.image(),
-            ),
-            18.verticalSpace,
-            Stack(
-              children: [
-                Center(
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                      top: 18,
-                    ),
-                    child: SmallText('DOWN, DOWN'),
-                  ),
-                ),
                 Align(
                   alignment: Alignment.topRight,
                   child: GestureDetector(
@@ -158,60 +117,156 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: FirstText(),
+                ),
               ],
             ),
-            7.verticalSpace,
+            37.verticalSpace,
+            RouletteButton(),
+            8.verticalSpace,
+            Stack(
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: CreatorsButton(),
+                ),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: SecondText(),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 3, right: 31),
+                    child: Assets.images.bananaForth.image(),
+                  ),
+                ),
+              ],
+            ),
+            13.verticalSpace,
             GestureDetector(
               onTap: () {
-                context.go(Routes.paceCounter);
+                context.go(Routes.ghostLeg);
               },
-              child: Assets.images.paceCounters.image(),
+              child: Assets.images.ghostLeg.image(),
             ),
             18.verticalSpace,
             Stack(
               children: [
-                Center(
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 22, left: 41),
+                    child: Assets.images.bananaFirst.image(),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topCenter,
                   child: Container(
-                    margin: const EdgeInsets.only(top: 12),
-                    child: SmallText(
-                      "DON'T STOP\nCHEER UP",
-                      textAlign: TextAlign.center,
+                    margin: const EdgeInsets.only(top: 34),
+                    child: Column(
+                      children: [
+                        SmallText('DOWN, DOWN'),
+                        15.verticalSpace,
+                        SmallText("DON'T STOP\nCHEER UP", textAlign: TextAlign.center),
+                      ],
                     ),
                   ),
                 ),
                 Align(
-                  alignment: Alignment.topLeft,
+                  alignment: Alignment.topRight,
                   child: GestureDetector(
                     onTap: () {
                       context.go(Routes.updates);
                     },
                     child: Container(
-                      margin: const EdgeInsets.only(left: 31),
+                      margin: const EdgeInsets.only(right: 24, top: 12),
                       child: Assets.images.update.image(),
                     ),
                   ),
                 ),
               ],
             ),
-            GestureDetector(
-              onTap: () {
-                context.go(Routes.qrMaker);
-              },
-              child: Assets.images.qrMaker.image(),
-            ),
-            38.verticalSpace,
-            SmallText('HAVE A NICE DAY.'),
-            38.verticalSpace,
+            19.verticalSpace,
+            // GestureDetector(
+            //   onTap: () {
+            //     context.go(Routes.paceCounter);
+            //   },
+            //   child: Assets.images.paceCounters.image(),
+            // ),
+            // 18.verticalSpace,
+            // GestureDetector(
+            //   onTap: () {
+            //     context.go(Routes.qrMaker);
+            //   },
+            //   child: Assets.images.qrMaker.image(),
+            // ),
             CounterButton(),
-            38.verticalSpace,
-            SmallText('GOOD LUCK'),
-            38.verticalSpace,
+            Stack(
+              children: [
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 38),
+                    child: SmallText('HAVE A NICE DAY.'),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8, right: 42),
+                    child: Assets.images.bananaSecond.image(),
+                  ),
+                ),
+              ],
+            ),
+            25.verticalSpace,
             AdsButton(),
-            66.verticalSpace,
-            SmallText('GOOD BANANA'),
-            45.verticalSpace,
-            ScrollToTopButton(),
-            87.verticalSpace,
+            23.verticalSpace,
+            Stack(
+              children: [
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 32),
+                    child: Column(
+                      children: [
+                        SmallText('GOOD LUCK'),
+                        18.verticalSpace,
+                        SmallText('GOOD BANANA', fontWeight: FontWeight.w700),
+                        18.verticalSpace,
+                        SmallText('More bananas are coming soon...'),
+                      ],
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 23, left: 42),
+                    child: Assets.images.bananaThird.image(),
+                  ),
+                ),
+              ],
+            ),
+            29.verticalSpace,
+            Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                Container(
+                  width: 1,
+                  height: 46,
+                  color: Colors.black,
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 39),
+                  child: ScrollToTopButton(),
+                ),
+              ],
+            ),
+            41.verticalSpace,
             BottomAdView(),
             24.verticalSpace,
           ],
@@ -292,7 +347,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Container SecondText() {
     return Container(
-      margin: const EdgeInsets.only(top: 17),
+      margin: const EdgeInsets.only(top: 38),
       child: Text(
         'Click on\nthe function you want',
         style: Theme.of(context).textTheme.labelSmall,
@@ -346,7 +401,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        14.verticalSpace,
+        19.verticalSpace,
         SmallText('HELLO'),
         13.verticalSpace,
         SmallText('WELCOME TO\nWTB', textAlign: TextAlign.center),

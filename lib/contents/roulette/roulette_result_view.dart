@@ -57,12 +57,16 @@ class _RouletteResultViewState extends State<RouletteResultView> {
     super.initState();
   }
 
-  var result = '';
+  String result = '';
+  bool isRotating = false;
 
   void rotate() {
     selected.add(
       Fortune.randomInt(0, items.length),
     ); // 초기 선택 인덱스 설정
+    setState(() {
+      isRotating = true;
+    });
   }
 
   @override
@@ -90,7 +94,9 @@ class _RouletteResultViewState extends State<RouletteResultView> {
                   }
                 },
                 onAnimationEnd: () {
-                  setState(() {});
+                  setState(() {
+                    isRotating = false;
+                  });
                 },
                 animateFirst: false,
                 indicators: const [
@@ -114,18 +120,21 @@ class _RouletteResultViewState extends State<RouletteResultView> {
             ],
           ),
           30.verticalSpace,
-          GestureDetector(
-            onTap: rotate,
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(width: 2),
-                borderRadius: BorderRadius.circular(16),
+          Visibility(
+            visible: !isRotating,
+            child: GestureDetector(
+              onTap: rotate,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(width: 2),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: const Text(
+                  'start',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+                ).tr(),
               ),
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              child: const Text(
-                'start',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
-              ).tr(),
             ),
           ),
         ],

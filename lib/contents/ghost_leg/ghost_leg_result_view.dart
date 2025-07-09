@@ -39,7 +39,7 @@ class _GhostLegResultViewState extends ConsumerState<GhostLegResultView> with Si
       Assets.images.ladderResultIcon7,
     ];
     final rewards = state.rewards;
-    final longSide = MediaQuery.of(context).size.width;
+    final longSide = MediaQuery.of(context).size.width * 0.6;
 
     return SingleChildScrollView(
       child: Column(
@@ -56,17 +56,9 @@ class _GhostLegResultViewState extends ConsumerState<GhostLegResultView> with Si
                   Row(
                     children: List.generate(number, (index) {
                       return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            padding: EdgeInsets.zero,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              side: BorderSide(color: colors[index % colors.length], width: 2),
-                            ),
-                          ),
-                          onPressed: () {
+                        padding: const EdgeInsets.only(left: 4, right: 4, bottom: 12),
+                        child: GestureDetector(
+                          onTap: () {
                             _controller?.reset();
                             selectedStart = index;
                             calculatePath(index);
@@ -74,20 +66,26 @@ class _GhostLegResultViewState extends ConsumerState<GhostLegResultView> with Si
                           child: Container(
                             width: (longSide - 40) / (number - 1) - 8,
                             alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: colors[index % colors.length],
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                             child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 8),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                  child: Text(
-                                    names[index],
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontFamily: FontFamily.ssronet,
-                                      fontFamilyFallback: [FontFamily.unkemptBold],
-                                    ),
-                                    textAlign: TextAlign.center,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                child: Text(
+                                  names[index],
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontFamily: FontFamily.ssronet,
+                                    fontFamilyFallback: [FontFamily.unkemptBold],
+                                    fontWeight: FontWeight.w900,
                                   ),
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
                             ),
@@ -112,7 +110,7 @@ class _GhostLegResultViewState extends ConsumerState<GhostLegResultView> with Si
                       size: Size(longSide - 40, widget.screenHeight / 2),
                     ),
                   ),
-                  20.verticalSpace,
+                  30.verticalSpace,
                   Row(
                     children: List.generate(number, (index) {
                       return Container(
@@ -125,14 +123,22 @@ class _GhostLegResultViewState extends ConsumerState<GhostLegResultView> with Si
                                 padding: EdgeInsets.zero,
                                 child: rewardImages[index].image(),
                               ),
-                              SizedBox(
-                                height: 50,
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                 child: Text(
                                   rewards[index],
                                   style: const TextStyle(
                                     fontSize: 20,
                                     fontFamily: FontFamily.ssronet,
                                     fontFamilyFallback: [FontFamily.unkemptBold],
+                                    fontWeight: FontWeight.w900,
                                     height: 1,
                                   ),
                                   // maxLines: 1,

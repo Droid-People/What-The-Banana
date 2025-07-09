@@ -19,3 +19,9 @@ link: https://pub.dev/packages/easy_localization
 ```zsh
 dart run easy_localization:generate --source-dir ./assets/translations
 ```
+
+### oss_licenses commands
+link: https://pub.dev/packages/flutter_oss_licenses
+```zsh
+dart run flutter_oss_licenses:generate
+```

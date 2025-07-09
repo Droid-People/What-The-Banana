@@ -103,9 +103,9 @@ class $AssetsImagesGen {
   AssetGenImage get forthBanana =>
       const AssetGenImage('assets/images/forth_banana.webp');
 
-  /// File path: assets/images/ghost_leg.webp
+  /// File path: assets/images/ghost_leg.png
   AssetGenImage get ghostLeg =>
-      const AssetGenImage('assets/images/ghost_leg.webp');
+      const AssetGenImage('assets/images/ghost_leg.png');
 
   /// File path: assets/images/hanna.webp
   AssetGenImage get hanna => const AssetGenImage('assets/images/hanna.webp');
