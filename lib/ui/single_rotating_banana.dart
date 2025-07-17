@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:what_the_banana/gen/assets.gen.dart';
+import 'package:what_the_banana/ui/single_rotating_image_painter.dart';
 import 'package:what_the_banana/ui/ui_utils.dart';
 
 class SingleRotatingBananaController {
@@ -95,28 +96,4 @@ class _SingleRotatingBananaState extends State<SingleRotatingBanana> with Single
       _image = image;
     });
   }
-}
-
-class SingleRotatingImagePainter extends CustomPainter {
-  SingleRotatingImagePainter(this.angle, this.image);
-
-  final double angle;
-  final ui.Image? image;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (image == null) return;
-    final paint = Paint();
-
-    canvas
-      ..save()
-      ..translate(size.width / 2, 0)
-      ..rotate(angle)
-      ..scale(0.2)
-      ..drawImage(image!, Offset(-image!.width / 2, -image!.height / 2), paint)
-      ..restore();
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

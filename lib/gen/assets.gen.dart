@@ -219,6 +219,10 @@ class $AssetsImagesGen {
   AssetGenImage get yewonProfile =>
       const AssetGenImage('assets/images/yewon_profile.webp');
 
+  /// File path: assets/images/young_peace_white.png
+  AssetGenImage get youngPeaceWhite =>
+      const AssetGenImage('assets/images/young_peace_white.png');
+
   /// List of all assets
   List<dynamic> get values => [
         adButton,
@@ -274,7 +278,8 @@ class $AssetsImagesGen {
         thirdBanana,
         update,
         wtbRoundText,
-        yewonProfile
+        yewonProfile,
+        youngPeaceWhite
       ];
 }
 

@@ -1,21 +1,23 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:what_the_banana/common/logger.dart';
+import 'package:what_the_banana/contents/counter/dual_counter_provider.dart';
+import 'package:what_the_banana/gen/assets.gen.dart';
 import 'package:what_the_banana/gen/fonts.gen.dart';
 import 'package:what_the_banana/ui/back_button.dart';
+import 'package:what_the_banana/ui/single_rotating_image_painter.dart';
 
-class CounterScreen extends StatefulWidget {
+class CounterScreen extends ConsumerStatefulWidget {
   const CounterScreen({super.key});
 
   @override
-  State<CounterScreen> createState() => _CounterScreenState();
+  ConsumerState<CounterScreen> createState() => _CounterScreenState();
 }
 
-class _CounterScreenState extends State<CounterScreen> {
-  int left = 0;
-  int right = 0;
+class _CounterScreenState extends ConsumerState<CounterScreen> {
   bool isHidden = false;
 
   Offset dragStartOffset = Offset.zero;
@@ -36,35 +38,56 @@ class _CounterScreenState extends State<CounterScreen> {
     if (isPortrait) {
       return VerticalView(context, maxLines);
     } else {
-      return HorizontalView(context, maxLines);
+      return HorizontalView(context, maxLines, isSpecial: isSpecial);
     }
   }
 
-  Scaffold HorizontalView(BuildContext context, int maxLines) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('DUAL COUNTER', style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.black,
-        leading: BackImage(context, color: Colors.white),
-      ),
-      body: Stack(
-        children: [
-          Row(
-            children: [
-              FirstCounter(context, maxLines),
-              SecondCounter(context, maxLines),
-            ],
-          ),
-          SpecialView(context),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: BackImage(context),
+  Widget HorizontalView(BuildContext context, int maxLines, {required bool isSpecial}) {
+    final title = isSpecial ? '평화교회 청년부(4부) 예배에 오신 것을 환영합니다' : 'DUAL COUNTER';
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(title, style: TextStyle(color: Colors.white, fontSize: isSpecial ? 40 : 60)),
+          backgroundColor: Colors.black,
+          leading: BackImage(context, color: Colors.white),
+        ),
+        resizeToAvoidBottomInset: false,
+        body: Stack(
+          children: [
+            Row(
+              children: [
+                FirstCounter(context, maxLines),
+                SecondCounter(context, maxLines),
+              ],
             ),
-          ),
-        ],
+            Visibility(
+              visible: isSpecial,
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: RotatingImageWidget(
+                    imagePath: Assets.images.youngPeaceWhite.path,
+                    width: 400,
+                    height: 236,
+                  ),
+                ),
+              ),
+            ),
+            SpecialView(context),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: BackImage(context),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -85,9 +108,7 @@ class _CounterScreenState extends State<CounterScreen> {
                 FirstVerticalCounter(context, maxLines),
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      left = 0;
-                    });
+                    ref.read(dualCounterProvider.notifier).resetCount1();
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -96,8 +117,7 @@ class _CounterScreenState extends State<CounterScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                       child: Text('Clear', style: TextStyle(fontSize: 24.sp)),
                     ),
                   ),
@@ -109,9 +129,7 @@ class _CounterScreenState extends State<CounterScreen> {
                 SecondVerticalCounter(context, maxLines),
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      right = 0;
-                    });
+                    ref.read(dualCounterProvider.notifier).resetCount2();
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -120,8 +138,7 @@ class _CounterScreenState extends State<CounterScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                       child: Text('Clear', style: TextStyle(fontSize: 24.sp)),
                     ),
                   ),
@@ -140,9 +157,7 @@ class _CounterScreenState extends State<CounterScreen> {
       child: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
-          setState(() {
-            right++;
-          });
+          ref.read(dualCounterProvider.notifier).incrementCount2();
         },
         onHorizontalDragDown: (details) {
           Log.i('onHorizontalDragDown');
@@ -152,11 +167,7 @@ class _CounterScreenState extends State<CounterScreen> {
           final changedOffset = details.localPosition;
           final dy = changedOffset.dy - dragStartOffset.dy;
           if (dy > 150) {
-            setState(() {
-              if (right > 0) {
-                right--;
-              }
-            });
+            ref.read(dualCounterProvider.notifier).decrementCount2();
           }
         },
         child: Container(
@@ -208,7 +219,7 @@ class _CounterScreenState extends State<CounterScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      right.toString(),
+                      ref.watch(dualCounterProvider).right.toString(),
                       style: const TextStyle(
                         fontSize: 40,
                         color: Colors.black,
@@ -236,9 +247,7 @@ class _CounterScreenState extends State<CounterScreen> {
       child: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
-          setState(() {
-            left++;
-          });
+          ref.read(dualCounterProvider.notifier).incrementCount1();
         },
         onHorizontalDragDown: (details) {
           Log.i('onHorizontalDragDown');
@@ -248,11 +257,7 @@ class _CounterScreenState extends State<CounterScreen> {
           final changedOffset = details.localPosition;
           final dy = changedOffset.dy - dragStartOffset.dy;
           if (dy > 150) {
-            setState(() {
-              if (left > 0) {
-                left--;
-              }
-            });
+            ref.read(dualCounterProvider.notifier).decrementCount1();
           }
         },
         child: Container(
@@ -304,7 +309,7 @@ class _CounterScreenState extends State<CounterScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      left.toString(),
+                      ref.watch(dualCounterProvider).left.toString(),
                       style: const TextStyle(
                         fontSize: 40,
                         color: Colors.black,
@@ -326,194 +331,231 @@ class _CounterScreenState extends State<CounterScreen> {
     );
   }
 
-  GestureDetector SecondCounter(BuildContext context, int maxLines) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-        setState(() {
-          right++;
-        });
-      },
-      onHorizontalDragDown: (details) {
-        Log.i('onHorizontalDragDown');
-        dragStartOffset = details.localPosition;
-      },
-      onHorizontalDragEnd: (details) {
-        final changedOffset = details.localPosition;
-        final dy = changedOffset.dy - dragStartOffset.dy;
-        if (dy > 150) {
-          setState(() {
-            if (right > 0) {
-              right--;
-            }
-          });
-        }
-      },
-      child: Stack(
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width / 2,
-            height: MediaQuery.of(context).size.height,
-            color: Colors.black,
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 100),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      right.toString(),
-                      style: const TextStyle(
-                        fontSize: 140,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w900,
-                        height: 1,
-                      ),
+  Widget SecondCounter(BuildContext context, int maxLines) {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Container(
+        width: MediaQuery.of(context).size.width / 2,
+        padding: const EdgeInsets.only(left: 24, right: 24, top: 40),
+        color: Colors.black,
+        child: Column(
+          children: [
+            TextField(
+              controller: rightTextController,
+              style: const TextStyle(
+                fontSize: 90,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                height: 1,
+              ),
+              enabled: !getIsSpecial(context),
+              maxLines: maxLines,
+              cursorColor: Colors.white,
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                hintText: context.tr('tap_description'),
+                hintStyle: const TextStyle(fontSize: 24, color: Colors.white),
+                focusColor: Colors.white,
+                border: InputBorder.none,
+              ),
+            ),
+            8.verticalSpace,
+            const Divider(
+              color: Colors.white,
+              thickness: 2,
+            ),
+            GestureDetector(
+              onTap: () {
+                FocusScope.of(context).unfocus();
+                ref.read(dualCounterProvider.notifier).incrementCount2();
+              },
+              onPanDown: (_) {
+                Log.i('누를 때');
+                setState(() {
+                  rightColor = Colors.white.withAlpha(70);
+                });
+              },
+              onPanCancel: () {
+                Log.i('뗄 때');
+                setState(() {
+                  rightColor = Colors.black;
+                });
+              },
+              onHorizontalDragDown: (details) {
+                Log.i('onHorizontalDragDown');
+                dragStartOffset = details.localPosition;
+              },
+              onHorizontalDragEnd: (details) {
+                final changedOffset = details.localPosition;
+                final dy = changedOffset.dy - dragStartOffset.dy;
+                if (dy > 150) {
+                  ref.read(dualCounterProvider.notifier).decrementCount2();
+                }
+              },
+              onHorizontalDragCancel: () {
+                setState(() {
+                  rightColor = Colors.black;
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: rightColor,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(100),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          ref.watch(dualCounterProvider).right.toString(),
+                          style: const TextStyle(
+                            fontSize: 140,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w900,
+                            height: 1,
+                          ),
+                        ),
+                        20.verticalSpace,
+                        GestureDetector(
+                          onTap: () {
+                            FocusScope.of(context).unfocus();
+                            ref.read(dualCounterProvider.notifier).decrementCount2();
+                          },
+                          child: const Icon(
+                            Icons.remove_circle_rounded,
+                            color: Colors.white,
+                            size: 40,
+                          ),
+                        ),
+                      ],
                     ),
-                    const Icon(
-                      Icons.swipe_vertical_rounded,
-                      color: Colors.white,
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              width: MediaQuery.of(context).size.width / 2,
-              padding: const EdgeInsets.only(left: 24, right: 24, top: 64),
-              child: Column(
-                children: [
-                  TextField(
-                    controller: rightTextController,
-                    style: const TextStyle(
-                      fontSize: 90,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      height: 1,
-                    ),
-                    maxLines: maxLines,
-                    cursorColor: Colors.white,
-                    textAlign: TextAlign.center,
-                    decoration: InputDecoration(
-                      hintText: context.tr('tap_description'),
-                      hintStyle: const TextStyle(fontSize: 24, color: Colors.white),
-                      focusColor: Colors.white,
-                      border: InputBorder.none,
-                    ),
-                  ),
-                  8.verticalSpace,
-                  const Divider(
-                    color: Colors.white,
-                    thickness: 2,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  GestureDetector FirstCounter(BuildContext context, int maxLines) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-        setState(() {
-          left++;
-        });
-      },
-      onHorizontalDragDown: (details) {
-        Log.i('onHorizontalDragDown');
-        dragStartOffset = details.localPosition;
-      },
-      onHorizontalDragEnd: (details) {
-        final changedOffset = details.localPosition;
-        final dy = changedOffset.dy - dragStartOffset.dy;
-        if (dy > 150) {
-          setState(() {
-            if (left > 0) {
-              left--;
-            }
-          });
-        }
-      },
-      child: Stack(
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width / 2,
-            height: MediaQuery.of(context).size.height,
-            color: Colors.black,
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 100),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      left.toString(),
-                      style: const TextStyle(
-                        fontSize: 140,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w900,
-                        height: 1,
-                      ),
+  Color leftColor = Colors.black;
+  Color rightColor = Colors.black;
+
+  Widget FirstCounter(BuildContext context, int maxLines) {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Container(
+        width: MediaQuery.of(context).size.width / 2,
+        padding: const EdgeInsets.only(left: 24, right: 24, top: 40),
+        color: Colors.black,
+        child: Column(
+          children: [
+            TextField(
+              controller: leftTextController,
+              style: const TextStyle(
+                fontSize: 90,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                height: 1,
+              ),
+              maxLines: maxLines,
+              cursorColor: Colors.white,
+              textAlign: TextAlign.center,
+              enabled: !getIsSpecial(context),
+              decoration: InputDecoration(
+                hintText: context.tr('tap_description'),
+                hintStyle: const TextStyle(fontSize: 24, color: Colors.white),
+                focusColor: Colors.white,
+                border: InputBorder.none,
+              ),
+            ),
+            8.verticalSpace,
+            const Divider(
+              color: Colors.white,
+              thickness: 2,
+            ),
+            GestureDetector(
+              onTap: () {
+                FocusScope.of(context).unfocus();
+                ref.read(dualCounterProvider.notifier).incrementCount1();
+              },
+              onPanDown: (_) {
+                Log.i('누를 때');
+                setState(() {
+                  leftColor = Colors.white.withAlpha(70);
+                });
+              },
+              onPanCancel: () {
+                Log.i('뗄 때');
+                setState(() {
+                  leftColor = Colors.black;
+                });
+              },
+              onHorizontalDragDown: (details) {
+                dragStartOffset = details.localPosition;
+              },
+              onHorizontalDragEnd: (details) {
+                final changedOffset = details.localPosition;
+                final dy = changedOffset.dy - dragStartOffset.dy;
+                if (dy > 150) {
+                  ref.read(dualCounterProvider.notifier).decrementCount1();
+                }
+              },
+              onHorizontalDragCancel: () {
+                setState(() {
+                  leftColor = Colors.black;
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: leftColor,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(100),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          ref.watch(dualCounterProvider).left.toString(),
+                          style: const TextStyle(
+                            fontSize: 140,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w900,
+                            height: 1,
+                          ),
+                        ),
+                        20.verticalSpace,
+                        GestureDetector(
+                          onTap: () {
+                            FocusScope.of(context).unfocus();
+                            ref.read(dualCounterProvider.notifier).decrementCount1();
+                          },
+                          child: const Icon(
+                            Icons.remove_circle_rounded,
+                            color: Colors.white,
+                            size: 40,
+                          ),
+                        ),
+                      ],
                     ),
-                    const Icon(
-                      Icons.swipe_vertical_rounded,
-                      color: Colors.white,
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              width: MediaQuery.of(context).size.width / 2,
-              padding: const EdgeInsets.only(left: 24, right: 24, top: 64),
-              child: Column(
-                children: [
-                  TextField(
-                    controller: leftTextController,
-                    style: const TextStyle(
-                      fontSize: 90,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      height: 1,
-                    ),
-                    maxLines: maxLines,
-                    cursorColor: Colors.white,
-                    textAlign: TextAlign.center,
-                    decoration: InputDecoration(
-                      hintText: context.tr('tap_description'),
-                      hintStyle: const TextStyle(fontSize: 24, color: Colors.white),
-                      focusColor: Colors.white,
-                      border: InputBorder.none,
-                    ),
-                  ),
-                  8.verticalSpace,
-                  const Divider(
-                    color: Colors.white,
-                    thickness: 2,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Visibility SpecialView(BuildContext context) {
-    final isSpecial = getIsSpecial(context);
     return Visibility(
-      visible: isSpecial,
+      visible: getIsSpecial(context),
       child: SafeArea(
         child: Align(
           alignment: Alignment.bottomCenter,
@@ -530,6 +572,7 @@ class _CounterScreenState extends State<CounterScreen> {
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.white, width: 4),
                     borderRadius: BorderRadius.circular(16),
+                    color: Colors.black,
                   ),
                   child: const Text(
                     '처음 왔어요',
@@ -548,8 +591,7 @@ class _CounterScreenState extends State<CounterScreen> {
     );
   }
 
-  bool getIsSpecial(BuildContext context) =>
-      GoRouterState.of(context).extra as bool? ?? false;
+  bool getIsSpecial(BuildContext context) => GoRouterState.of(context).extra as bool? ?? false;
 
   void showGuideDialog(BuildContext context) {
     showDialog<void>(
