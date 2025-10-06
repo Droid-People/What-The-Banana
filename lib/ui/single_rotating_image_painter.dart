@@ -44,7 +44,7 @@ class _RotatingImageWidgetState extends State<RotatingImageWidget> with SingleTi
   double _rotationSpeed = 0;
   bool _isIncreasing = true; // 속도 증가/감소 방향
   final double _maxSpeed = 60; // 최대 속도
-  final double _speedStep = 3; // 속도 변화량
+  final double _speedStep = 5; // 속도 변화량
   ui.Image? image;
 
   @override

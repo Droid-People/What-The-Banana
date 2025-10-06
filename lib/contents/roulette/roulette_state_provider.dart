@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 
 final rouletteProvider = StateNotifierProvider.autoDispose<RouletteStateNotifier, RouletteState>(
       (ref) => RouletteStateNotifier(),

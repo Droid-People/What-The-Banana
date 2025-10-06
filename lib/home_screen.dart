@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -62,214 +63,221 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorName.homeMainBackground,
-      body: SingleChildScrollView(
-        controller: scrollController,
-        physics: const ClampingScrollPhysics(),
-        child: Column(
-          children: [
-            ColoredBox(
-              color: ColorName.homeTopBackground,
-              child: SafeArea(
-                left: false,
-                right: false,
-                bottom: false,
-                child: Stack(
-                  children: [
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Assets.images.homeTopBanana.image(),
-                    ),
-                    LanguageButton(),
-                  ],
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.light,
+      ),
+      child: Scaffold(
+        backgroundColor: ColorName.homeMainBackground,
+        body: SingleChildScrollView(
+          controller: scrollController,
+          physics: const ClampingScrollPhysics(),
+          child: Column(
+            children: [
+              ColoredBox(
+                color: ColorName.homeTopBackground,
+                child: SafeArea(
+                  left: false,
+                  right: false,
+                  bottom: false,
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Assets.images.homeTopBanana.image(),
+                      ),
+                      LanguageButton(),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Stack(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 12),
-                  child: CustomMarquee(),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 74, left: 29),
-                  child: IntroductionButton(),
-                ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: PixelArtButton(),
-                ),
-              ],
-            ),
-            17.verticalSpace,
-            Stack(
-              children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: GestureDetector(
-                    onTap: () {
-                      context.go(Routes.feedback);
-                    },
+              Stack(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 12),
+                    child: CustomMarquee(),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 74, left: 29),
+                    child: IntroductionButton(),
+                  ),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: PixelArtButton(),
+                  ),
+                ],
+              ),
+              17.verticalSpace,
+              Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: GestureDetector(
+                      onTap: () {
+                        context.go(Routes.feedback);
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 28),
+                        child: Assets.images.feedback.image(),
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: FirstText(),
+                  ),
+                ],
+              ),
+              37.verticalSpace,
+              RouletteButton(),
+              8.verticalSpace,
+              Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: CreatorsButton(),
+                  ),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: SecondText(),
+                  ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 3, right: 31),
+                      child: Assets.images.bananaForth.image(),
+                    ),
+                  ),
+                ],
+              ),
+              13.verticalSpace,
+              GestureDetector(
+                onTap: () {
+                  context.go(Routes.ghostLeg);
+                },
+                child: Assets.images.ghostLeg.image(),
+              ),
+              18.verticalSpace,
+              Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 22, left: 41),
+                      child: Assets.images.bananaFirst.image(),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topCenter,
                     child: Container(
-                      margin: const EdgeInsets.only(right: 28),
-                      child: Assets.images.feedback.image(),
+                      margin: const EdgeInsets.only(top: 34),
+                      child: Column(
+                        children: [
+                          SmallText('DOWN, DOWN'),
+                          15.verticalSpace,
+                          SmallText("DON'T STOP\nCHEER UP", textAlign: TextAlign.center),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: FirstText(),
-                ),
-              ],
-            ),
-            37.verticalSpace,
-            RouletteButton(),
-            8.verticalSpace,
-            Stack(
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: CreatorsButton(),
-                ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: SecondText(),
-                ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 3, right: 31),
-                    child: Assets.images.bananaForth.image(),
-                  ),
-                ),
-              ],
-            ),
-            13.verticalSpace,
-            GestureDetector(
-              onTap: () {
-                context.go(Routes.ghostLeg);
-              },
-              child: Assets.images.ghostLeg.image(),
-            ),
-            18.verticalSpace,
-            Stack(
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 22, left: 41),
-                    child: Assets.images.bananaFirst.image(),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 34),
-                    child: Column(
-                      children: [
-                        SmallText('DOWN, DOWN'),
-                        15.verticalSpace,
-                        SmallText("DON'T STOP\nCHEER UP", textAlign: TextAlign.center),
-                      ],
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: GestureDetector(
+                      onTap: () {
+                        context.go(Routes.updates);
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 24, top: 12),
+                        child: Assets.images.update.image(),
+                      ),
                     ),
                   ),
-                ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: GestureDetector(
-                    onTap: () {
-                      context.go(Routes.updates);
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 24, top: 12),
-                      child: Assets.images.update.image(),
+                ],
+              ),
+              19.verticalSpace,
+              // GestureDetector(
+              //   onTap: () {
+              //     context.go(Routes.paceCounter);
+              //   },
+              //   child: Assets.images.paceCounters.image(),
+              // ),
+              // 18.verticalSpace,
+              // GestureDetector(
+              //   onTap: () {
+              //     context.go(Routes.qrMaker);
+              //   },
+              //   child: Assets.images.qrMaker.image(),
+              // ),
+              CounterButton(),
+              Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 38),
+                      child: SmallText('HAVE A NICE DAY.'),
                     ),
                   ),
-                ),
-              ],
-            ),
-            19.verticalSpace,
-            // GestureDetector(
-            //   onTap: () {
-            //     context.go(Routes.paceCounter);
-            //   },
-            //   child: Assets.images.paceCounters.image(),
-            // ),
-            // 18.verticalSpace,
-            // GestureDetector(
-            //   onTap: () {
-            //     context.go(Routes.qrMaker);
-            //   },
-            //   child: Assets.images.qrMaker.image(),
-            // ),
-            CounterButton(),
-            Stack(
-              children: [
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 38),
-                    child: SmallText('HAVE A NICE DAY.'),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 8, right: 42),
-                    child: Assets.images.bananaSecond.image(),
-                  ),
-                ),
-              ],
-            ),
-            25.verticalSpace,
-            AdsButton(),
-            23.verticalSpace,
-            Stack(
-              children: [
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 32),
-                    child: Column(
-                      children: [
-                        SmallText('GOOD LUCK'),
-                        18.verticalSpace,
-                        SmallText('GOOD BANANA', fontWeight: FontWeight.w700),
-                        18.verticalSpace,
-                        SmallText('More bananas are coming soon...'),
-                      ],
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8, right: 42),
+                      child: Assets.images.bananaSecond.image(),
                     ),
                   ),
-                ),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 23, left: 42),
-                    child: Assets.images.bananaThird.image(),
+                ],
+              ),
+              25.verticalSpace,
+              AdsButton(),
+              23.verticalSpace,
+              Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 32),
+                      child: Column(
+                        children: [
+                          SmallText('GOOD LUCK'),
+                          18.verticalSpace,
+                          SmallText('GOOD BANANA', fontWeight: FontWeight.w700),
+                          18.verticalSpace,
+                          SmallText('More bananas are coming soon...'),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ],
-            ),
-            29.verticalSpace,
-            Stack(
-              alignment: Alignment.topCenter,
-              children: [
-                Container(
-                  width: 1,
-                  height: 46,
-                  color: Colors.black,
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 39),
-                  child: ScrollToTopButton(),
-                ),
-              ],
-            ),
-            41.verticalSpace,
-            BottomAdView(),
-            24.verticalSpace,
-          ],
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 23, left: 42),
+                      child: Assets.images.bananaThird.image(),
+                    ),
+                  ),
+                ],
+              ),
+              29.verticalSpace,
+              Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  Container(
+                    width: 1,
+                    height: 46,
+                    color: Colors.black,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 39),
+                    child: ScrollToTopButton(),
+                  ),
+                ],
+              ),
+              41.verticalSpace,
+              BottomAdView(),
+              24.verticalSpace,
+            ],
+          ),
         ),
       ),
     );

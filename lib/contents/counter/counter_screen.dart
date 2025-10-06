@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -365,12 +367,9 @@ class _CounterScreenState extends ConsumerState<CounterScreen> {
               thickness: 2,
             ),
             GestureDetector(
-              onTap: () {
+              onPanDown: (_) {
                 FocusScope.of(context).unfocus();
                 ref.read(dualCounterProvider.notifier).incrementCount2();
-              },
-              onPanDown: (_) {
-                Log.i('누를 때');
                 setState(() {
                   rightColor = Colors.white.withAlpha(70);
                 });
@@ -417,22 +416,21 @@ class _CounterScreenState extends ConsumerState<CounterScreen> {
                             height: 1,
                           ),
                         ),
-                        20.verticalSpace,
-                        GestureDetector(
-                          onTap: () {
-                            FocusScope.of(context).unfocus();
-                            ref.read(dualCounterProvider.notifier).decrementCount2();
-                          },
-                          child: const Icon(
-                            Icons.remove_circle_rounded,
-                            color: Colors.white,
-                            size: 40,
-                          ),
-                        ),
                       ],
                     ),
                   ),
                 ),
+              ),
+            ),
+            GestureDetector(
+              onPanDown: (_) {
+                FocusScope.of(context).unfocus();
+                ref.read(dualCounterProvider.notifier).decrementCount2();
+              },
+              child: const Icon(
+                Icons.remove_circle_rounded,
+                color: Colors.white,
+                size: 40,
               ),
             ),
           ],
@@ -478,12 +476,9 @@ class _CounterScreenState extends ConsumerState<CounterScreen> {
               thickness: 2,
             ),
             GestureDetector(
-              onTap: () {
+              onPanDown: (_) {
                 FocusScope.of(context).unfocus();
                 ref.read(dualCounterProvider.notifier).incrementCount1();
-              },
-              onPanDown: (_) {
-                Log.i('누를 때');
                 setState(() {
                   leftColor = Colors.white.withAlpha(70);
                 });
@@ -529,22 +524,21 @@ class _CounterScreenState extends ConsumerState<CounterScreen> {
                             height: 1,
                           ),
                         ),
-                        20.verticalSpace,
-                        GestureDetector(
-                          onTap: () {
-                            FocusScope.of(context).unfocus();
-                            ref.read(dualCounterProvider.notifier).decrementCount1();
-                          },
-                          child: const Icon(
-                            Icons.remove_circle_rounded,
-                            color: Colors.white,
-                            size: 40,
-                          ),
-                        ),
                       ],
                     ),
                   ),
                 ),
+              ),
+            ),
+            GestureDetector(
+              onPanDown: (_) {
+                FocusScope.of(context).unfocus();
+                ref.read(dualCounterProvider.notifier).decrementCount1();
+              },
+              child: const Icon(
+                Icons.remove_circle_rounded,
+                color: Colors.white,
+                size: 40,
               ),
             ),
           ],
@@ -594,27 +588,29 @@ class _CounterScreenState extends ConsumerState<CounterScreen> {
   bool getIsSpecial(BuildContext context) => GoRouterState.of(context).extra as bool? ?? false;
 
   void showGuideDialog(BuildContext context) {
-    showDialog<void>(
-      context: context,
-      builder: (context) {
-        return const AlertDialog(
-          title: Text(
-            '평화교회 청년부(4부) 예배에 오신 것을 환영합니다!',
-            style: TextStyle(fontFamily: FontFamily.inter, fontSize: 30),
-          ),
-          backgroundColor: Colors.white,
-          content: Text(
-            '교회 등록과 모임 참여에 관심이 있으시면\n'
-            '앞쪽의 안내위원에게 말씀해 주세요!',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+    unawaited(
+      showDialog<void>(
+        context: context,
+        builder: (context) {
+          return const AlertDialog(
+            title: Text(
+              '평화교회 청년부(4부) 예배에 오신 것을 환영합니다!',
+              style: TextStyle(fontFamily: FontFamily.inter, fontSize: 30),
             ),
-            textAlign: TextAlign.center,
-          ),
-        );
-      },
+            backgroundColor: Colors.white,
+            content: Text(
+              '교회 등록과 모임 참여에 관심이 있으시면\n'
+              '앞쪽의 안내위원에게 말씀해 주세요!',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          );
+        },
+      ),
     );
   }
 }

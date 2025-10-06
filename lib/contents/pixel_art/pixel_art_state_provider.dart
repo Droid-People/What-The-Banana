@@ -4,7 +4,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:image/image.dart' as lib;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -15,8 +15,7 @@ import 'package:what_the_banana/contents/pixel_art/pixel_canvas.dart';
 import 'package:what_the_banana/contents/pixel_art/pixel_painter.dart';
 import 'package:what_the_banana/gen/assets.gen.dart';
 
-final pixelArtStateNotifierProvider =
-    StateNotifierProvider<PixelArtStateProvider, PixelArtState>((ref) {
+final pixelArtStateNotifierProvider = StateNotifierProvider<PixelArtStateProvider, PixelArtState>((ref) {
   return PixelArtStateProvider();
 });
 
@@ -108,7 +107,7 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
     state = state.copyWith(selectedColor: color);
   }
 
-  Future<void> shareImage(int boardSize) async {
+  Future<void> shareImage(BuildContext context, int boardSize) async {
     final pictureRecorder = ui.PictureRecorder();
     PixelCropPainter(
       gridMap: state.gridMap,
@@ -123,7 +122,9 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
 
     final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
     final tempFile = await _makeTempFile(bytes!.buffer.asUint8List());
-    unawaited(Share.shareXFiles([XFile(tempFile.path)]));
+    if (!context.mounted) return;
+    final box = context.findRenderObject() as RenderBox?;
+    SharePlus.instance.share(ShareParams(files: [XFile(tempFile.path)], sharePositionOrigin: box != null ? box.localToGlobal(Offset.zero) & box.size : Rect.zero));
   }
 
   Future<File> _makeTempFile(Uint8List bytes) async {

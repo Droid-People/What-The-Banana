@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,29 +21,40 @@ class PixelArtScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final isPortrait =
-        MediaQuery.of(context).orientation == Orientation.portrait;
+    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
 
     final boardSize = isPortrait ? width - 8 : height - 200;
     final state = ref.watch(pixelArtStateNotifierProvider);
     final viewModel = ref.read(pixelArtStateNotifierProvider.notifier);
-    final paletteWidth = isPortrait ? (width * (0.7)) / 9 : (width / 2 - 300) / 9;
+    final paletteWidth = isPortrait ? (width * 0.7) / 9 : (width / 2 - 300) / 9;
 
-    return Scaffold(
-      backgroundColor: ColorName.homeMainBackground,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              TitleText(context),
-              DeveloperText(),
-              20.verticalSpace,
-              if (isPortrait)
-                VerticalBody(context, boardSize, state, paletteWidth, viewModel)
-              else
-                HorizontalBody(
-                    context, boardSize, state, paletteWidth, viewModel),
-            ],
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.light,
+      ),
+      child: Scaffold(
+        backgroundColor: ColorName.homeMainBackground,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                TitleText(context),
+                DeveloperText(),
+                20.verticalSpace,
+                if (isPortrait)
+                  VerticalBody(context, boardSize, state, paletteWidth, viewModel)
+                else
+                  HorizontalBody(
+                    context,
+                    boardSize,
+                    state,
+                    paletteWidth,
+                    viewModel,
+                  ),
+              ],
+            ),
           ),
         ),
       ),
@@ -76,7 +88,7 @@ class PixelArtScreen extends ConsumerWidget {
               showGrid: state.showGrid,
               onSelectBanana: viewModel.selectBanana,
               onDrawMapWhite: viewModel.drawMapWhite,
-              onShareImage: () => viewModel.shareImage(boardSize.toInt()),
+              onShareImage: () => viewModel.shareImage(context, boardSize.toInt()),
               onPickImageFromGallery: () {
                 viewModel.pickImageFromGallery(
                   callbackImage: (path) async {
@@ -120,7 +132,7 @@ class PixelArtScreen extends ConsumerWidget {
           showGrid: state.showGrid,
           onSelectBanana: viewModel.selectBanana,
           onDrawMapWhite: viewModel.drawMapWhite,
-          onShareImage: () => viewModel.shareImage(boardSize.toInt()),
+          onShareImage: () => viewModel.shareImage(context, boardSize.toInt()),
           onPickImageFromGallery: () {
             viewModel.pickImageFromGallery(
               callbackImage: (path) async {
@@ -203,8 +215,7 @@ class PixelArtScreen extends ConsumerWidget {
                                 ColorPicker(
                                   pickerColor: state.selectedColor,
                                   onColorChanged: viewModel.setSelectedColor,
-                                  pickerAreaBorderRadius:
-                                      const BorderRadius.all(
+                                  pickerAreaBorderRadius: const BorderRadius.all(
                                     Radius.circular(20),
                                   ),
                                 ),
