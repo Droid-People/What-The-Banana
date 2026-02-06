@@ -48,3 +48,12 @@ pubspec.lock
 .env
 .env.*
 !.env.example
+
+# OMC state
+.omc/
+
+# Coverage reports
+coverage/
+
+# Temp scripts
+fix_unawaited.dart
