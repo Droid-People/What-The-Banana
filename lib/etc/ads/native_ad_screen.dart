@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:what_the_banana/common/logger.dart';
@@ -89,7 +91,7 @@ class _NativeAdScreenState extends State<NativeAdScreen> {
         },
         onAdFailedToLoad: (Ad ad, LoadAdError error) {
           Log.e('$NativeAd failedToLoad: $error');
-          ad.dispose();
+          unawaited(ad.dispose());
         },
         onAdOpened: (Ad ad) => Log.d('$NativeAd onAdOpened.'),
         onAdClosed: (Ad ad) => Log.d('$NativeAd onAdClosed.'),
@@ -105,12 +107,13 @@ class _NativeAdScreenState extends State<NativeAdScreen> {
           backgroundColor: Colors.white70,
         ),
       ),
-    )..load();
+    );
+    unawaited(_nativeAd!.load());
   }
 
   @override
   void dispose() {
     super.dispose();
-    _nativeAd?.dispose();
+    unawaited(_nativeAd?.dispose());
   }
 }

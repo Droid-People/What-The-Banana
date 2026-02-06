@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -42,25 +44,25 @@ class SelectLanguageScreen extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      context.setLocale(const Locale('en'));
+                      unawaited(context.setLocale(const Locale('en')));
                     },
                     child: Assets.images.english.image(),
                   ),
                   GestureDetector(
                     onTap: () {
-                      context.setLocale(const Locale('ko'));
+                      unawaited(context.setLocale(const Locale('ko')));
                     },
                     child: Assets.images.korean.image(),
                   ),
                   GestureDetector(
                     onTap: () {
-                      context.setLocale(const Locale('ja'));
+                      unawaited(context.setLocale(const Locale('ja')));
                     },
                     child: Assets.images.japanese.image(),
                   ),
                   GestureDetector(
                     onTap: () {
-                      context.setLocale(const Locale('zh'));
+                      unawaited(context.setLocale(const Locale('zh')));
                     },
                     child: Assets.images.chinese.image(),
                   ),

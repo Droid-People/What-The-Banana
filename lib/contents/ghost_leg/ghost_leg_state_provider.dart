@@ -1,11 +1,12 @@
-import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final ghostLegStateProvider = StateNotifierProvider.autoDispose<GhostLegStateNotifier, GhostLegState>(
-  (ref) => GhostLegStateNotifier(),
+final ghostLegStateProvider = NotifierProvider.autoDispose<GhostLegStateNotifier, GhostLegState>(
+  GhostLegStateNotifier.new,
 );
 
-class GhostLegStateNotifier extends StateNotifier<GhostLegState> {
-  GhostLegStateNotifier() : super(GhostLegState.initial());
+class GhostLegStateNotifier extends Notifier<GhostLegState> {
+  @override
+  GhostLegState build() => GhostLegState.initial();
 
   void setNumber(int number) {
     state = state.copyWith(number: number, names: List.generate(number, (index) => ''), rewards: List.generate(number, (index) => ''));
@@ -34,9 +35,9 @@ class GhostLegState {
     );
   }
 
-  int number = 0;
-  List<String> names = [];
-  List<String> rewards = [];
+  final int number;
+  final List<String> names;
+  final List<String> rewards;
 
   GhostLegState copyWith({
     List<String>? names,

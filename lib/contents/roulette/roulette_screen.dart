@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:what_the_banana/contents/roulette/input_number_view.dart';
-import 'package:what_the_banana/contents/roulette/input_text_view.dart';
+import 'package:what_the_banana/common/input_number_view.dart';
+import 'package:what_the_banana/common/input_text_view.dart';
 import 'package:what_the_banana/contents/roulette/roulette_result_view.dart';
+import 'package:what_the_banana/contents/roulette/roulette_state_provider.dart';
 import 'package:what_the_banana/ui/back_button.dart';
 
 class RouletteScreen extends ConsumerStatefulWidget {
@@ -50,6 +53,12 @@ class _RouletteScreenState extends ConsumerState<RouletteScreen> {
           physics: const NeverScrollableScrollPhysics(),
           children: [
             InputNumberView(
+              title: 'input_reward_number',
+              rangeLabel: '(2~8)',
+              min: 2,
+              max: 8,
+              readCurrentNumber: () => ref.read(rouletteProvider).number,
+              onSubmit: (number) => ref.read(rouletteProvider.notifier).setNumber(number),
               goNext: (number) {
                 this.number = number;
                 _nextPage();
@@ -58,6 +67,8 @@ class _RouletteScreenState extends ConsumerState<RouletteScreen> {
             InputTextView(
               'input_reward',
               number,
+              readInitialValues: () => ref.read(rouletteProvider).rewards,
+              onSubmit: (rewards) => ref.read(rouletteProvider.notifier).setRewards(rewards),
               goNext: (rewards) {
                 rewardList = rewards;
                 _nextPage();
@@ -77,11 +88,11 @@ class _RouletteScreenState extends ConsumerState<RouletteScreen> {
   void _nextPage() {
     if (_currentPage < 3) {
       _currentPage++;
-      _pageController.animateToPage(
+      unawaited(_pageController.animateToPage(
         _currentPage,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
-      );
+      ));
       setState(() {});
     }
   }
@@ -90,11 +101,11 @@ class _RouletteScreenState extends ConsumerState<RouletteScreen> {
   void _previousPage() {
     if (_currentPage > 0) {
       _currentPage--;
-      _pageController.animateToPage(
+      unawaited(_pageController.animateToPage(
         _currentPage,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
-      );
+      ));
       setState(() {});
     }
   }

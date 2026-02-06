@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:what_the_banana/gen/fonts.gen.dart';
 
@@ -25,7 +27,8 @@ class _CustomMarqueeState extends State<CustomMarquee>
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 30), // 한 바퀴 스크롤 시간
-    )..repeat(); // 무한 반복
+    );
+    unawaited(_controller.repeat()); // 무한 반복
 
     _scrollController = ScrollController();
 

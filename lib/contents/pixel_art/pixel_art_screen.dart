@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -88,13 +90,13 @@ class PixelArtScreen extends ConsumerWidget {
               showGrid: state.showGrid,
               onSelectBanana: viewModel.selectBanana,
               onDrawMapWhite: viewModel.drawMapWhite,
-              onShareImage: () => viewModel.shareImage(context, boardSize.toInt()),
+              onShareImage: () => unawaited(viewModel.shareImage(context, boardSize.toInt())),
               onPickImageFromGallery: () {
-                viewModel.pickImageFromGallery(
+                unawaited(viewModel.pickImageFromGallery(
                   callbackImage: (path) async {
                     context.go(Routes.pixelArt + Routes.crop, extra: path);
                   },
-                );
+                ));
               },
               onPickColor: viewModel.togglePickColor,
               onLoadPrevious: viewModel.loadPrevious,
@@ -132,13 +134,13 @@ class PixelArtScreen extends ConsumerWidget {
           showGrid: state.showGrid,
           onSelectBanana: viewModel.selectBanana,
           onDrawMapWhite: viewModel.drawMapWhite,
-          onShareImage: () => viewModel.shareImage(context, boardSize.toInt()),
+          onShareImage: () => unawaited(viewModel.shareImage(context, boardSize.toInt())),
           onPickImageFromGallery: () {
-            viewModel.pickImageFromGallery(
+            unawaited(viewModel.pickImageFromGallery(
               callbackImage: (path) async {
                 context.go(Routes.pixelArt + Routes.crop, extra: path);
               },
-            );
+            ));
           },
           onPickColor: viewModel.togglePickColor,
           onLoadPrevious: viewModel.loadPrevious,
@@ -195,7 +197,7 @@ class PixelArtScreen extends ConsumerWidget {
           12.horizontalSpace,
           GestureDetector(
             onTap: () {
-              showDialog<void>(
+              unawaited(showDialog<void>(
                 context: context,
                 builder: (ctx) {
                   return Dialog(
@@ -242,7 +244,7 @@ class PixelArtScreen extends ConsumerWidget {
                     ),
                   );
                 },
-              );
+              ));
             },
             child: Container(
               decoration: BoxDecoration(

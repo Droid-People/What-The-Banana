@@ -1,10 +1,13 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:what_the_banana/common/input_number_view.dart';
+import 'package:what_the_banana/common/input_text_view.dart';
 import 'package:what_the_banana/contents/ghost_leg/ghost_leg_result_view.dart';
-import 'package:what_the_banana/contents/ghost_leg/input_number_view.dart';
-import 'package:what_the_banana/contents/ghost_leg/input_text_view.dart';
+import 'package:what_the_banana/contents/ghost_leg/ghost_leg_state_provider.dart';
 import 'package:what_the_banana/gen/assets.gen.dart';
 import 'package:what_the_banana/ui/back_button.dart';
 
@@ -64,6 +67,12 @@ class _GhostLegScreenState extends ConsumerState<GhostLegScreen> {
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   InputNumberView(
+                    title: 'input_participant_number',
+                    rangeLabel: '(2~7)',
+                    min: 2,
+                    max: 7,
+                    readCurrentNumber: () => ref.read(ghostLegStateProvider).number,
+                    onSubmit: (number) => ref.read(ghostLegStateProvider.notifier).setNumber(number),
                     goNext: (number) {
                       this.number = number;
                       _nextPage();
@@ -72,6 +81,8 @@ class _GhostLegScreenState extends ConsumerState<GhostLegScreen> {
                   InputTextView(
                     'input_name',
                     number,
+                    readInitialValues: () => ref.read(ghostLegStateProvider).names,
+                    onSubmit: (names) => ref.read(ghostLegStateProvider.notifier).setNames(names),
                     goPrevious: () => _previousPage(),
                     goNext: (nameList) {
                       this.nameList = nameList;
@@ -81,6 +92,8 @@ class _GhostLegScreenState extends ConsumerState<GhostLegScreen> {
                   InputTextView(
                     'input_reward',
                     number,
+                    readInitialValues: () => ref.read(ghostLegStateProvider).rewards,
+                    onSubmit: (rewards) => ref.read(ghostLegStateProvider.notifier).setRewards(rewards),
                     goPrevious: () => _previousPage(),
                     goNext: (rewardList) {
                       this.rewardList = rewardList;
@@ -115,11 +128,11 @@ class _GhostLegScreenState extends ConsumerState<GhostLegScreen> {
   void _nextPage() {
     if (_currentPage < 3) {
       _currentPage++;
-      _pageController.animateToPage(
+      unawaited(_pageController.animateToPage(
         _currentPage,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
-      );
+      ));
       setState(() {});
     }
   }
@@ -128,11 +141,11 @@ class _GhostLegScreenState extends ConsumerState<GhostLegScreen> {
   void _previousPage() {
     if (_currentPage > 0) {
       _currentPage--;
-      _pageController.animateToPage(
+      unawaited(_pageController.animateToPage(
         _currentPage,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
-      );
+      ));
       setState(() {});
     }
   }

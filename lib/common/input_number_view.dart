@@ -1,42 +1,56 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:what_the_banana/contents/ghost_leg/ghost_leg_text_styles.dart';
 import 'package:what_the_banana/contents/ghost_leg/ghost_leg_utils.dart';
-import 'package:what_the_banana/contents/roulette/roulette_state_provider.dart';
 import 'package:what_the_banana/gen/assets.gen.dart';
 import 'package:what_the_banana/gen/fonts.gen.dart';
 
-class InputNumberView extends ConsumerStatefulWidget {
-  const InputNumberView({required this.goNext, super.key});
+class InputNumberView extends StatefulWidget {
+  const InputNumberView({
+    required this.title,
+    required this.rangeLabel,
+    required this.min,
+    required this.max,
+    required this.readCurrentNumber,
+    required this.onSubmit,
+    required this.goNext,
+    super.key,
+  });
 
+  final String title;
+  final String rangeLabel;
+  final int min;
+  final int max;
+  final int Function() readCurrentNumber;
+  final void Function(int) onSubmit;
   final void Function(int) goNext;
 
   @override
-  ConsumerState<InputNumberView> createState() => _InputNumberViewState();
+  State<InputNumberView> createState() => _InputNumberViewState();
 }
 
-class _InputNumberViewState extends ConsumerState<InputNumberView> with WidgetsBindingObserver {
+class _InputNumberViewState extends State<InputNumberView> {
   final TextEditingController inputNumberController = TextEditingController();
   final FocusNode focusNode = FocusNode();
 
   @override
   void initState() {
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(focusNode);
-      final number = ref.read(rouletteProvider).number;
+      final number = widget.readCurrentNumber();
       if (number == 0) return;
       inputNumberController.text = number.toString();
     });
-    super.initState();
   }
 
   @override
   void dispose() {
     inputNumberController.dispose();
+    focusNode.dispose();
     super.dispose();
   }
 
@@ -49,12 +63,12 @@ class _InputNumberViewState extends ConsumerState<InputNumberView> with WidgetsB
         child: Column(
           children: [
             30.verticalSpace,
-            const Text(
-              'input_reward_number',
+            Text(
+              widget.title,
               style: ghostLegTitleTextStyle,
             ).tr(),
-            const Text(
-              '(2~8)',
+            Text(
+              widget.rangeLabel,
               style: ghostLegTitleTextStyle,
             ),
             70.verticalSpace,
@@ -66,7 +80,7 @@ class _InputNumberViewState extends ConsumerState<InputNumberView> with WidgetsB
                 focusNode: focusNode,
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
-                  NumberRangeFormatter(min: 2, max: 8),
+                  NumberRangeFormatter(min: widget.min, max: widget.max),
                 ],
                 decoration: const InputDecoration(
                   focusedBorder: UnderlineInputBorder(
@@ -81,7 +95,7 @@ class _InputNumberViewState extends ConsumerState<InputNumberView> with WidgetsB
                   ),
                 ),
                 onSubmitted: (text) {
-                  goNext();
+                  _goNext();
                 },
                 textInputAction: TextInputAction.next,
                 style: const TextStyle(
@@ -96,7 +110,7 @@ class _InputNumberViewState extends ConsumerState<InputNumberView> with WidgetsB
             ),
             40.verticalSpace,
             GestureDetector(
-              onTap: goNext,
+              onTap: _goNext,
               child: SvgPicture.asset(Assets.images.next, width: 50),
             ),
           ],
@@ -105,10 +119,11 @@ class _InputNumberViewState extends ConsumerState<InputNumberView> with WidgetsB
     );
   }
 
-  void goNext() {
+  void _goNext() {
     if (inputNumberController.text.isNotEmpty) {
-      ref.read(rouletteProvider.notifier).setNumber(int.parse(inputNumberController.text));
-      widget.goNext(int.parse(inputNumberController.text));
+      final number = int.parse(inputNumberController.text);
+      widget.onSubmit(number);
+      widget.goNext(number);
     }
   }
 }

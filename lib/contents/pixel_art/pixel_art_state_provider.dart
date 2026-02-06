@@ -4,7 +4,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image/image.dart' as lib;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -15,14 +15,36 @@ import 'package:what_the_banana/contents/pixel_art/pixel_canvas.dart';
 import 'package:what_the_banana/contents/pixel_art/pixel_painter.dart';
 import 'package:what_the_banana/gen/assets.gen.dart';
 
-final pixelArtStateNotifierProvider = StateNotifierProvider<PixelArtStateProvider, PixelArtState>((ref) {
-  return PixelArtStateProvider();
-});
+final pixelArtStateNotifierProvider = NotifierProvider<PixelArtStateProvider, PixelArtState>(
+  PixelArtStateProvider.new,
+);
 
-class PixelArtStateProvider extends StateNotifier<PixelArtState> {
-  PixelArtStateProvider() : super(PixelArtState.initial()) {
-    setInitialColors();
-    drawMapWhite();
+class PixelArtStateProvider extends Notifier<PixelArtState> {
+  @override
+  PixelArtState build() {
+    final initial = PixelArtState.initial();
+
+    // Inline setInitialColors: build the color palette
+    final deque = <Color>[
+      ...initial.arrayDeque,
+      const Color(0xFFFF0000),
+      const Color(0xFFFF7F00),
+      const Color(0xFFFFFF00),
+      const Color(0xFF00FF00),
+      const Color(0xFF007FFF),
+      const Color(0xFF0000FF),
+      const Color(0xFF7F00FF),
+      const Color(0xFF000000),
+      ...List.generate(10, (index) => Colors.white),
+    ];
+
+    // Inline drawMapWhite: build white grid
+    final gridMap = List.generate(
+      maxPixelCount,
+      (index) => List.generate(maxPixelCount, (index) => Colors.white),
+    );
+
+    return initial.copyWith(arrayDeque: deque, gridMap: gridMap);
   }
 
   void setGridMap(List<Color> colorList) {
@@ -43,22 +65,8 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
     state = state.copyWith(gridMap: gridMap);
   }
 
-  void setInitialColors() {
-    final deque = state.arrayDeque
-      ..add(const Color(0xFFFF0000))
-      ..add(const Color(0xFFFF7F00))
-      ..add(const Color(0xFFFFFF00))
-      ..add(const Color(0xFF00FF00))
-      ..add(const Color(0xFF007FFF))
-      ..add(const Color(0xFF0000FF))
-      ..add(const Color(0xFF7F00FF))
-      ..add(const Color(0xFF000000))
-      ..addAll(List.generate(10, (index) => Colors.white));
-    state = state.copyWith(arrayDeque: deque);
-  }
-
   void addFirstColor() {
-    final deque = state.arrayDeque
+    final deque = state.arrayDeque.toList()
       ..removeLast()
       ..insert(0, state.selectedColor);
     state = state.copyWith(arrayDeque: deque);
@@ -86,11 +94,9 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
       return;
     }
 
-    // gridMap을 pixelSize x pixelSize로 나누어서 i, j를 찾아낸다.
     final y = i ~/ pixelSize;
     final x = j ~/ pixelSize;
 
-    // y, x 위치에 pixelSize만큼 색을 채운다.
     for (var k = 0; k < pixelSize; k++) {
       for (var l = 0; l < pixelSize; l++) {
         if (y * pixelSize + k < maxPixelCount &&
@@ -124,7 +130,7 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
     final tempFile = await _makeTempFile(bytes!.buffer.asUint8List());
     if (!context.mounted) return;
     final box = context.findRenderObject() as RenderBox?;
-    SharePlus.instance.share(ShareParams(files: [XFile(tempFile.path)], sharePositionOrigin: box != null ? box.localToGlobal(Offset.zero) & box.size : Rect.zero));
+    await SharePlus.instance.share(ShareParams(files: [XFile(tempFile.path)], sharePositionOrigin: box != null ? box.localToGlobal(Offset.zero) & box.size : Rect.zero));
   }
 
   Future<File> _makeTempFile(Uint8List bytes) async {
@@ -202,7 +208,6 @@ class PixelArtStateProvider extends StateNotifier<PixelArtState> {
     final colors = getPixelImage(decodeImage, maxPixelCount);
     setGridMap(colors);
   }
-
 
   List<Color> getPixelImage(lib.Image image, int pixel) {
     Log.i(image);

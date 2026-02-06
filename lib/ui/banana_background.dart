@@ -28,7 +28,7 @@ class _BananaBackgroundState extends State<BananaBackground>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      _loadImage();
+      await _loadImage();
       _initializePositionsAndAngles();
     });
 

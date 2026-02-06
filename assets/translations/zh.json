@@ -31,5 +31,17 @@
   "input_reward_number": "输入项目数量",
   "input_name": "输入姓名",
   "input_reward": "输入奖励",
-  "result": "查看结果"
+  "result": "查看结果",
+  "home_hello": "HELLO",
+  "home_welcome": "WELCOME TO\nWTB",
+  "home_down_down": "DOWN, DOWN",
+  "home_cheer_up": "DON'T STOP\nCHEER UP",
+  "home_nice_day": "HAVE A NICE DAY.",
+  "home_good_luck": "GOOD LUCK",
+  "home_good_banana": "GOOD BANANA",
+  "home_coming_soon": "更多香蕉即将到来...",
+  "home_select_function": "点击您想要的\n功能",
+  "home_ad_loading": "广告加载中...",
+  "feedback_empty_error": "请输入您的反馈",
+  "feedback_send_error": "反馈发送失败，请重试。"
 }

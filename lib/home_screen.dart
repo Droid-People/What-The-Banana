@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _loadAd();
     if (defaultTargetPlatform == TargetPlatform.iOS) {
-      Permission.appTrackingTransparency.request();
+      unawaited(Permission.appTrackingTransparency.request());
     }
   }
 
@@ -54,10 +56,11 @@ class _HomeScreenState extends State<HomeScreen> {
             });
           },
           onAdFailedToLoad: (ad, error) {
-            ad.dispose();
+            unawaited(ad.dispose());
           },
         ),
-      )..load();
+      );
+      unawaited(bannerAd!.load());
     });
   }
 
@@ -337,11 +340,11 @@ class _HomeScreenState extends State<HomeScreen> {
   GestureDetector ScrollToTopButton() {
     return GestureDetector(
       onTap: () {
-        scrollController.animateTo(
+        unawaited(scrollController.animateTo(
           0,
           duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOut,
-        );
+        ));
       },
       child: Column(
         children: [

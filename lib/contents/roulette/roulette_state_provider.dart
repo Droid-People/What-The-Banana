@@ -1,11 +1,12 @@
-import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final rouletteProvider = StateNotifierProvider.autoDispose<RouletteStateNotifier, RouletteState>(
-      (ref) => RouletteStateNotifier(),
+final rouletteProvider = NotifierProvider.autoDispose<RouletteStateNotifier, RouletteState>(
+  RouletteStateNotifier.new,
 );
 
-class RouletteStateNotifier extends StateNotifier<RouletteState> {
-  RouletteStateNotifier() : super(RouletteState.initial());
+class RouletteStateNotifier extends Notifier<RouletteState> {
+  @override
+  RouletteState build() => RouletteState.initial();
 
   void setNumber(int number) {
     state = state.copyWith(number: number, rewards: List.generate(number, (index) => ''));
@@ -28,8 +29,8 @@ class RouletteState {
     );
   }
 
-  int number = 0;
-  List<String> rewards = [];
+  final int number;
+  final List<String> rewards;
 
   RouletteState copyWith({
     List<String>? rewards,

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -22,12 +23,12 @@ class _UpdatesScreenState extends State<UpdatesScreen> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      getAssetsFromFolder().then((paths) {
+      unawaited(getAssetsFromFolder().then((paths) {
         if (!mounted) return;
         final currentLanguage = context.locale.toString();
 
         for (final jsonFilePath in paths.reversed) {
-          rootBundle.load(jsonFilePath).then((data) {
+          unawaited(rootBundle.load(jsonFilePath).then((data) {
             final jsonString = data.buffer.asUint8List();
             final json =
                 jsonDecode(utf8.decode(jsonString)) as Map<String, dynamic>;
@@ -40,9 +41,9 @@ class _UpdatesScreenState extends State<UpdatesScreen> {
                     json[currentLanguage] as String? ?? json['en'] as String,
               });
             });
-          });
+          }));
         }
-      });
+      }));
     });
   }
 

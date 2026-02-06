@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -50,11 +51,11 @@ class _RotatingImageWidgetState extends State<RotatingImageWidget> with SingleTi
   @override
   void initState() {
     super.initState();
-    loadUiImageFromAsset(widget.imagePath, targetWidth: widget.width.toInt(), targetHeight: widget.height.toInt()).then((result) {
+    unawaited(loadUiImageFromAsset(widget.imagePath, targetWidth: widget.width.toInt(), targetHeight: widget.height.toInt()).then((result) {
       setState(() {
         image = result;
       });
-    });
+    }));
 
     _controller = AnimationController(
       duration: const Duration(seconds: 6),
@@ -76,7 +77,7 @@ class _RotatingImageWidgetState extends State<RotatingImageWidget> with SingleTi
         _rotationSpeed = _speedStep;
         _isIncreasing = true;
         _controller.duration = Duration(milliseconds: (6000 / _rotationSpeed).round());
-        _controller.repeat();
+        unawaited(_controller.repeat());
       } else {
         // 속도 조절 로직
         if (_isIncreasing) {
@@ -88,7 +89,7 @@ class _RotatingImageWidgetState extends State<RotatingImageWidget> with SingleTi
           _controller.duration = Duration(
             milliseconds: (6000 / _rotationSpeed).round(),
           );
-          _controller.repeat();
+          unawaited(_controller.repeat());
         } else {
           _rotationSpeed -= _speedStep;
           if (_rotationSpeed <= 0) {
@@ -99,7 +100,7 @@ class _RotatingImageWidgetState extends State<RotatingImageWidget> with SingleTi
           _controller.duration = Duration(
             milliseconds: (6000 / _rotationSpeed).round(),
           );
-          _controller.repeat();
+          unawaited(_controller.repeat());
         }
       }
     });

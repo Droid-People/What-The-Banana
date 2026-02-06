@@ -31,5 +31,17 @@
   "input_reward_number": "項目数を入力",
   "input_name": "名前を入力",
   "input_reward": "何が当たる？",
-  "result": "誰が当たった？"
+  "result": "誰が当たった？",
+  "home_hello": "HELLO",
+  "home_welcome": "WELCOME TO\nWTB",
+  "home_down_down": "DOWN, DOWN",
+  "home_cheer_up": "DON'T STOP\nCHEER UP",
+  "home_nice_day": "HAVE A NICE DAY.",
+  "home_good_luck": "GOOD LUCK",
+  "home_good_banana": "GOOD BANANA",
+  "home_coming_soon": "もっと多くのバナナが近日登場...",
+  "home_select_function": "希望の機能を\n選択してください",
+  "home_ad_loading": "広告読み込み中...",
+  "feedback_empty_error": "フィードバックを入力してください",
+  "feedback_send_error": "フィードバックの送信に失敗しました。もう一度お試しください。"
 }

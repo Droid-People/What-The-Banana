@@ -1,19 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:what_the_banana/contents/ghost_leg/ghost_leg_state_provider.dart';
 import 'package:what_the_banana/contents/ghost_leg/ghost_leg_text_styles.dart';
 import 'package:what_the_banana/gen/assets.gen.dart';
 
-class InputTextView extends ConsumerStatefulWidget {
+class InputTextView extends StatefulWidget {
   const InputTextView(
     this.title,
     this.count, {
     required this.goPrevious,
     required this.goNext,
+    required this.readInitialValues,
+    required this.onSubmit,
     super.key,
   });
 
@@ -21,12 +21,14 @@ class InputTextView extends ConsumerStatefulWidget {
   final int count;
   final void Function() goPrevious;
   final void Function(List<String>) goNext;
+  final List<String> Function() readInitialValues;
+  final void Function(List<String>) onSubmit;
 
   @override
-  ConsumerState<InputTextView> createState() => _InputTextViewsState();
+  State<InputTextView> createState() => _InputTextViewState();
 }
 
-class _InputTextViewsState extends ConsumerState<InputTextView> with WidgetsBindingObserver {
+class _InputTextViewState extends State<InputTextView> {
   late List<TextEditingController> textEditingControllers;
   late List<FocusNode> focusNodes;
 
@@ -37,14 +39,22 @@ class _InputTextViewsState extends ConsumerState<InputTextView> with WidgetsBind
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(focusNodes[0]);
+      final initialValues = widget.readInitialValues();
       for (var i = 0; i < widget.count; i++) {
-        if (widget.title == 'input_name') {
-          textEditingControllers[i].text = ref.read(ghostLegStateProvider).names[i];
-        } else if (widget.title == 'input_reward') {
-          textEditingControllers[i].text = ref.read(ghostLegStateProvider).rewards[i];
-        }
+        textEditingControllers[i].text = initialValues[i];
       }
     });
+  }
+
+  @override
+  void dispose() {
+    for (final controller in textEditingControllers) {
+      controller.dispose();
+    }
+    for (final node in focusNodes) {
+      node.dispose();
+    }
+    super.dispose();
   }
 
   @override
@@ -87,7 +97,7 @@ class _InputTextViewsState extends ConsumerState<InputTextView> with WidgetsBind
                               LengthLimitingTextInputFormatter(10),
                             ],
                             onSubmitted: (value) {
-                              goNext(index);
+                              _goNext(index);
                             },
                             decoration: const InputDecoration(
                               focusedBorder: UnderlineInputBorder(
@@ -111,7 +121,7 @@ class _InputTextViewsState extends ConsumerState<InputTextView> with WidgetsBind
                         if (textEditingControllers.any((controller) => controller.text.isEmpty)) {
                           return;
                         }
-                        goNext(widget.count - 1);
+                        _goNext(widget.count - 1);
                       },
                       child: SvgPicture.asset(Assets.images.next, width: 50),
                     ),
@@ -126,14 +136,10 @@ class _InputTextViewsState extends ConsumerState<InputTextView> with WidgetsBind
     );
   }
 
-  void goNext(int index) {
+  void _goNext(int index) {
     if (index == widget.count - 1) {
       final textList = textEditingControllers.map((controller) => controller.text).toList();
-      if (widget.title == 'input_name') {
-        ref.read(ghostLegStateProvider.notifier).setNames(textList);
-      } else {
-        ref.read(ghostLegStateProvider.notifier).setRewards(textList);
-      }
+      widget.onSubmit(textList);
       for (final focusNode in focusNodes) {
         focusNode.unfocus();
       }
