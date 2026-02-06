@@ -43,5 +43,13 @@
   "home_select_function": "원하는 기능을\n선택하세요",
   "home_ad_loading": "광고 로딩 중...",
   "feedback_empty_error": "피드백을 입력해주세요",
-  "feedback_send_error": "피드백 전송에 실패했습니다. 다시 시도해주세요."
+  "feedback_send_error": "피드백 전송에 실패했습니다. 다시 시도해주세요.",
+  "home_roulette": "룰렛",
+  "home_introduction": "소개",
+  "home_pixel_art": "픽셀 아트",
+  "home_creators": "만든이",
+  "home_ads": "광고",
+  "home_counter": "카운터",
+  "home_language": "언어",
+  "home_ghost_leg": "사다리 타기"
 }

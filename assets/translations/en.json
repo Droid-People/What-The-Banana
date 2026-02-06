@@ -43,5 +43,13 @@
   "home_select_function": "Click on\nthe function you want",
   "home_ad_loading": "Ad Loading...",
   "feedback_empty_error": "Please enter your feedback",
-  "feedback_send_error": "Failed to send feedback. Please try again."
+  "feedback_send_error": "Failed to send feedback. Please try again.",
+  "home_roulette": "Roulette",
+  "home_introduction": "Introduction",
+  "home_pixel_art": "Pixel Art",
+  "home_creators": "Creators",
+  "home_ads": "Ads",
+  "home_counter": "Counter",
+  "home_language": "Language",
+  "home_ghost_leg": "Ghost Leg"
 }

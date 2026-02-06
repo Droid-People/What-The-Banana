@@ -43,5 +43,13 @@
   "home_select_function": "希望の機能を\n選択してください",
   "home_ad_loading": "広告読み込み中...",
   "feedback_empty_error": "フィードバックを入力してください",
-  "feedback_send_error": "フィードバックの送信に失敗しました。もう一度お試しください。"
+  "feedback_send_error": "フィードバックの送信に失敗しました。もう一度お試しください。",
+  "home_roulette": "ルーレット",
+  "home_introduction": "紹介",
+  "home_pixel_art": "ピクセルアート",
+  "home_creators": "クリエイター",
+  "home_ads": "広告",
+  "home_counter": "カウンター",
+  "home_language": "言語",
+  "home_ghost_leg": "あみだくじ"
 }

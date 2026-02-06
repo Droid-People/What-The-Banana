@@ -43,5 +43,13 @@
   "home_select_function": "点击您想要的\n功能",
   "home_ad_loading": "广告加载中...",
   "feedback_empty_error": "请输入您的反馈",
-  "feedback_send_error": "反馈发送失败，请重试。"
+  "feedback_send_error": "反馈发送失败，请重试。",
+  "home_roulette": "轮盘",
+  "home_introduction": "介绍",
+  "home_pixel_art": "像素画",
+  "home_creators": "创作者",
+  "home_ads": "广告",
+  "home_counter": "计数器",
+  "home_language": "语言",
+  "home_ghost_leg": "抽签"
 }

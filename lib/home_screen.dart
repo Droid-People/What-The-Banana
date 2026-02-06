@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -156,11 +156,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               13.verticalSpace,
-              GestureDetector(
-                onTap: () {
-                  context.go(Routes.ghostLeg);
-                },
-                child: Assets.images.ghostLeg.image(),
+              Semantics(
+                label: 'home_ghost_leg'.tr(),
+                button: true,
+                child: GestureDetector(
+                  onTap: () {
+                    context.go(Routes.ghostLeg);
+                  },
+                  child: Assets.images.ghostLeg.image(),
+                ),
               ),
               18.verticalSpace,
               Stack(
@@ -178,9 +182,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       margin: const EdgeInsets.only(top: 34),
                       child: Column(
                         children: [
-                          const _SmallText('DOWN, DOWN'),
+                          _SmallText('home_down_down'.tr()),
                           15.verticalSpace,
-                          const _SmallText("DON'T STOP\nCHEER UP", textAlign: TextAlign.center),
+                          _SmallText('home_cheer_up'.tr(), textAlign: TextAlign.center),
                         ],
                       ),
                     ),
@@ -200,27 +204,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               19.verticalSpace,
-              // GestureDetector(
-              //   onTap: () {
-              //     context.go(Routes.paceCounter);
-              //   },
-              //   child: Assets.images.paceCounters.image(),
-              // ),
-              // 18.verticalSpace,
-              // GestureDetector(
-              //   onTap: () {
-              //     context.go(Routes.qrMaker);
-              //   },
-              //   child: Assets.images.qrMaker.image(),
-              // ),
               const _CounterButton(),
               Stack(
                 children: [
-                  const Align(
+                  Align(
                     alignment: Alignment.topCenter,
                     child: Padding(
-                      padding: EdgeInsets.only(top: 38),
-                      child: _SmallText('HAVE A NICE DAY.'),
+                      padding: const EdgeInsets.only(top: 38),
+                      child: _SmallText('home_nice_day'.tr()),
                     ),
                   ),
                   Align(
@@ -243,11 +234,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.only(top: 32),
                       child: Column(
                         children: [
-                          const _SmallText('GOOD LUCK'),
+                          _SmallText('home_good_luck'.tr()),
                           18.verticalSpace,
-                          const _SmallText('GOOD BANANA', fontWeight: FontWeight.w700),
+                          _SmallText('home_good_banana'.tr(), fontWeight: FontWeight.w700),
                           18.verticalSpace,
-                          const _SmallText('More bananas are coming soon...'),
+                          _SmallText('home_coming_soon'.tr()),
                         ],
                       ),
                     ),
@@ -322,12 +313,12 @@ class _HomeScreenState extends State<HomeScreen> {
             border: Border.all(),
             borderRadius: BorderRadius.circular(16),
           ),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(vertical: 8),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
             child: SizedBox(
               width: double.infinity,
               child: Text(
-                'Ad Loading...',
+                'home_ad_loading'.tr(),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -356,26 +347,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  GestureDetector QrMakerButton() {
-    return GestureDetector(
-      onTap: () {
-        context.go(Routes.qrMaker);
-      },
-      child: Assets.images.qrMaker.image(),
-    );
-  }
-
-  Widget DonationButton() {
-    return GestureDetector(
-      onTap: () {
-        // context.go(Routes.donation);
-      },
-      child: Container(
-        margin: const EdgeInsets.only(right: 24),
-        child: SvgPicture.asset(Assets.images.donation),
-      ),
-    );
-  }
 }
 
 class _SmallText extends StatelessWidget {
@@ -409,7 +380,7 @@ class _SecondText extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(top: 38),
       child: Text(
-        'Click on\nthe function you want',
+        'home_select_function'.tr(),
         style: Theme.of(context).textTheme.labelSmall,
         textAlign: TextAlign.center,
       ),
@@ -426,9 +397,9 @@ class _FirstText extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         19.verticalSpace,
-        const _SmallText('HELLO'),
+        _SmallText('home_hello'.tr()),
         13.verticalSpace,
-        const _SmallText('WELCOME TO\nWTB', textAlign: TextAlign.center),
+        _SmallText('home_welcome'.tr(), textAlign: TextAlign.center),
       ],
     );
   }
@@ -439,11 +410,15 @@ class _RouletteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        context.go(Routes.roulette);
-      },
-      child: Assets.images.roulette.image(),
+    return Semantics(
+      label: 'home_roulette'.tr(),
+      button: true,
+      child: GestureDetector(
+        onTap: () {
+          context.go(Routes.roulette);
+        },
+        child: Assets.images.roulette.image(),
+      ),
     );
   }
 }
@@ -453,11 +428,15 @@ class _IntroductionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        context.go(Routes.introduction);
-      },
-      child: Assets.images.introduction.image(),
+    return Semantics(
+      label: 'home_introduction'.tr(),
+      button: true,
+      child: GestureDetector(
+        onTap: () {
+          context.go(Routes.introduction);
+        },
+        child: Assets.images.introduction.image(),
+      ),
     );
   }
 }
@@ -467,13 +446,17 @@ class _PixelArtButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        context.go(Routes.pixelArt);
-      },
-      child: Container(
-        margin: const EdgeInsets.only(top: 109),
-        child: Assets.images.pixelArt.image(),
+    return Semantics(
+      label: 'home_pixel_art'.tr(),
+      button: true,
+      child: GestureDetector(
+        onTap: () {
+          context.go(Routes.pixelArt);
+        },
+        child: Container(
+          margin: const EdgeInsets.only(top: 109),
+          child: Assets.images.pixelArt.image(),
+        ),
       ),
     );
   }
@@ -484,13 +467,17 @@ class _CreatorsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        context.go(Routes.creators);
-      },
-      child: Container(
-        margin: const EdgeInsets.only(left: 35, top: 16),
-        child: Assets.images.creators.image(),
+    return Semantics(
+      label: 'home_creators'.tr(),
+      button: true,
+      child: GestureDetector(
+        onTap: () {
+          context.go(Routes.creators);
+        },
+        child: Container(
+          margin: const EdgeInsets.only(left: 35, top: 16),
+          child: Assets.images.creators.image(),
+        ),
       ),
     );
   }
@@ -501,11 +488,15 @@ class _AdsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        context.go(Routes.ads);
-      },
-      child: Assets.images.adButton.image(),
+    return Semantics(
+      label: 'home_ads'.tr(),
+      button: true,
+      child: GestureDetector(
+        onTap: () {
+          context.go(Routes.ads);
+        },
+        child: Assets.images.adButton.image(),
+      ),
     );
   }
 }
@@ -515,14 +506,18 @@ class _CounterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        context.go(Routes.counter);
-      },
-      onLongPress: () {
-        context.go(Routes.counter, extra: true);
-      },
-      child: Assets.images.dualCounter.image(),
+    return Semantics(
+      label: 'home_counter'.tr(),
+      button: true,
+      child: GestureDetector(
+        onTap: () {
+          context.go(Routes.counter);
+        },
+        onLongPress: () {
+          context.go(Routes.counter, extra: true);
+        },
+        child: Assets.images.dualCounter.image(),
+      ),
     );
   }
 }
@@ -532,20 +527,24 @@ class _LanguageButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        context.go(Routes.selectLanguage);
-      },
-      child: Container(
-        margin: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 4,
-        ),
-        child: Align(
-          alignment: Alignment.topRight,
-          child: PhotoHero(
-            photo: Assets.images.bigEarth.path,
-            width: 32,
+    return Semantics(
+      label: 'home_language'.tr(),
+      button: true,
+      child: GestureDetector(
+        onTap: () {
+          context.go(Routes.selectLanguage);
+        },
+        child: Container(
+          margin: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 4,
+          ),
+          child: Align(
+            alignment: Alignment.topRight,
+            child: PhotoHero(
+              photo: Assets.images.bigEarth.path,
+              width: 32,
+            ),
           ),
         ),
       ),
