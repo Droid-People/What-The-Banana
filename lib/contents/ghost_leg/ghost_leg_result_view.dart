@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'dart:ui' as ui;
 
@@ -171,7 +172,7 @@ class _GhostLegResultViewState extends ConsumerState<GhostLegResultView> with Si
   void initState() {
     super.initState();
     initializeAnimation();
-    loadFlyImages();
+    unawaited(loadFlyImages());
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final state = ref.read(ghostLegStateProvider);
       generateLadder(state.number);
@@ -342,7 +343,7 @@ class _GhostLegResultViewState extends ConsumerState<GhostLegResultView> with Si
 
     setState(() {
       showAnimation = true;
-      _controller?.forward();
+      unawaited(_controller?.forward());
     });
   }
 }

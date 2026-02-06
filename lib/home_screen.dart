@@ -1,8 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -32,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _loadAd();
     if (defaultTargetPlatform == TargetPlatform.iOS) {
-      Permission.appTrackingTransparency.request();
+      unawaited(Permission.appTrackingTransparency.request());
     }
   }
 
@@ -54,10 +56,11 @@ class _HomeScreenState extends State<HomeScreen> {
             });
           },
           onAdFailedToLoad: (ad, error) {
-            ad.dispose();
+            unawaited(ad.dispose());
           },
         ),
-      )..load();
+      );
+      unawaited(bannerAd!.load());
     });
   }
 
@@ -88,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         alignment: Alignment.bottomCenter,
                         child: Assets.images.homeTopBanana.image(),
                       ),
-                      LanguageButton(),
+                      const _LanguageButton(),
                     ],
                   ),
                 ),
@@ -101,11 +104,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: 74, left: 29),
-                    child: IntroductionButton(),
+                    child: const _IntroductionButton(),
                   ),
-                  Align(
+                  const Align(
                     alignment: Alignment.topCenter,
-                    child: PixelArtButton(),
+                    child: _PixelArtButton(),
                   ),
                 ],
               ),
@@ -124,24 +127,24 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  Align(
+                  const Align(
                     alignment: Alignment.topCenter,
-                    child: FirstText(),
+                    child: _FirstText(),
                   ),
                 ],
               ),
               37.verticalSpace,
-              RouletteButton(),
+              const _RouletteButton(),
               8.verticalSpace,
               Stack(
                 children: [
-                  Align(
+                  const Align(
                     alignment: Alignment.topLeft,
-                    child: CreatorsButton(),
+                    child: _CreatorsButton(),
                   ),
-                  Align(
+                  const Align(
                     alignment: Alignment.topCenter,
-                    child: SecondText(),
+                    child: _SecondText(),
                   ),
                   Align(
                     alignment: Alignment.topRight,
@@ -153,11 +156,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               13.verticalSpace,
-              GestureDetector(
-                onTap: () {
-                  context.go(Routes.ghostLeg);
-                },
-                child: Assets.images.ghostLeg.image(),
+              Semantics(
+                label: 'home_ghost_leg'.tr(),
+                button: true,
+                child: GestureDetector(
+                  onTap: () {
+                    context.go(Routes.ghostLeg);
+                  },
+                  child: Assets.images.ghostLeg.image(),
+                ),
               ),
               18.verticalSpace,
               Stack(
@@ -175,9 +182,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       margin: const EdgeInsets.only(top: 34),
                       child: Column(
                         children: [
-                          SmallText('DOWN, DOWN'),
+                          _SmallText('home_down_down'.tr()),
                           15.verticalSpace,
-                          SmallText("DON'T STOP\nCHEER UP", textAlign: TextAlign.center),
+                          _SmallText('home_cheer_up'.tr(), textAlign: TextAlign.center),
                         ],
                       ),
                     ),
@@ -197,27 +204,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               19.verticalSpace,
-              // GestureDetector(
-              //   onTap: () {
-              //     context.go(Routes.paceCounter);
-              //   },
-              //   child: Assets.images.paceCounters.image(),
-              // ),
-              // 18.verticalSpace,
-              // GestureDetector(
-              //   onTap: () {
-              //     context.go(Routes.qrMaker);
-              //   },
-              //   child: Assets.images.qrMaker.image(),
-              // ),
-              CounterButton(),
+              const _CounterButton(),
               Stack(
                 children: [
                   Align(
                     alignment: Alignment.topCenter,
                     child: Padding(
                       padding: const EdgeInsets.only(top: 38),
-                      child: SmallText('HAVE A NICE DAY.'),
+                      child: _SmallText('home_nice_day'.tr()),
                     ),
                   ),
                   Align(
@@ -230,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               25.verticalSpace,
-              AdsButton(),
+              const _AdsButton(),
               23.verticalSpace,
               Stack(
                 children: [
@@ -240,11 +234,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.only(top: 32),
                       child: Column(
                         children: [
-                          SmallText('GOOD LUCK'),
+                          _SmallText('home_good_luck'.tr()),
                           18.verticalSpace,
-                          SmallText('GOOD BANANA', fontWeight: FontWeight.w700),
+                          _SmallText('home_good_banana'.tr(), fontWeight: FontWeight.w700),
                           18.verticalSpace,
-                          SmallText('More bananas are coming soon...'),
+                          _SmallText('home_coming_soon'.tr()),
                         ],
                       ),
                     ),
@@ -319,12 +313,12 @@ class _HomeScreenState extends State<HomeScreen> {
             border: Border.all(),
             borderRadius: BorderRadius.circular(16),
           ),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(vertical: 8),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
             child: SizedBox(
               width: double.infinity,
               child: Text(
-                'Ad Loading...',
+                'home_ad_loading'.tr(),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -337,11 +331,11 @@ class _HomeScreenState extends State<HomeScreen> {
   GestureDetector ScrollToTopButton() {
     return GestureDetector(
       onTap: () {
-        scrollController.animateTo(
+        unawaited(scrollController.animateTo(
           0,
           duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOut,
-        );
+        ));
       },
       child: Column(
         children: [
@@ -353,22 +347,21 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Container SecondText() {
-    return Container(
-      margin: const EdgeInsets.only(top: 38),
-      child: Text(
-        'Click on\nthe function you want',
-        style: Theme.of(context).textTheme.labelSmall,
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
+}
 
-  Text SmallText(
-    String text, {
-    TextAlign textAlign = TextAlign.start,
-    FontWeight fontWeight = FontWeight.normal,
-  }) {
+class _SmallText extends StatelessWidget {
+  const _SmallText(
+    this.text, {
+    this.textAlign = TextAlign.start,
+    this.fontWeight = FontWeight.normal,
+  });
+
+  final String text;
+  final TextAlign textAlign;
+  final FontWeight fontWeight;
+
+  @override
+  Widget build(BuildContext context) {
     return Text(
       text,
       style: Theme.of(context).textTheme.labelSmall?.copyWith(
@@ -377,118 +370,181 @@ class _HomeScreenState extends State<HomeScreen> {
       textAlign: textAlign,
     );
   }
+}
 
-  GestureDetector RouletteButton() {
-    return GestureDetector(
-      onTap: () {
-        context.go(Routes.roulette);
-      },
-      child: Assets.images.roulette.image(),
+class _SecondText extends StatelessWidget {
+  const _SecondText();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 38),
+      child: Text(
+        'home_select_function'.tr(),
+        style: Theme.of(context).textTheme.labelSmall,
+        textAlign: TextAlign.center,
+      ),
     );
   }
+}
 
-  GestureDetector QrMakerButton() {
-    return GestureDetector(
-      onTap: () {
-        context.go(Routes.qrMaker);
-      },
-      child: Assets.images.qrMaker.image(),
-    );
-  }
+class _FirstText extends StatelessWidget {
+  const _FirstText();
 
-  Widget IntroductionButton() {
-    return GestureDetector(
-      onTap: () {
-        context.go(Routes.introduction);
-      },
-      child: Assets.images.introduction.image(),
-    );
-  }
-
-  Widget FirstText() {
+  @override
+  Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         19.verticalSpace,
-        SmallText('HELLO'),
+        _SmallText('home_hello'.tr()),
         13.verticalSpace,
-        SmallText('WELCOME TO\nWTB', textAlign: TextAlign.center),
+        _SmallText('home_welcome'.tr(), textAlign: TextAlign.center),
       ],
     );
   }
+}
 
-  Widget DonationButton() {
-    return GestureDetector(
-      onTap: () {
-        // context.go(Routes.donation);
-      },
-      child: Container(
-        margin: const EdgeInsets.only(right: 24),
-        child: SvgPicture.asset(Assets.images.donation),
+class _RouletteButton extends StatelessWidget {
+  const _RouletteButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: 'home_roulette'.tr(),
+      button: true,
+      child: GestureDetector(
+        onTap: () {
+          context.go(Routes.roulette);
+        },
+        child: Assets.images.roulette.image(),
       ),
     );
   }
+}
 
-  Widget PixelArtButton() {
-    return GestureDetector(
-      onTap: () {
-        context.go(Routes.pixelArt);
-      },
-      child: Container(
-        margin: const EdgeInsets.only(top: 109),
-        child: Assets.images.pixelArt.image(),
+class _IntroductionButton extends StatelessWidget {
+  const _IntroductionButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: 'home_introduction'.tr(),
+      button: true,
+      child: GestureDetector(
+        onTap: () {
+          context.go(Routes.introduction);
+        },
+        child: Assets.images.introduction.image(),
       ),
     );
   }
+}
 
-  GestureDetector CreatorsButton() {
-    return GestureDetector(
-      onTap: () {
-        context.go(Routes.creators);
-      },
-      child: Container(
-        margin: const EdgeInsets.only(left: 35, top: 16),
-        child: Assets.images.creators.image(),
-      ),
-    );
-  }
+class _PixelArtButton extends StatelessWidget {
+  const _PixelArtButton();
 
-  GestureDetector AdsButton() {
-    return GestureDetector(
-      onTap: () {
-        context.go(Routes.ads);
-      },
-      child: Assets.images.adButton.image(),
-    );
-  }
-
-  Widget CounterButton() {
-    return GestureDetector(
-      onTap: () {
-        context.go(Routes.counter);
-      },
-      onLongPress: () {
-        context.go(Routes.counter, extra: true);
-      },
-      child: Assets.images.dualCounter.image(),
-    );
-  }
-
-  Widget LanguageButton() {
-    return GestureDetector(
-      onTap: () {
-        context.go(Routes.selectLanguage);
-      },
-      child: Container(
-        margin: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 4,
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: 'home_pixel_art'.tr(),
+      button: true,
+      child: GestureDetector(
+        onTap: () {
+          context.go(Routes.pixelArt);
+        },
+        child: Container(
+          margin: const EdgeInsets.only(top: 109),
+          child: Assets.images.pixelArt.image(),
         ),
-        child: Align(
-          alignment: Alignment.topRight,
-          child: PhotoHero(
-            photo: Assets.images.bigEarth.path,
-            width: 32,
+      ),
+    );
+  }
+}
+
+class _CreatorsButton extends StatelessWidget {
+  const _CreatorsButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: 'home_creators'.tr(),
+      button: true,
+      child: GestureDetector(
+        onTap: () {
+          context.go(Routes.creators);
+        },
+        child: Container(
+          margin: const EdgeInsets.only(left: 35, top: 16),
+          child: Assets.images.creators.image(),
+        ),
+      ),
+    );
+  }
+}
+
+class _AdsButton extends StatelessWidget {
+  const _AdsButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: 'home_ads'.tr(),
+      button: true,
+      child: GestureDetector(
+        onTap: () {
+          context.go(Routes.ads);
+        },
+        child: Assets.images.adButton.image(),
+      ),
+    );
+  }
+}
+
+class _CounterButton extends StatelessWidget {
+  const _CounterButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: 'home_counter'.tr(),
+      button: true,
+      child: GestureDetector(
+        onTap: () {
+          context.go(Routes.counter);
+        },
+        onLongPress: () {
+          context.go(Routes.counter, extra: true);
+        },
+        child: Assets.images.dualCounter.image(),
+      ),
+    );
+  }
+}
+
+class _LanguageButton extends StatelessWidget {
+  const _LanguageButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: 'home_language'.tr(),
+      button: true,
+      child: GestureDetector(
+        onTap: () {
+          context.go(Routes.selectLanguage);
+        },
+        child: Container(
+          margin: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 4,
+          ),
+          child: Align(
+            alignment: Alignment.topRight,
+            child: PhotoHero(
+              photo: Assets.images.bigEarth.path,
+              width: 32,
+            ),
           ),
         ),
       ),

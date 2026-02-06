@@ -36,7 +36,7 @@ class PaceCounterNotifier extends StateNotifier<StepCounterState> {
     var stepCount = 0;
     final savedStep = await _getLastSteps();
     if (savedStep == 0) {
-      _saveLastSteps(totalStep);
+      await _saveLastSteps(totalStep);
     } else {
       stepCount = totalStep - savedStep;
     }
@@ -55,7 +55,7 @@ class PaceCounterNotifier extends StateNotifier<StepCounterState> {
   }
 
   Future<void> _saveLastSteps(int steps) async {
-    _prefs.setInt('last_steps', steps);
+    await _prefs.setInt('last_steps', steps);
   }
 
   Future<int> _getLastSteps() async {
@@ -71,7 +71,7 @@ class PaceCounterNotifier extends StateNotifier<StepCounterState> {
   StreamSubscription<StepCount>? _stepCountStream;
 
   void start() {
-    _saveLastSteps(0);
+    unawaited(_saveLastSteps(0));
     _stepCountStream = Pedometer.stepCountStream.listen(
       _onStepCount,
       onError: _onStepCountError,
@@ -79,14 +79,14 @@ class PaceCounterNotifier extends StateNotifier<StepCounterState> {
   }
 
   void stop() {
-    _stepCountStream?.cancel();
+    unawaited(_stepCountStream?.cancel());
     _stepCountStream = null;
   }
 
   @override
   void dispose() {
     Log.d('dispose');
-    _statusStream?.cancel();
+    unawaited(_statusStream?.cancel());
     _statusStream = null;
     stop();
     controller.dispose();

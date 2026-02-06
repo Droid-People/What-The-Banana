@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -25,7 +27,7 @@ class _InterstitialAdScreenState extends State<InterstitialAdScreen> {
   }
 
   void _createInterstitialAd() {
-    InterstitialAd.load(
+    unawaited(InterstitialAd.load(
       adUnitId: AdmobIds.getInterstitialAdId(),
       request: request,
       adLoadCallback: InterstitialAdLoadCallback(
@@ -33,7 +35,7 @@ class _InterstitialAdScreenState extends State<InterstitialAdScreen> {
           setState(() {
             _interstitialAd = ad;
             _numInterstitialLoadAttempts = 0;
-            _interstitialAd!.setImmersiveMode(true);
+            unawaited(_interstitialAd!.setImmersiveMode(true));
           });
         },
         onAdFailedToLoad: (LoadAdError error) {
@@ -46,8 +48,8 @@ class _InterstitialAdScreenState extends State<InterstitialAdScreen> {
         },
       ),
     ).then((_) {
-      Future.delayed(const Duration(seconds: 1) , _showInterstitialAd);
-    });
+      unawaited(Future.delayed(const Duration(seconds: 1) , _showInterstitialAd));
+    }));
   }
 
   void _showInterstitialAd() {
@@ -60,16 +62,16 @@ class _InterstitialAdScreenState extends State<InterstitialAdScreen> {
           Log.i('ad onAdShowedFullScreenContent.'),
       onAdDismissedFullScreenContent: (InterstitialAd ad) {
         Log.i('$ad onAdDismissedFullScreenContent.');
-        ad.dispose();
+        unawaited(ad.dispose());
         context.pop();
       },
       onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
         Log.e('$ad onAdFailedToShowFullScreenContent: $error');
-        ad.dispose();
+        unawaited(ad.dispose());
         _createInterstitialAd();
       },
     );
-    _interstitialAd!.show();
+    unawaited(_interstitialAd!.show());
     _interstitialAd = null;
   }
 

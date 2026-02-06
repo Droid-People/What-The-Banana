@@ -19,8 +19,8 @@ class SingleRotatingBananaController {
   }
 
   void dispose() {
-    _controller?.sink.close();
-    _controller?.close();
+    unawaited(_controller?.sink.close());
+    unawaited(_controller?.close());
     _controller = null;
   }
 
@@ -50,7 +50,7 @@ class _SingleRotatingBananaState extends State<SingleRotatingBanana> with Single
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _loadImage();
+      unawaited(_loadImage());
     });
 
     widget.controller.listen((event) {

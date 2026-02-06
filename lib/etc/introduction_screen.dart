@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -56,8 +58,8 @@ class IntroductionScreen extends StatelessWidget {
                 30.verticalSpace,
                 GestureDetector(
                   onTap: () {
-                    launchUrl(Uri.parse(Consts.privacyPolicyUrl),
-                        mode: LaunchMode.externalApplication);
+                    unawaited(launchUrl(Uri.parse(Consts.privacyPolicyUrl),
+                        mode: LaunchMode.externalApplication));
                   },
                   child: EtcButton('Privacy Policy'),
                 ),

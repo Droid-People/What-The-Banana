@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -17,26 +19,26 @@ class _OpenAppAdScreenState extends State<OpenAppAdScreen> {
   @override
   void initState() {
     super.initState();
-    AppOpenAd.load(
+    unawaited(AppOpenAd.load(
       adUnitId: AdmobIds.getOpenAppAdId(),
       request: const AdRequest(),
       adLoadCallback: AppOpenAdLoadCallback(
         onAdLoaded: (AppOpenAd ad) {
-          ad..fullScreenContentCallback = FullScreenContentCallback(
+          ad.fullScreenContentCallback = FullScreenContentCallback(
             onAdShowedFullScreenContent: (Ad ad) {
               Log.i('$ad onAdShowedFullScreenContent.');
             },
             onAdDismissedFullScreenContent: (Ad ad) {
               context.pop();
             },
-          )
-          ..show();
+          );
+          unawaited(ad.show());
         },
         onAdFailedToLoad: (LoadAdError error) {
           Log.e('Failed to load open app ad: $error');
         },
       ),
-    );
+    ));
   }
 
   @override

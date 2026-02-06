@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:what_the_banana/contents/counter/dual_counter_provider.dart';
 
@@ -44,27 +45,31 @@ void main() {
   });
 
   group('DualCounterNotifier', () {
+    late ProviderContainer container;
     late DualCounterNotifier notifier;
 
     setUp(() {
-      notifier = DualCounterNotifier();
+      container = ProviderContainer();
+      notifier = container.read(dualCounterProvider.notifier);
     });
 
     tearDown(() {
-      notifier.dispose();
+      container.dispose();
     });
 
+    DualCounterState readState() => container.read(dualCounterProvider);
+
     test('initial state is (0, 0)', () {
-      expect(notifier.state.left, 0);
-      expect(notifier.state.right, 0);
+      expect(readState().left, 0);
+      expect(readState().right, 0);
     });
 
     group('incrementCount1', () {
       test('increases left counter by 1', () {
         notifier.incrementCount1();
 
-        expect(notifier.state.left, 1);
-        expect(notifier.state.right, 0);
+        expect(readState().left, 1);
+        expect(readState().right, 0);
       });
 
       test('increases left counter multiple times', () {
@@ -72,8 +77,8 @@ void main() {
         notifier.incrementCount1();
         notifier.incrementCount1();
 
-        expect(notifier.state.left, 3);
-        expect(notifier.state.right, 0);
+        expect(readState().left, 3);
+        expect(readState().right, 0);
       });
     });
 
@@ -81,8 +86,8 @@ void main() {
       test('increases right counter by 1', () {
         notifier.incrementCount2();
 
-        expect(notifier.state.left, 0);
-        expect(notifier.state.right, 1);
+        expect(readState().left, 0);
+        expect(readState().right, 1);
       });
 
       test('increases right counter multiple times', () {
@@ -90,8 +95,8 @@ void main() {
         notifier.incrementCount2();
         notifier.incrementCount2();
 
-        expect(notifier.state.left, 0);
-        expect(notifier.state.right, 3);
+        expect(readState().left, 0);
+        expect(readState().right, 3);
       });
     });
 
@@ -101,22 +106,22 @@ void main() {
         notifier.incrementCount1();
         notifier.decrementCount1();
 
-        expect(notifier.state.left, 1);
-        expect(notifier.state.right, 0);
+        expect(readState().left, 1);
+        expect(readState().right, 0);
       });
 
       test('does not go below 0', () {
         notifier.decrementCount1();
 
-        expect(notifier.state.left, 0);
-        expect(notifier.state.right, 0);
+        expect(readState().left, 0);
+        expect(readState().right, 0);
       });
 
       test('stays at 0 when decrementing from 0', () {
         notifier.decrementCount1();
         notifier.decrementCount1();
 
-        expect(notifier.state.left, 0);
+        expect(readState().left, 0);
       });
     });
 
@@ -126,22 +131,22 @@ void main() {
         notifier.incrementCount2();
         notifier.decrementCount2();
 
-        expect(notifier.state.left, 0);
-        expect(notifier.state.right, 1);
+        expect(readState().left, 0);
+        expect(readState().right, 1);
       });
 
       test('does not go below 0', () {
         notifier.decrementCount2();
 
-        expect(notifier.state.left, 0);
-        expect(notifier.state.right, 0);
+        expect(readState().left, 0);
+        expect(readState().right, 0);
       });
 
       test('stays at 0 when decrementing from 0', () {
         notifier.decrementCount2();
         notifier.decrementCount2();
 
-        expect(notifier.state.right, 0);
+        expect(readState().right, 0);
       });
     });
 
@@ -152,8 +157,8 @@ void main() {
         notifier.incrementCount1();
         notifier.resetCount1();
 
-        expect(notifier.state.left, 0);
-        expect(notifier.state.right, 0);
+        expect(readState().left, 0);
+        expect(readState().right, 0);
       });
 
       test('does not affect right counter', () {
@@ -162,8 +167,8 @@ void main() {
         notifier.incrementCount2();
         notifier.resetCount1();
 
-        expect(notifier.state.left, 0);
-        expect(notifier.state.right, 2);
+        expect(readState().left, 0);
+        expect(readState().right, 2);
       });
     });
 
@@ -174,8 +179,8 @@ void main() {
         notifier.incrementCount2();
         notifier.resetCount2();
 
-        expect(notifier.state.left, 0);
-        expect(notifier.state.right, 0);
+        expect(readState().left, 0);
+        expect(readState().right, 0);
       });
 
       test('does not affect left counter', () {
@@ -184,8 +189,8 @@ void main() {
         notifier.incrementCount2();
         notifier.resetCount2();
 
-        expect(notifier.state.left, 2);
-        expect(notifier.state.right, 0);
+        expect(readState().left, 2);
+        expect(readState().right, 0);
       });
     });
 
@@ -198,8 +203,8 @@ void main() {
         notifier.incrementCount2();
         notifier.reset();
 
-        expect(notifier.state.left, 0);
-        expect(notifier.state.right, 0);
+        expect(readState().left, 0);
+        expect(readState().right, 0);
       });
     });
 
@@ -209,7 +214,7 @@ void main() {
         notifier.incrementCount1();
         notifier.incrementCount1();
         notifier.incrementCount1();
-        expect(notifier.state.left, 3);
+        expect(readState().left, 3);
 
         // Increment right 5 times
         notifier.incrementCount2();
@@ -217,39 +222,39 @@ void main() {
         notifier.incrementCount2();
         notifier.incrementCount2();
         notifier.incrementCount2();
-        expect(notifier.state.right, 5);
+        expect(readState().right, 5);
 
         // Decrement left once
         notifier.decrementCount1();
-        expect(notifier.state.left, 2);
+        expect(readState().left, 2);
 
         // Reset left
         notifier.resetCount1();
-        expect(notifier.state.left, 0);
-        expect(notifier.state.right, 5);
+        expect(readState().left, 0);
+        expect(readState().right, 5);
 
         // Decrement right twice
         notifier.decrementCount2();
         notifier.decrementCount2();
-        expect(notifier.state.right, 3);
+        expect(readState().right, 3);
       });
 
       test('independent counter operations', () {
         // Operate on left counter
         notifier.incrementCount1();
         notifier.incrementCount1();
-        expect(notifier.state.left, 2);
-        expect(notifier.state.right, 0);
+        expect(readState().left, 2);
+        expect(readState().right, 0);
 
         // Operate on right counter
         notifier.incrementCount2();
-        expect(notifier.state.left, 2);
-        expect(notifier.state.right, 1);
+        expect(readState().left, 2);
+        expect(readState().right, 1);
 
         // Reset right, left should remain
         notifier.resetCount2();
-        expect(notifier.state.left, 2);
-        expect(notifier.state.right, 0);
+        expect(readState().left, 2);
+        expect(readState().right, 0);
       });
     });
   });

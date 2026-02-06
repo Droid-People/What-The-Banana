@@ -1,11 +1,12 @@
-import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final dualCounterProvider = StateNotifierProvider.autoDispose<DualCounterNotifier, DualCounterState>(
-  (ref) => DualCounterNotifier(),
+final dualCounterProvider = NotifierProvider.autoDispose<DualCounterNotifier, DualCounterState>(
+  DualCounterNotifier.new,
 );
 
-class DualCounterNotifier extends StateNotifier<DualCounterState> {
-  DualCounterNotifier() : super(DualCounterState.initial());
+class DualCounterNotifier extends Notifier<DualCounterState> {
+  @override
+  DualCounterState build() => DualCounterState.initial();
 
   void incrementCount1() {
     state = state.copyWith(left: state.left + 1);

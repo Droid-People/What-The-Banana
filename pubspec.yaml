@@ -89,7 +89,6 @@ flutter:
     - assets/images/
     - assets/translations/
     - assets/update_notes/
-    - .env
 
   fonts:
     - family: PixelFont

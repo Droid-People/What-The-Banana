@@ -28,9 +28,9 @@ class _PaceCounterScreen extends ConsumerState<PaceCounterScreen> {
     super.initState();
 
     if (Platform.isIOS) {
-      _checkStepCountingAvailableInIOS();
+      unawaited(_checkStepCountingAvailableInIOS());
     } else {
-      _handlePermissionStatus();
+      unawaited(_handlePermissionStatus());
     }
   }
 
@@ -40,7 +40,7 @@ class _PaceCounterScreen extends ConsumerState<PaceCounterScreen> {
 
       if (available) {
         // IOS의 경우 stepCountStream 사작될 때 권한을 요청함
-        ref.read(paceCounterProvider.notifier).initialize();
+        await ref.read(paceCounterProvider.notifier).initialize();
       } else {
         _showDeviceNotSupportedDialog();
       }
@@ -52,7 +52,7 @@ class _PaceCounterScreen extends ConsumerState<PaceCounterScreen> {
     if (!granted) {
       _showPermissionDialog();
     } else {
-      ref.read(paceCounterProvider.notifier).initialize();
+      await ref.read(paceCounterProvider.notifier).initialize();
     }
   }
 
@@ -67,7 +67,7 @@ class _PaceCounterScreen extends ConsumerState<PaceCounterScreen> {
   }
 
   void _showPermissionDialog() {
-    showDialog<void>(
+    unawaited(showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('PermissionTitle').tr(),
@@ -85,11 +85,11 @@ class _PaceCounterScreen extends ConsumerState<PaceCounterScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   void _showDeviceNotSupportedDialog() {
-    showDialog<void>(
+    unawaited(showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('DeviceNotSupportedTitle').tr(),
@@ -103,7 +103,7 @@ class _PaceCounterScreen extends ConsumerState<PaceCounterScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   @override
