@@ -107,12 +107,24 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
   }
 
   Future<void> sendFeedback() async {
+    if (_feedbackController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter your feedback')),
+      );
+      return;
+    }
+
     final result = await ref
         .read(addFeedbackProvider.notifier)
         .addFeedback(_feedbackController.text);
     if (result) {
       if (!mounted) return;
       context.go(Routes.feedback + Routes.sentSuccess);
+    } else {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Failed to send feedback. Please try again.')),
+      );
     }
   }
 }

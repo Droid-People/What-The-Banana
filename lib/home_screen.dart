@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         alignment: Alignment.bottomCenter,
                         child: Assets.images.homeTopBanana.image(),
                       ),
-                      LanguageButton(),
+                      const _LanguageButton(),
                     ],
                   ),
                 ),
@@ -101,11 +101,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: 74, left: 29),
-                    child: IntroductionButton(),
+                    child: const _IntroductionButton(),
                   ),
-                  Align(
+                  const Align(
                     alignment: Alignment.topCenter,
-                    child: PixelArtButton(),
+                    child: _PixelArtButton(),
                   ),
                 ],
               ),
@@ -124,24 +124,24 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  Align(
+                  const Align(
                     alignment: Alignment.topCenter,
-                    child: FirstText(),
+                    child: _FirstText(),
                   ),
                 ],
               ),
               37.verticalSpace,
-              RouletteButton(),
+              const _RouletteButton(),
               8.verticalSpace,
               Stack(
                 children: [
-                  Align(
+                  const Align(
                     alignment: Alignment.topLeft,
-                    child: CreatorsButton(),
+                    child: _CreatorsButton(),
                   ),
-                  Align(
+                  const Align(
                     alignment: Alignment.topCenter,
-                    child: SecondText(),
+                    child: _SecondText(),
                   ),
                   Align(
                     alignment: Alignment.topRight,
@@ -175,9 +175,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       margin: const EdgeInsets.only(top: 34),
                       child: Column(
                         children: [
-                          SmallText('DOWN, DOWN'),
+                          const _SmallText('DOWN, DOWN'),
                           15.verticalSpace,
-                          SmallText("DON'T STOP\nCHEER UP", textAlign: TextAlign.center),
+                          const _SmallText("DON'T STOP\nCHEER UP", textAlign: TextAlign.center),
                         ],
                       ),
                     ),
@@ -210,14 +210,14 @@ class _HomeScreenState extends State<HomeScreen> {
               //   },
               //   child: Assets.images.qrMaker.image(),
               // ),
-              CounterButton(),
+              const _CounterButton(),
               Stack(
                 children: [
-                  Align(
+                  const Align(
                     alignment: Alignment.topCenter,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 38),
-                      child: SmallText('HAVE A NICE DAY.'),
+                      padding: EdgeInsets.only(top: 38),
+                      child: _SmallText('HAVE A NICE DAY.'),
                     ),
                   ),
                   Align(
@@ -230,7 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               25.verticalSpace,
-              AdsButton(),
+              const _AdsButton(),
               23.verticalSpace,
               Stack(
                 children: [
@@ -240,11 +240,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.only(top: 32),
                       child: Column(
                         children: [
-                          SmallText('GOOD LUCK'),
+                          const _SmallText('GOOD LUCK'),
                           18.verticalSpace,
-                          SmallText('GOOD BANANA', fontWeight: FontWeight.w700),
+                          const _SmallText('GOOD BANANA', fontWeight: FontWeight.w700),
                           18.verticalSpace,
-                          SmallText('More bananas are coming soon...'),
+                          const _SmallText('More bananas are coming soon...'),
                         ],
                       ),
                     ),
@@ -353,67 +353,12 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Container SecondText() {
-    return Container(
-      margin: const EdgeInsets.only(top: 38),
-      child: Text(
-        'Click on\nthe function you want',
-        style: Theme.of(context).textTheme.labelSmall,
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
-
-  Text SmallText(
-    String text, {
-    TextAlign textAlign = TextAlign.start,
-    FontWeight fontWeight = FontWeight.normal,
-  }) {
-    return Text(
-      text,
-      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-            fontWeight: fontWeight,
-          ),
-      textAlign: textAlign,
-    );
-  }
-
-  GestureDetector RouletteButton() {
-    return GestureDetector(
-      onTap: () {
-        context.go(Routes.roulette);
-      },
-      child: Assets.images.roulette.image(),
-    );
-  }
-
   GestureDetector QrMakerButton() {
     return GestureDetector(
       onTap: () {
         context.go(Routes.qrMaker);
       },
       child: Assets.images.qrMaker.image(),
-    );
-  }
-
-  Widget IntroductionButton() {
-    return GestureDetector(
-      onTap: () {
-        context.go(Routes.introduction);
-      },
-      child: Assets.images.introduction.image(),
-    );
-  }
-
-  Widget FirstText() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        19.verticalSpace,
-        SmallText('HELLO'),
-        13.verticalSpace,
-        SmallText('WELCOME TO\nWTB', textAlign: TextAlign.center),
-      ],
     );
   }
 
@@ -428,8 +373,97 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
 
-  Widget PixelArtButton() {
+class _SmallText extends StatelessWidget {
+  const _SmallText(
+    this.text, {
+    this.textAlign = TextAlign.start,
+    this.fontWeight = FontWeight.normal,
+  });
+
+  final String text;
+  final TextAlign textAlign;
+  final FontWeight fontWeight;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+            fontWeight: fontWeight,
+          ),
+      textAlign: textAlign,
+    );
+  }
+}
+
+class _SecondText extends StatelessWidget {
+  const _SecondText();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 38),
+      child: Text(
+        'Click on\nthe function you want',
+        style: Theme.of(context).textTheme.labelSmall,
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+}
+
+class _FirstText extends StatelessWidget {
+  const _FirstText();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        19.verticalSpace,
+        const _SmallText('HELLO'),
+        13.verticalSpace,
+        const _SmallText('WELCOME TO\nWTB', textAlign: TextAlign.center),
+      ],
+    );
+  }
+}
+
+class _RouletteButton extends StatelessWidget {
+  const _RouletteButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        context.go(Routes.roulette);
+      },
+      child: Assets.images.roulette.image(),
+    );
+  }
+}
+
+class _IntroductionButton extends StatelessWidget {
+  const _IntroductionButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        context.go(Routes.introduction);
+      },
+      child: Assets.images.introduction.image(),
+    );
+  }
+}
+
+class _PixelArtButton extends StatelessWidget {
+  const _PixelArtButton();
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         context.go(Routes.pixelArt);
@@ -440,8 +474,13 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
 
-  GestureDetector CreatorsButton() {
+class _CreatorsButton extends StatelessWidget {
+  const _CreatorsButton();
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         context.go(Routes.creators);
@@ -452,8 +491,13 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
 
-  GestureDetector AdsButton() {
+class _AdsButton extends StatelessWidget {
+  const _AdsButton();
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         context.go(Routes.ads);
@@ -461,8 +505,13 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Assets.images.adButton.image(),
     );
   }
+}
 
-  Widget CounterButton() {
+class _CounterButton extends StatelessWidget {
+  const _CounterButton();
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         context.go(Routes.counter);
@@ -473,8 +522,13 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Assets.images.dualCounter.image(),
     );
   }
+}
 
-  Widget LanguageButton() {
+class _LanguageButton extends StatelessWidget {
+  const _LanguageButton();
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         context.go(Routes.selectLanguage);

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
 final rouletteProvider = StateNotifierProvider.autoDispose<RouletteStateNotifier, RouletteState>(
@@ -14,10 +13,6 @@ class RouletteStateNotifier extends StateNotifier<RouletteState> {
 
   void setRewards(List<String> rewards) {
     state = state.copyWith(rewards: rewards);
-  }
-
-  void disposeController() {
-    state.pageController.dispose();
   }
 }
 
@@ -35,7 +30,6 @@ class RouletteState {
 
   int number = 0;
   List<String> rewards = [];
-  final PageController pageController = PageController();
 
   RouletteState copyWith({
     List<String>? rewards,

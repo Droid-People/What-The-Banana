@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
 final ghostLegStateProvider = StateNotifierProvider.autoDispose<GhostLegStateNotifier, GhostLegState>(
@@ -19,10 +18,6 @@ class GhostLegStateNotifier extends StateNotifier<GhostLegState> {
   void setRewards(List<String> rewards) {
     state = state.copyWith(rewards: rewards);
   }
-
-  void disposeController() {
-    state.pageController.dispose();
-  }
 }
 
 class GhostLegState {
@@ -42,7 +37,6 @@ class GhostLegState {
   int number = 0;
   List<String> names = [];
   List<String> rewards = [];
-  final PageController pageController = PageController();
 
   GhostLegState copyWith({
     List<String>? names,
