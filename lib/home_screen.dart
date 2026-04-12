@@ -38,6 +38,13 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  @override
+  void dispose() {
+    bannerAd?.dispose();
+    scrollController.dispose();
+    super.dispose();
+  }
+
   void _loadAd() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final size = await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(

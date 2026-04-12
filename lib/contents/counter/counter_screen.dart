@@ -27,6 +27,13 @@ class _CounterScreenState extends ConsumerState<CounterScreen> {
   final rightTextController = TextEditingController();
 
   @override
+  void dispose() {
+    leftTextController.dispose();
+    rightTextController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
 
