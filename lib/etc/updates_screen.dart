@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:what_the_banana/gen/assets.gen.dart';
 import 'package:what_the_banana/gen/colors.gen.dart';
@@ -23,27 +24,7 @@ class _UpdatesScreenState extends State<UpdatesScreen> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      unawaited(getAssetsFromFolder().then((paths) {
-        if (!mounted) return;
-        final currentLanguage = context.locale.toString();
-
-        for (final jsonFilePath in paths.reversed) {
-          unawaited(rootBundle.load(jsonFilePath).then((data) {
-            final jsonString = data.buffer.asUint8List();
-            final json =
-                jsonDecode(utf8.decode(jsonString)) as Map<String, dynamic>;
-
-            setState(() {
-              updates.add({
-                'version': jsonFilePath.split('/').last.replaceAll('.json', ''),
-                'date': json['date'] as String,
-                'content':
-                    json[currentLanguage] as String? ?? json['en'] as String,
-              });
-            });
-          }));
-        }
-      }));
+      unawaited(_loadUpdates());
     });
   }
 
@@ -54,7 +35,7 @@ class _UpdatesScreenState extends State<UpdatesScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => context.pop(),
         ),
         title: const Text('updates').tr(),
         scrolledUnderElevation: 0,
@@ -93,6 +74,37 @@ class _UpdatesScreenState extends State<UpdatesScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _loadUpdates() async {
+    try {
+      final paths = await getAssetsFromFolder();
+      if (!mounted) return;
+      final currentLanguage = context.locale.toString();
+
+      for (final jsonFilePath in paths.reversed) {
+        try {
+          final data = await rootBundle.load(jsonFilePath);
+          if (!mounted) return;
+          final jsonString = data.buffer.asUint8List();
+          final json =
+              jsonDecode(utf8.decode(jsonString)) as Map<String, dynamic>;
+
+          setState(() {
+            updates.add({
+              'version': jsonFilePath.split('/').last.replaceAll('.json', ''),
+              'date': json['date'] as String? ?? '',
+              'content':
+                  json[currentLanguage] as String? ?? json['en'] as String? ?? '',
+            });
+          });
+        } on Exception catch (_) {
+          // 개별 파일 파싱 실패 시 건너뛰기
+        }
+      }
+    } on Exception catch (_) {
+      // AssetManifest 로드 실패 시 빈 목록 유지
+    }
   }
 
   Future<List<String>> getAssetsFromFolder() async {

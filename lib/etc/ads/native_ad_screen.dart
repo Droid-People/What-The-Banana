@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:what_the_banana/common/logger.dart';
 import 'package:what_the_banana/etc/ads/admob_ids.dart';
@@ -27,7 +28,7 @@ class _NativeAdScreenState extends State<NativeAdScreen> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.of(context).pop();
+              context.pop();
             },
           ),
         ),
@@ -113,7 +114,7 @@ class _NativeAdScreenState extends State<NativeAdScreen> {
 
   @override
   void dispose() {
-    super.dispose();
     unawaited(_nativeAd?.dispose());
+    super.dispose();
   }
 }

@@ -83,7 +83,7 @@ class _InterstitialAdScreenState extends State<InterstitialAdScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pop();
+            context.pop();
           },
         ),
         backgroundColor: ColorName.yellowBackground,

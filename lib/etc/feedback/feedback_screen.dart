@@ -20,6 +20,12 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
   final _feedbackController = TextEditingController();
 
   @override
+  void dispose() {
+    _feedbackController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -109,7 +115,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
   Future<void> sendFeedback() async {
     if (_feedbackController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter your feedback')),
+        SnackBar(content: const Text('feedback_empty_error').tr()),
       );
       return;
     }
@@ -123,7 +129,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
     } else {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Failed to send feedback. Please try again.')),
+        SnackBar(content: const Text('feedback_send_error').tr()),
       );
     }
   }
