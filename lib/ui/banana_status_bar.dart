@@ -78,7 +78,8 @@ class _BananaStatusBarState extends State<BananaStatusBar> {
     final barH = topInset > 0 ? topInset : BananaStatusBar.barHeight;
 
     return Material(
-      color: ColorName.homeTopBackground,
+      // 투명 — Stack 아래에 깔린 화면 배경이 그대로 비쳐 화면 색과 항상 일치.
+      color: Colors.transparent,
       child: Container(
         padding: const EdgeInsets.only(left: 20, right: 18),
         height: barH,

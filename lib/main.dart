@@ -137,16 +137,25 @@ class MyApp extends StatelessWidget {
             ),
           ),
           // 모든 화면 위에 커스텀 바나나 상단바를 얹음.
+          // Stack + 투명 바: 화면 배경이 바 뒤까지 칠해져 상태바 색이 화면과 항상 일치.
+          // MediaQuery padding 주입으로 SafeArea/AppBar가 바 높이만큼 콘텐츠를 내림.
           builder: (context, child) {
-            return Column(
+            final media = MediaQuery.of(context);
+            final topInset = media.viewPadding.top;
+            final barH =
+                topInset > 0 ? topInset : BananaStatusBar.barHeight;
+            return Stack(
               children: [
-                const BananaStatusBar(),
-                Expanded(
-                  child: MediaQuery.removePadding(
-                    context: context,
-                    removeTop: true,
-                    child: child ?? const SizedBox.shrink(),
+                MediaQuery(
+                  data: media.copyWith(
+                    padding: media.padding.copyWith(top: barH),
+                    viewPadding: media.viewPadding.copyWith(top: barH),
                   ),
+                  child: child ?? const SizedBox.shrink(),
+                ),
+                const Align(
+                  alignment: Alignment.topCenter,
+                  child: BananaStatusBar(),
                 ),
               ],
             );
