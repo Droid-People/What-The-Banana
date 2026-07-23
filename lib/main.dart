@@ -9,17 +9,22 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:what_the_banana/gen/colors.gen.dart';
 import 'package:what_the_banana/gen/fonts.gen.dart';
 import 'package:what_the_banana/routes.dart';
+import 'package:what_the_banana/ui/banana_status_bar.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await EasyLocalization.ensureInitialized();
   await MobileAds.instance.initialize();
-  // await dotenv.load();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  // 시스템 상태바 숨김 — 커스텀 바나나 상단바로 대체(하단 내비는 유지).
+  await SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.manual,
+    overlays: [SystemUiOverlay.bottom],
+  );
 
   runApp(
     EasyLocalization(
@@ -42,8 +47,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -133,6 +136,21 @@ class MyApp extends StatelessWidget {
               brightness: Brightness.dark,
             ),
           ),
+          // 모든 화면 위에 커스텀 바나나 상단바를 얹음.
+          builder: (context, child) {
+            return Column(
+              children: [
+                const BananaStatusBar(),
+                Expanded(
+                  child: MediaQuery.removePadding(
+                    context: context,
+                    removeTop: true,
+                    child: child ?? const SizedBox.shrink(),
+                  ),
+                ),
+              ],
+            );
+          },
           routerConfig: Routes.getRouter,
         ),
       ),

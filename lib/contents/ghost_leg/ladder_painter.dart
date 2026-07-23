@@ -1,6 +1,7 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:what_the_banana/contents/ghost_leg/ghost_leg_colors.dart';
 
 class LadderPainter extends CustomPainter {
   LadderPainter(
@@ -23,22 +24,10 @@ class LadderPainter extends CustomPainter {
   static const double topMargin = 25;
 
   Color getLineColor(int value) {
-    switch (value) {
-      case 0:
-        return Colors.red;
-      case 1:
-        return const Color(0xFFFF7700);
-      case 2:
-        return const Color(0xFFF4CE23);
-      case 3:
-        return const Color(0xFF6CBA4F);
-      case 4:
-        return const Color(0xFF1363E3);
-      case 5:
-        return const Color(0xFF9000FF);
-      default:
-        return Colors.black; // 기본 색상
+    if (value >= 0 && value < ghostLegRankColors.length) {
+      return ghostLegRankColors[value];
     }
+    return Colors.black; // 기본 색상
   }
 
   @override

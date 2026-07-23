@@ -60,16 +60,16 @@
 | 이슈 | 파일/위치 | 설명 |
 |------|-----------|------|
 | PayPal 키 git history 노출 | `.env` (현재 `.gitignore`에 포함) | `.gitignore`로 추적은 막혔지만 과거 커밋에 키가 남아있을 수 있음. **키 로테이션 권장** |
-| dotenv 미사용 | `main.dart:18` | `dotenv.load()` 주석 처리. DonationScreen이 "Not ready" 상태이므로 현재 문제 없음 |
+| ~~dotenv 미사용~~ | ~~`main.dart:18`~~ | ✅ 해결됨 — flutter_dotenv 의존성 및 주석 코드 제거 (2026-07-23) |
 
 ### MEDIUM 우선순위
 
 | 이슈 | 파일/위치 | 설명 |
 |------|-----------|------|
 | StateNotifier 레거시 API | 대부분의 Provider 파일 | Riverpod v3에서 deprecated. `@riverpod` 코드 생성으로 마이그레이션 필요 |
-| freezed 미사용 | State 클래스 전체 | 의존성에 있지만 실제 사용 안함. 적용 시 보일러플레이트 감소 |
+| ~~freezed 미사용~~ | ~~State 클래스 전체~~ | ✅ 해결됨 — freezed/freezed_annotation 의존성 제거 (2026-07-23) |
 | 하드코딩된 한국어 문자열 | `counter_screen.dart` | '평화교회 청년부', '처음 왔어요' 등 이스터에그 전용 문자열 (의도적일 수 있음) |
-| PixelArtScreen 색상 팔레트 매 빌드 재생성 | `pixel_art_screen.dart` | 성능에 영향. 캐싱 필요 |
+| ~~PixelArtScreen 색상 팔레트 매 빌드 재생성~~ | ~~`pixel_art_screen.dart`~~ | ✅ 이미 해결됨 — 팔레트 생성이 provider `build()`(1회 실행)로 이동되어 있음. stale 항목 (2026-07-23 확인) |
 
 ### LOW 우선순위
 

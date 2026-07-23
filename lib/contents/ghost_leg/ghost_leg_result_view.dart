@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:what_the_banana/contents/ghost_leg/ghost_leg_colors.dart';
 import 'package:what_the_banana/contents/ghost_leg/ghost_leg_state_provider.dart';
 import 'package:what_the_banana/contents/ghost_leg/ladder_painter.dart';
 import 'package:what_the_banana/gen/assets.gen.dart';
@@ -348,23 +349,7 @@ class _GhostLegResultViewState extends ConsumerState<GhostLegResultView> with Si
   }
 }
 
-const firstColor = Color(0xFFFF0000);
-const secondColor = Color(0xFFFF7700);
-const thirdColor = Color(0xFFF4CE23);
-const fourthColor = Color(0xFF6CBA4F);
-const fifthColor = Color(0xFF1363E3);
-const sixthColor = Color(0xFF9000FF);
-const seventhColor = Color(0xFF000000);
-
-final colors = [
-  firstColor,
-  secondColor,
-  thirdColor,
-  fourthColor,
-  fifthColor,
-  sixthColor,
-  seventhColor,
-];
+const colors = ghostLegRankColors;
 
 class ColorMapperBase extends ColorMapper {
   const ColorMapperBase(this.index);
