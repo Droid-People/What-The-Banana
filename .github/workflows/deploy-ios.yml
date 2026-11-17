@@ -23,10 +23,10 @@ jobs:
           ref: ${{ inputs.release_tag && format('refs/tags/{0}', inputs.release_tag) || github.ref }}
       - name: Verify release tag
         env:
-          GITHUB_REF_NAME: ${{ inputs.release_tag || github.ref_name }}
+          RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
         run: |
-          [[ "$GITHUB_REF_NAME" == ios-v* ]]
-          python3 scripts/verify_release.py
+          [[ "$RELEASE_TAG" == ios-v* ]]
+          GITHUB_REF_NAME="$RELEASE_TAG" python3 scripts/verify_release.py
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.50.0'

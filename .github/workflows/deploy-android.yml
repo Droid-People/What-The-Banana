@@ -23,10 +23,10 @@ jobs:
           ref: ${{ inputs.release_tag && format('refs/tags/{0}', inputs.release_tag) || github.ref }}
       - name: Verify release tag
         env:
-          GITHUB_REF_NAME: ${{ inputs.release_tag || github.ref_name }}
+          RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
         run: |
-          [[ "$GITHUB_REF_NAME" == android-v* ]]
-          python3 scripts/verify_release.py
+          [[ "$RELEASE_TAG" == android-v* ]]
+          GITHUB_REF_NAME="$RELEASE_TAG" python3 scripts/verify_release.py
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
