@@ -70,4 +70,6 @@ CI는 임시 키체인에 인증서를 설치하고 전용 프로파일로 서�
 - Android 서명된 AAB 릴리스 빌드 성공 (70.3 MB).
 - 첫 Android Actions 실행은 AGP 9.3.1 Lint의 JDK 17 호환성 버그로 실패했다. 로컬 성공 환경과 같은 JDK 21로 맞춰 재실행한다. [관련 공식 수정 내역](https://developer.android.com/build/releases/agp-9-3-0-release-notes#fixed-issues)
 - iOS 릴리스 앱 빌드 성공 (68.6 MB).
-- 서명된 IPA 및 첫 업로드 결과는 확인 후 기록한다.
+- 로컬 서명된 IPA 생성 성공. 앱 ID, 버전 `1.0.17`, 빌드 `17` 확인.
+- 첫 iOS Actions 실행에서 기본 활성화된 Swift Package Manager와 CocoaPods 플러그인의 충돌을 확인했다. 로컬 성공 환경과 같이 Swift Package Manager를 끄고, 고정된 CocoaPods를 사용하도록 구성했다.
+- 첫 업로드 결과는 확인 후 기록한다.
