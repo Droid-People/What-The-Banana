@@ -2,6 +2,12 @@ name: Deploy Android internal
 on:
   push:
     tags: ['android-v*']
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Existing release tag to deploy'
+        required: true
+        type: string
 permissions:
   contents: read
 concurrency:
@@ -13,11 +19,18 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
-      - run: python3 scripts/verify_release.py
+        with:
+          ref: ${{ inputs.release_tag && format('refs/tags/{0}', inputs.release_tag) || github.ref }}
+      - name: Verify release tag
+        env:
+          GITHUB_REF_NAME: ${{ inputs.release_tag || github.ref_name }}
+        run: |
+          [[ "$GITHUB_REF_NAME" == android-v* ]]
+          python3 scripts/verify_release.py
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '21'
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.50.0'

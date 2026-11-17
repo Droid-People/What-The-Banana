@@ -43,7 +43,7 @@ platform :ios do
         use_automatic_signing: false,
         path: project,
         team_id: "T583WJWNAK",
-        code_sign_identity: "Apple Distribution",
+        code_sign_identity: "DD06F361FFBD94E4ED51AA4BFD9766A36DFA493F",
         profile_name: "What The Banana AppStore CI",
         targets: ["Runner"],
         build_configurations: ["Release"]
@@ -57,6 +57,7 @@ platform :ios do
         output_name: "WhatTheBanana.ipa",
         export_options: {
           signingStyle: "manual",
+          signingCertificate: "DD06F361FFBD94E4ED51AA4BFD9766A36DFA493F",
           teamID: "T583WJWNAK",
           provisioningProfiles: {
             "people.droid.whatTheBanana" => "What The Banana AppStore CI"
