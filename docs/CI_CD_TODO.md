@@ -5,7 +5,7 @@
 - Android 참고: `/Users/kangmin/dev/ac_project_app` (링크풀).
 - iOS API 키 참고: `/Users/kangmin/dev/moabook-app/ios/fastlane` (사용자 지정).
 - Flutter `3.50.0`, Ruby `3.4.1`, Fastlane `2.235.0`을 사용한다.
-- `pubspec.lock`, `Gemfile.lock`으로 의존성을 고정한다.
+- `pubspec.lock`, `Gemfile.lock`, `ios/Podfile.lock`으로 의존성을 고정한다.
 
 | 워크플로 | 실행 조건 | 수행 작업 |
 | --- | --- | --- |
@@ -66,5 +66,7 @@ CI는 임시 키체인에 인증서를 설치하고 전용 프로파일로 서�
 - 코드 생성 완료 및 추적된 생성 파일 변경 없음.
 - 정적 분석 오류·경고 없음. 기존 info 항목은 `--no-fatal-infos`로 허용한다.
 - Actions 워크플로 문법 검사 및 Fastlane lane 로딩 성공.
+- 첫 GitHub Actions CI 실행 성공.
 - Android 서명된 AAB 릴리스 빌드 성공 (70.3 MB).
-- iOS 릴리스 빌드 및 첫 업로드 결과는 확인 후 기록한다.
+- iOS 릴리스 앱 빌드 성공 (68.6 MB).
+- 서명된 IPA 및 첫 업로드 결과는 확인 후 기록한다.

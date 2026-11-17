@@ -53,5 +53,5 @@ jobs:
         if: always()
         run: |
           rm -f "$RUNNER_TEMP/AuthKey.p8" "$RUNNER_TEMP/distribution.p12" "$RUNNER_TEMP/appstore.mobileprovision" ios/Runner/GoogleService-Info.plist
-          rm -f "$HOME/Library/MobileDevice/Provisioning Profiles/158d6c9e-898d-4308-b19b-702723a7cfa7.mobileprovision"
+          rm -f "$HOME/Library/MobileDevice/Provisioning Profiles/158d6c9e-898d-4308-b19b-702723a7cfa7.mobileprovision" "$HOME/Library/Developer/Xcode/UserData/Provisioning Profiles/158d6c9e-898d-4308-b19b-702723a7cfa7.mobileprovision"
           security delete-keychain fastlane_tmp_keychain || true
