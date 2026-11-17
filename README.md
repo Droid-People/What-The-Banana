@@ -37,3 +37,7 @@ link: https://pub.dev/packages/flutter_oss_licenses
 ```zsh
 fvm dart run flutter_oss_licenses:generate
 ```
+
+### CI/CD
+
+플랫폼별 릴리스 태그로 Play 내부 테스트 및 TestFlight에 배포합니다. 설정과 실행 방법은 [CI/CD 문서](docs/CI_CD_TODO.md)를 참고하세요.

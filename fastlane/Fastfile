@@ -1,0 +1,73 @@
+default_platform(:ios)
+
+platform :android do
+  desc "Upload the release AAB to Play internal testing"
+  lane :deploy_internal do
+    upload_to_play_store(
+      package_name: "people.droid.untitled",
+      json_key: ENV.fetch("PLAY_STORE_CONFIG_JSON_PATH"),
+      aab: "build/app/outputs/bundle/release/app-release.aab",
+      track: "internal",
+      release_status: "completed",
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_changelogs: true
+    )
+  end
+end
+
+platform :ios do
+  desc "Sign the Flutter release build and upload it to TestFlight"
+  lane :deploy_testflight do |options|
+    setup_ci if is_ci
+    if ENV["IOS_CERTIFICATE_PATH"]
+      import_certificate(
+        certificate_path: ENV.fetch("IOS_CERTIFICATE_PATH"),
+        certificate_password: ENV.fetch("IOS_CERTIFICATE_PASSWORD"),
+        keychain_name: ENV.fetch("MATCH_KEYCHAIN_NAME", "login.keychain"),
+        keychain_password: ENV.fetch("MATCH_KEYCHAIN_PASSWORD", "")
+      )
+    end
+    install_provisioning_profile(path: ENV.fetch("IOS_PROFILE_PATH"))
+    api_key = app_store_connect_api_key(
+      key_id: ENV.fetch("APP_STORE_KEY_ID"),
+      issuer_id: ENV.fetch("APP_STORE_ISSUER_ID"),
+      key_filepath: ENV.fetch("APP_STORE_KEY_PATH")
+    )
+    project = "ios/Runner.xcodeproj"
+    project_file = File.expand_path("../#{project}/project.pbxproj", __dir__)
+    original = File.binread(project_file)
+    begin
+      update_code_signing_settings(
+        use_automatic_signing: false,
+        path: project,
+        team_id: "T583WJWNAK",
+        code_sign_identity: "Apple Distribution",
+        profile_name: "What The Banana AppStore CI",
+        targets: ["Runner"],
+        build_configurations: ["Release"]
+      )
+      build_app(
+        workspace: "ios/Runner.xcworkspace",
+        scheme: "Runner",
+        configuration: "Release",
+        export_method: "app-store",
+        output_directory: "build/ios/ipa",
+        output_name: "WhatTheBanana.ipa",
+        export_options: {
+          signingStyle: "manual",
+          teamID: "T583WJWNAK",
+          provisioningProfiles: {
+            "people.droid.whatTheBanana" => "What The Banana AppStore CI"
+          }
+        }
+      )
+      unless options[:skip_upload]
+        upload_to_testflight(api_key: api_key, skip_waiting_for_build_processing: true)
+      end
+    ensure
+      File.binwrite(project_file, original)
+    end
+  end
+end

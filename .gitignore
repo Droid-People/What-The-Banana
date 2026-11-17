@@ -45,7 +45,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-pubspec.lock
 
 .env
 .env.*
@@ -59,3 +58,13 @@ coverage/
 
 # Temp scripts
 fix_unawaited.dart
+
+# Deployment credentials and output
+*.p8
+*.p12
+*.mobileprovision
+fastlane/report.xml
+fastlane/README.md
+
+/android/build/
+/android/.kotlin/

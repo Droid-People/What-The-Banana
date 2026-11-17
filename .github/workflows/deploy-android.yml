@@ -1,0 +1,59 @@
+name: Deploy Android internal
+on:
+  push:
+    tags: ['android-v*']
+permissions:
+  contents: read
+concurrency:
+  group: deploy-android
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/verify_release.py
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.50.0'
+          channel: stable
+          cache: true
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4.1'
+          bundler-cache: true
+      - name: Restore app credentials
+        env:
+          KEYSTORE: ${{ secrets.KEYSTORE_BASE64 }}
+          SIGNING: ${{ secrets.KEYSTORE_PROPERTIES_BASE64 }}
+          FIREBASE: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+          PLAY_CREDENTIALS: ${{ secrets.PLAY_STORE_CONFIG_JSON }}
+        run: |
+          umask 077
+          mkdir -p android/app/keystore
+          printf '%s' "$KEYSTORE" | base64 --decode > android/app/keystore/release.keystore
+          printf '%s' "$SIGNING" | base64 --decode > android/app/keystore/keystore.properties
+          printf '%s' "$FIREBASE" | base64 --decode > android/app/google-services.json
+          printf '%s' "$PLAY_CREDENTIALS" > "$RUNNER_TEMP/play-store.json"
+      - run: flutter pub get --enforce-lockfile
+      - run: dart run build_runner build
+      - run: git diff --exit-code -- lib
+      - run: flutter analyze --no-fatal-infos
+      - run: flutter test
+      - name: Limit build memory
+        run: |
+          sed -i 's/^org.gradle.jvmargs=.*/org.gradle.jvmargs=-Xmx4G -XX:MaxMetaspaceSize=1G/' android/gradle.properties
+          echo 'org.gradle.workers.max=2' >> android/gradle.properties
+          echo 'kotlin.daemon.jvmargs=-Xmx2G' >> android/gradle.properties
+      - run: flutter build appbundle --release
+      - run: bundle exec fastlane android deploy_internal
+        env:
+          PLAY_STORE_CONFIG_JSON_PATH: ${{ runner.temp }}/play-store.json
+      - name: Remove credentials
+        if: always()
+        run: rm -f android/app/keystore/release.keystore android/app/keystore/keystore.properties android/app/google-services.json "$RUNNER_TEMP/play-store.json"
